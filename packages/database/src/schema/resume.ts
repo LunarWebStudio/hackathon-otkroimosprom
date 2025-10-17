@@ -3,6 +3,7 @@ import { commonFields } from "./utils";
 import { files } from "./file";
 import { genderEnum, user } from "./auth";
 import { specialties } from "./speciality";
+import { relations } from "drizzle-orm";
 
 export const resumes = pg.pgTable("resumes", {
 	...commonFields,
@@ -25,3 +26,10 @@ export const resumes = pg.pgTable("resumes", {
 		.notNull(),
 	userId: pg.varchar({ length: 255 }).references(() => user.id),
 });
+
+export const resumeRelations = relations(resumes, ({ one }) => ({
+	speciality: one(specialties, {
+		fields: [resumes.specialtyId],
+		references: [specialties.id],
+	}),
+}));

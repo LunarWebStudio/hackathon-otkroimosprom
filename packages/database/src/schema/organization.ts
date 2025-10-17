@@ -2,6 +2,7 @@ import * as pg from "drizzle-orm/pg-core";
 import { commonFields } from "./utils";
 import { user } from "./auth";
 import { relations } from "drizzle-orm";
+import { vacancies } from "./vacancy";
 
 export const organizationRequestsStatus = pg.pgEnum(
 	"organization_requests_status",
@@ -35,5 +36,8 @@ export const organizationRelations = relations(
 		users: many(user, {
 			relationName: "organizationsToUser",
 		}),
+		vacancies: many(vacancies, {
+			relationName: "organizationsToVacancies"
+		})
 	}),
 );
