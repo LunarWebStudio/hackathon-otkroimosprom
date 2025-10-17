@@ -105,6 +105,11 @@ export default function DashboardSidebar() {
 					href: "/dashboard/users",
 				},
 				{
+					icon: <SwatchBookIcon />,
+					label: "Компании",
+					href: "/dashboard/organizations",
+				},
+				{
 					icon: <TextInitialIcon />,
 					label: "Вакансии",
 					href: "/dashboard/vacancies",

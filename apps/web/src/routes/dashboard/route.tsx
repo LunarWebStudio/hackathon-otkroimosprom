@@ -13,6 +13,10 @@ export const Route = createFileRoute("/dashboard")({
 				},
 			});
 		}
+
+		return {
+			crumbs: ["Личный кабинет"],
+		};
 	},
 });
 

@@ -8,9 +8,3 @@ export type Session = NonNullable<
 export type User = NonNullable<
 	Awaited<ReturnType<typeof orpc.user.get.call>>
 >[number];
-
-export const userRoleToString: Record<UserRole, string> = {
-	ADMIN: "Администратор",
-	USER: "Соискатель",
-	HR: "HR компании",
-};

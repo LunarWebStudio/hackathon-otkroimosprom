@@ -1,89 +1,73 @@
 import { db } from "@lunarweb/database";
-import {
-	organizationRequests,
-	organizations,
-	user,
-} from "@lunarweb/database/schema";
-import { roleProcedure } from "../orpc";
+import { organizations, user } from "@lunarweb/database/schema";
+import { protectedProcedure, roleProcedure } from "../orpc";
 import {
 	organizationRequestStatusSchema,
 	OrganizationSchema,
 } from "@lunarweb/shared/schemas";
 import z from "zod/v4";
-import { desc, eq, inArray } from "drizzle-orm";
-import { ORPCError } from "@orpc/server";
-import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
-import { organization } from "better-auth/plugins";
+import { and, eq, isNull } from "drizzle-orm";
 
 export const organizationRouter = {
-	requests: {
-		get: roleProcedure(["ADMIN"])
-			.input(
-				z.object({
-					statuses: organizationRequestStatusSchema.array(),
-				}),
-			)
-			.handler(async ({ input }) =>
-				ServeCached(
-					["organization-requests", JSON.stringify(input)],
-					DEFAULT_TTL,
-					async () => {
-						return await db.query.organizationRequests.findMany({
-							where: inArray(organizationRequests.status, input.statuses),
-							orderBy: desc(organizationRequests.createdAt),
-						});
-					},
+	get: roleProcedure(["ADMIN"])
+		.input(
+			z.object({
+				showAll: z.boolean().optional(),
+			}),
+		)
+		.handler(async ({ context, input }) => {
+			return await db.query.organizations.findMany({
+				where: and(
+					isNull(organizations.deletedAt),
+					eq(organizations.status, "APPROVED").if(
+						!input.showAll && context.session.user.role !== "ADMIN",
+					),
 				),
-			),
-		create: roleProcedure(["USER"])
-			.input(OrganizationSchema)
-			.handler(async ({ context, input }) => {
-				await db.insert(organizationRequests).values({
-					...input,
-					createdById: context.session.user.id,
-				});
-				await InvalidateCached(["organization-requests"]);
+			});
+		}),
+	getOne: roleProcedure(["ADMIN"])
+		.input(
+			z.object({
+				id: z.string(),
 			}),
-		updateStatus: roleProcedure(["ADMIN"])
-			.input(
-				z.object({
-					id: z.string(),
-					status: organizationRequestStatusSchema,
-				}),
-			)
-			.handler(async ({ context, input }) => {
-				const organizationData = await db.query.organizationRequests.findFirst({
-					where: eq(organizationRequests.id, input.id),
-				});
-
-				if (!organizationData) {
-					throw new ORPCError("NOT_FOUND");
-				}
-
-				await db.transaction(async (trx) => {
-					await trx
-						.update(organizationRequests)
-						.set({
-							status: input.status,
-						})
-						.where(eq(organizationRequests.id, input.id));
-				});
-
+		)
+		.handler(async ({ input }) => {
+			return await db.query.organizations.findFirst({
+				where: eq(organizations.id, input.id),
+			});
+		}),
+	create: protectedProcedure
+		.input(OrganizationSchema)
+		.handler(async ({ input, context }) => {
+			await db.insert(organizations).values({
+				...input,
+				managerId: context.session.user.id,
+			});
+		}),
+	updateStatus: roleProcedure(["ADMIN"])
+		.input(
+			z.object({
+				id: z.string(),
+				status: organizationRequestStatusSchema,
+			}),
+		)
+		.handler(async ({ input }) => {
+			await db.transaction(async (trx) => {
+				const [org] = await trx
+					.update(organizations)
+					.set({
+						status: input.status,
+					})
+					.where(eq(organizations.id, input.id))
+					.returning();
 				if (input.status === "APPROVED") {
-					const [{ id }] = await db
-						.insert(organizations)
-						.values({
-							...organizationData,
-							id: Bun.randomUUIDv7(),
-							managerId: context.session.user.id,
+					await trx
+						.update(user)
+						.set({
+							organizationId: org.id,
 						})
-						.returning();
-					await db.update(user).set({
-						role: "HR",
-						companyId: id,
-					});
+						.where(eq(user.id, org.managerId));
 				}
-				await InvalidateCached(["organization-requests"]);
-			}),
-	},
+			});
+		}),
 };

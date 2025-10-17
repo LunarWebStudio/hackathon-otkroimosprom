@@ -15,8 +15,14 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignOutRouteImport } from './routes/auth/sign-out'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
+import { Route as DashboardUsersRouteRouteImport } from './routes/dashboard/users/route'
+import { Route as DashboardSkillsRouteRouteImport } from './routes/dashboard/skills/route'
+import { Route as DashboardOrganizationsRouteRouteImport } from './routes/dashboard/organizations/route'
 import { Route as DashboardUsersIndexRouteImport } from './routes/dashboard/users/index'
 import { Route as DashboardSkillsIndexRouteImport } from './routes/dashboard/skills/index'
+import { Route as DashboardOrganizationsIndexRouteImport } from './routes/dashboard/organizations/index'
+import { Route as DashboardOrganizationsOrganizationIdRouteRouteImport } from './routes/dashboard/organizations/$organizationId/route'
+import { Route as DashboardOrganizationsOrganizationIdIndexRouteImport } from './routes/dashboard/organizations/$organizationId/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
@@ -48,26 +54,66 @@ const AuthSignInRoute = AuthSignInRouteImport.update({
   path: '/auth/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
-  id: '/users/',
-  path: '/users/',
+const DashboardUsersRouteRoute = DashboardUsersRouteRouteImport.update({
+  id: '/users',
+  path: '/users',
   getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardSkillsRouteRoute = DashboardSkillsRouteRouteImport.update({
+  id: '/skills',
+  path: '/skills',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardOrganizationsRouteRoute =
+  DashboardOrganizationsRouteRouteImport.update({
+    id: '/organizations',
+    path: '/organizations',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardUsersRouteRoute,
 } as any)
 const DashboardSkillsIndexRoute = DashboardSkillsIndexRouteImport.update({
-  id: '/skills/',
-  path: '/skills/',
-  getParentRoute: () => DashboardRouteRoute,
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardSkillsRouteRoute,
 } as any)
+const DashboardOrganizationsIndexRoute =
+  DashboardOrganizationsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardOrganizationsRouteRoute,
+  } as any)
+const DashboardOrganizationsOrganizationIdRouteRoute =
+  DashboardOrganizationsOrganizationIdRouteRouteImport.update({
+    id: '/$organizationId',
+    path: '/$organizationId',
+    getParentRoute: () => DashboardOrganizationsRouteRoute,
+  } as any)
+const DashboardOrganizationsOrganizationIdIndexRoute =
+  DashboardOrganizationsOrganizationIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardOrganizationsOrganizationIdRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/dashboard/organizations': typeof DashboardOrganizationsRouteRouteWithChildren
+  '/dashboard/skills': typeof DashboardSkillsRouteRouteWithChildren
+  '/dashboard/users': typeof DashboardUsersRouteRouteWithChildren
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-out': typeof AuthSignOutRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/skills': typeof DashboardSkillsIndexRoute
-  '/dashboard/users': typeof DashboardUsersIndexRoute
+  '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
+  '/dashboard/organizations/': typeof DashboardOrganizationsIndexRoute
+  '/dashboard/skills/': typeof DashboardSkillsIndexRoute
+  '/dashboard/users/': typeof DashboardUsersIndexRoute
+  '/dashboard/organizations/$organizationId/': typeof DashboardOrganizationsOrganizationIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,31 +121,45 @@ export interface FileRoutesByTo {
   '/auth/sign-out': typeof AuthSignOutRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/organizations': typeof DashboardOrganizationsIndexRoute
   '/dashboard/skills': typeof DashboardSkillsIndexRoute
   '/dashboard/users': typeof DashboardUsersIndexRoute
+  '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/dashboard/organizations': typeof DashboardOrganizationsRouteRouteWithChildren
+  '/dashboard/skills': typeof DashboardSkillsRouteRouteWithChildren
+  '/dashboard/users': typeof DashboardUsersRouteRouteWithChildren
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-out': typeof AuthSignOutRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
+  '/dashboard/organizations/': typeof DashboardOrganizationsIndexRoute
   '/dashboard/skills/': typeof DashboardSkillsIndexRoute
   '/dashboard/users/': typeof DashboardUsersIndexRoute
+  '/dashboard/organizations/$organizationId/': typeof DashboardOrganizationsOrganizationIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/dashboard/organizations'
+    | '/dashboard/skills'
+    | '/dashboard/users'
     | '/auth/sign-in'
     | '/auth/sign-out'
     | '/auth/sign-up'
     | '/dashboard/'
-    | '/dashboard/skills'
-    | '/dashboard/users'
+    | '/dashboard/organizations/$organizationId'
+    | '/dashboard/organizations/'
+    | '/dashboard/skills/'
+    | '/dashboard/users/'
+    | '/dashboard/organizations/$organizationId/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -107,18 +167,26 @@ export interface FileRouteTypes {
     | '/auth/sign-out'
     | '/auth/sign-up'
     | '/dashboard'
+    | '/dashboard/organizations'
     | '/dashboard/skills'
     | '/dashboard/users'
+    | '/dashboard/organizations/$organizationId'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/dashboard/organizations'
+    | '/dashboard/skills'
+    | '/dashboard/users'
     | '/auth/sign-in'
     | '/auth/sign-out'
     | '/auth/sign-up'
     | '/dashboard/'
+    | '/dashboard/organizations/$organizationId'
+    | '/dashboard/organizations/'
     | '/dashboard/skills/'
     | '/dashboard/users/'
+    | '/dashboard/organizations/$organizationId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -173,33 +241,132 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/users/': {
-      id: '/dashboard/users/'
+    '/dashboard/users': {
+      id: '/dashboard/users'
       path: '/users'
       fullPath: '/dashboard/users'
-      preLoaderRoute: typeof DashboardUsersIndexRouteImport
+      preLoaderRoute: typeof DashboardUsersRouteRouteImport
       parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/skills': {
+      id: '/dashboard/skills'
+      path: '/skills'
+      fullPath: '/dashboard/skills'
+      preLoaderRoute: typeof DashboardSkillsRouteRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/organizations': {
+      id: '/dashboard/organizations'
+      path: '/organizations'
+      fullPath: '/dashboard/organizations'
+      preLoaderRoute: typeof DashboardOrganizationsRouteRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/dashboard/users/': {
+      id: '/dashboard/users/'
+      path: '/'
+      fullPath: '/dashboard/users/'
+      preLoaderRoute: typeof DashboardUsersIndexRouteImport
+      parentRoute: typeof DashboardUsersRouteRoute
     }
     '/dashboard/skills/': {
       id: '/dashboard/skills/'
-      path: '/skills'
-      fullPath: '/dashboard/skills'
+      path: '/'
+      fullPath: '/dashboard/skills/'
       preLoaderRoute: typeof DashboardSkillsIndexRouteImport
-      parentRoute: typeof DashboardRouteRoute
+      parentRoute: typeof DashboardSkillsRouteRoute
+    }
+    '/dashboard/organizations/': {
+      id: '/dashboard/organizations/'
+      path: '/'
+      fullPath: '/dashboard/organizations/'
+      preLoaderRoute: typeof DashboardOrganizationsIndexRouteImport
+      parentRoute: typeof DashboardOrganizationsRouteRoute
+    }
+    '/dashboard/organizations/$organizationId': {
+      id: '/dashboard/organizations/$organizationId'
+      path: '/$organizationId'
+      fullPath: '/dashboard/organizations/$organizationId'
+      preLoaderRoute: typeof DashboardOrganizationsOrganizationIdRouteRouteImport
+      parentRoute: typeof DashboardOrganizationsRouteRoute
+    }
+    '/dashboard/organizations/$organizationId/': {
+      id: '/dashboard/organizations/$organizationId/'
+      path: '/'
+      fullPath: '/dashboard/organizations/$organizationId/'
+      preLoaderRoute: typeof DashboardOrganizationsOrganizationIdIndexRouteImport
+      parentRoute: typeof DashboardOrganizationsOrganizationIdRouteRoute
     }
   }
 }
 
-interface DashboardRouteRouteChildren {
-  DashboardIndexRoute: typeof DashboardIndexRoute
+interface DashboardOrganizationsOrganizationIdRouteRouteChildren {
+  DashboardOrganizationsOrganizationIdIndexRoute: typeof DashboardOrganizationsOrganizationIdIndexRoute
+}
+
+const DashboardOrganizationsOrganizationIdRouteRouteChildren: DashboardOrganizationsOrganizationIdRouteRouteChildren =
+  {
+    DashboardOrganizationsOrganizationIdIndexRoute:
+      DashboardOrganizationsOrganizationIdIndexRoute,
+  }
+
+const DashboardOrganizationsOrganizationIdRouteRouteWithChildren =
+  DashboardOrganizationsOrganizationIdRouteRoute._addFileChildren(
+    DashboardOrganizationsOrganizationIdRouteRouteChildren,
+  )
+
+interface DashboardOrganizationsRouteRouteChildren {
+  DashboardOrganizationsOrganizationIdRouteRoute: typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
+  DashboardOrganizationsIndexRoute: typeof DashboardOrganizationsIndexRoute
+}
+
+const DashboardOrganizationsRouteRouteChildren: DashboardOrganizationsRouteRouteChildren =
+  {
+    DashboardOrganizationsOrganizationIdRouteRoute:
+      DashboardOrganizationsOrganizationIdRouteRouteWithChildren,
+    DashboardOrganizationsIndexRoute: DashboardOrganizationsIndexRoute,
+  }
+
+const DashboardOrganizationsRouteRouteWithChildren =
+  DashboardOrganizationsRouteRoute._addFileChildren(
+    DashboardOrganizationsRouteRouteChildren,
+  )
+
+interface DashboardSkillsRouteRouteChildren {
   DashboardSkillsIndexRoute: typeof DashboardSkillsIndexRoute
+}
+
+const DashboardSkillsRouteRouteChildren: DashboardSkillsRouteRouteChildren = {
+  DashboardSkillsIndexRoute: DashboardSkillsIndexRoute,
+}
+
+const DashboardSkillsRouteRouteWithChildren =
+  DashboardSkillsRouteRoute._addFileChildren(DashboardSkillsRouteRouteChildren)
+
+interface DashboardUsersRouteRouteChildren {
   DashboardUsersIndexRoute: typeof DashboardUsersIndexRoute
 }
 
-const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardIndexRoute: DashboardIndexRoute,
-  DashboardSkillsIndexRoute: DashboardSkillsIndexRoute,
+const DashboardUsersRouteRouteChildren: DashboardUsersRouteRouteChildren = {
   DashboardUsersIndexRoute: DashboardUsersIndexRoute,
+}
+
+const DashboardUsersRouteRouteWithChildren =
+  DashboardUsersRouteRoute._addFileChildren(DashboardUsersRouteRouteChildren)
+
+interface DashboardRouteRouteChildren {
+  DashboardOrganizationsRouteRoute: typeof DashboardOrganizationsRouteRouteWithChildren
+  DashboardSkillsRouteRoute: typeof DashboardSkillsRouteRouteWithChildren
+  DashboardUsersRouteRoute: typeof DashboardUsersRouteRouteWithChildren
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
+  DashboardOrganizationsRouteRoute:
+    DashboardOrganizationsRouteRouteWithChildren,
+  DashboardSkillsRouteRoute: DashboardSkillsRouteRouteWithChildren,
+  DashboardUsersRouteRoute: DashboardUsersRouteRouteWithChildren,
+  DashboardIndexRoute: DashboardIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

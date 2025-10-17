@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 export interface RouterAppContext {
 	orpc: typeof orpc;
+	crumbs: string[];
 	queryClient: QueryClient;
 	session: Session | null;
 }

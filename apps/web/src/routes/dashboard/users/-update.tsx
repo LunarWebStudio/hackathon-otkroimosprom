@@ -16,7 +16,7 @@ import {
 	SelectContent,
 	SelectItem,
 } from "@/components/ui/select";
-import { userRoleToString, type User } from "@/lib/types/user";
+import { type User } from "@/lib/types/user";
 import { orpc, queryClient } from "@/utils/orpc";
 import { UserSchema } from "@lunarweb/shared/schemas";
 import { useForm } from "@tanstack/react-form";
@@ -26,7 +26,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod/v4";
 import { userRolesEnum } from "../../../../../../packages/database/src/schema/auth";
-import type { UserRole } from "@lunarweb/shared/types";
+import { userRoleNames, type UserRole } from "@lunarweb/shared/types";
 
 export default function UpdateUser({ user }: { user: User }) {
 	const [open, setOpen] = useState(false);
@@ -100,7 +100,7 @@ export default function UpdateUser({ user }: { user: User }) {
 								<SelectContent>
 									{userRolesEnum.enumValues.map((r) => (
 										<SelectItem key={r} value={r}>
-											{userRoleToString[r]}
+											{userRoleNames[r]}
 										</SelectItem>
 									))}
 								</SelectContent>

@@ -11,7 +11,7 @@ export const getRouter = () => {
 		routeTree,
 		scrollRestoration: true,
 		defaultPreloadStaleTime: 1000,
-		context: { orpc, queryClient, session: null },
+		context: { orpc, queryClient, session: null, crumbs: [] },
 		defaultViewTransition: true,
 		defaultNotFoundComponent: () => <NotFound />,
 		defaultErrorComponent: ({ error, reset }) => {

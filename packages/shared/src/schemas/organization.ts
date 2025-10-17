@@ -4,14 +4,14 @@ import { organizationRequestsStatus } from "@lunarweb/database/schema";
 export const OrganizationSchema = z.object({
 	name: z
 		.string({
-			message: "Введите название организации",
+			message: "Введите название компании",
 		})
-		.min(1, "Введите название организации"),
+		.min(1, "Введите название компании"),
 	inn: z
 		.string({
-			message: "Введите ИНН организации",
+			message: "Введите ИНН компании",
 		})
-		.min(1, "Введите ИНН организации"),
+		.min(1, "Введите ИНН компании"),
 	orgn: z
 		.string({
 			message: "Введите ОРГН/ОРГНИП",

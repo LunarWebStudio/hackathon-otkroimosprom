@@ -19,11 +19,11 @@ body {
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  --popover-foreground: hsl(0, 0%, 0%);
   --primary: hsl(342.68, 87.39%, 43.53%);
   --primary-foreground: hsl(0, 0%, 100%);
   --secondary: hsl(240, 5%, 96%);
-  --secondary-foreground: oklch(0.205 0 0);
+  --secondary-foreground: hsl(0, 0%, 0%);
   --muted: oklch(0.97 0 0);
   --muted-foreground: hsl(240, 5%, 64%);
   --accent: oklch(0.97 0 0);

@@ -29,6 +29,7 @@ import {
 import { EllipsisVertical } from "lucide-react";
 import UpdateUser from "./-update";
 import { useQuery } from "@tanstack/react-query";
+import { BreadcrumbDynamic } from "@/components/ui/breadcrumb";
 
 export const Route = createFileRoute("/dashboard/users/")({
 	component: RouteComponent,
@@ -60,7 +61,9 @@ function RouteComponent() {
 		<Dashboard>
 			<DashboardHeader>
 				<DashboardTitle hideNavigation>
-					<DashboardTitleText>Пользователи</DashboardTitleText>
+					<DashboardTitleText>
+						<BreadcrumbDynamic />
+					</DashboardTitleText>
 				</DashboardTitle>
 				<div className="flex items-center gap-2">
 					<Search search={search} setSearch={setSearch} />

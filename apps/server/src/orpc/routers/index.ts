@@ -6,7 +6,7 @@ import { skillsRouter } from "./skill";
 
 export const appRouter = {
 	user: userRouter,
-	organization: organizationRouter,
+	organizations: organizationRouter,
 	resume: resumeRouter,
 	skills: skillsRouter,
 };

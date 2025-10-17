@@ -20,6 +20,7 @@ import { EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 import CreateUpdateSkill from "./-create-update";
 import DeleteSkill from "./-delete";
+import { BreadcrumbDynamic } from "@/components/ui/breadcrumb";
 
 export const Route = createFileRoute("/dashboard/skills/")({
 	component: RouteComponent,
@@ -45,7 +46,9 @@ function RouteComponent() {
 		<Dashboard>
 			<DashboardHeader>
 				<DashboardTitle hideNavigation>
-					<DashboardTitleText>Навыки</DashboardTitleText>
+					<DashboardTitleText>
+						<BreadcrumbDynamic />
+					</DashboardTitleText>
 				</DashboardTitle>
 				<div className="flex items-center gap-2">
 					<Search search={search} setSearch={setSearch} />
