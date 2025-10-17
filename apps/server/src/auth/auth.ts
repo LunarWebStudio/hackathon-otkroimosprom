@@ -13,6 +13,27 @@ export const auth = betterAuth({
 	trustedOrigins: [process.env.CORS_ORIGIN || ""],
 	user: {
 		additionalFields: {
+			companyId: {
+				type: "string",
+				required: false,
+				input: false,
+				defaultValue: null,
+			},
+			gender: {
+				type: "string",
+				required: false,
+				input: true,
+			},
+			phoneNumber: {
+				type: "string",
+				required: false,
+				input: true,
+			},
+			universityName: {
+				type: "string",
+				required: false,
+				input: true,
+			},
 			role: {
 				type: "string",
 				required: true,

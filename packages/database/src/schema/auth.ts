@@ -1,4 +1,11 @@
-import { boolean, pgEnum, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+	boolean,
+	pgEnum,
+	pgTable,
+	text,
+	timestamp,
+	varchar,
+} from "drizzle-orm/pg-core";
 
 export const userRolesEnum = pgEnum("user_roles", [
 	"USER",
@@ -7,16 +14,29 @@ export const userRolesEnum = pgEnum("user_roles", [
 	"UNIVERSITY",
 ]);
 
+export const genderEnum = pgEnum("gender", ["MALE", "FEMALE"]);
+
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull(),
 	email: text("email").notNull().unique(),
+	phoneNumber: text("phone_number"),
 	emailVerified: boolean("email_verified").notNull(),
 	image: text("image"),
+	companyId: varchar("company_id"),
+	universityName: varchar("university_name"),
+	gender: genderEnum(),
 	role: userRolesEnum().notNull(),
 	createdAt: timestamp("created_at").notNull(),
 	updatedAt: timestamp("updated_at").notNull(),
 });
+
+// export const userRelations = relations(user, ({ one }) => ({
+// 	organization: one(user, {
+// 		fields: [user.companyId],
+// 		references: [organizations.id],
+// 	}),
+// }));
 
 export const session = pgTable("session", {
 	id: text("id").primaryKey(),
