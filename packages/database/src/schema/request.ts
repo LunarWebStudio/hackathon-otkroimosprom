@@ -19,7 +19,7 @@ export const requests = pg.pgTable("requests", {
 	resumeId: pg
 		.varchar("resume_id", { length: 255 })
 		.references(() => resumes.id),
-	status: requestStatus().notNull(),
+	status: requestStatus().notNull().default("PENDING"),
 	text: pg.text("text"),
 });
 

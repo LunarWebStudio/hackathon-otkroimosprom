@@ -7,7 +7,7 @@ import { eq, isNull, and, desc } from "drizzle-orm";
 export { vacancies } from "@lunarweb/database/schema";
 import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
 
-export const vacancyRouter = {
+export const vacanciesRouter = {
 	create: roleProcedure(["HR"])
 		.input(VacancySchema)
 		.handler(async ({ input }) => {
