@@ -1,4 +1,9 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	notFound,
+	Outlet,
+	redirect,
+} from "@tanstack/react-router";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import DashboardSidebar from "./-sidebar";
 
@@ -12,6 +17,16 @@ export const Route = createFileRoute("/dashboard")({
 					redirect: location.href,
 				},
 			});
+		}
+
+		if (context.session.user.deletedAt) {
+			throw redirect({
+				to: "/auth/sign-out",
+			});
+		}
+
+		if (context.session.user.role === "USER") {
+			throw notFound();
 		}
 
 		return {

@@ -8,9 +8,11 @@ import {
 } from "@tanstack/react-router";
 import {
 	ChartNoAxesCombined,
+	HotelIcon,
 	LogOutIcon,
 	SwatchBookIcon,
 	TextInitialIcon,
+	UserPlusIcon,
 	UsersIcon,
 } from "lucide-react";
 import { type ReactNode, useEffect } from "react";
@@ -95,7 +97,7 @@ export default function DashboardSidebar() {
 		strict: false,
 	});
 
-	const blocks: Block[] = [
+	const adminBlocks: Block[] = [
 		{
 			title: "Меню",
 			items: [
@@ -143,6 +145,75 @@ export default function DashboardSidebar() {
 			],
 		},
 	];
+
+	const hrBlocks: Item[] = [
+		{
+			icon: <HotelIcon />,
+			label: "Стажировки",
+			href: "/dashboard/organizations/$organizationId/vacancies",
+			params: {
+				organizationId: session?.user.organizationId,
+			},
+			search: {
+				type: "internship",
+			},
+		},
+		{
+			icon: <UsersIcon />,
+			label: "Вакансии",
+			href: "/dashboard/organizations/$organizationId/vacancies",
+			params: {
+				organizationId: session?.user.organizationId,
+			},
+			search: {
+				type: "job",
+			},
+		},
+	];
+
+	const companyManagerBlocks: Item[] = [
+		{
+			icon: <HotelIcon />,
+			label: "Компания",
+			href: "/dashboard/organizations/$organizationId",
+			params: {
+				organizationId: session?.user.organizationId,
+			},
+		},
+		{
+			icon: <UsersIcon />,
+			label: "Сотрудники",
+			href: "/dashboard/organizations/$organizationId/employees",
+			params: {
+				organizationId: session?.user.organizationId,
+			},
+		},
+	];
+
+	const blocks = (() => {
+		if (session?.user.role === "ADMIN") {
+			return adminBlocks;
+		}
+
+		if (
+			session?.user.role === "HR" ||
+			session?.user.role === "COMPANY_MANAGER"
+		) {
+			return [
+				{
+					title: "Меню",
+					items: [
+						...hrBlocks,
+						...(session?.user.role === "COMPANY_MANAGER"
+							? companyManagerBlocks
+							: []),
+					],
+				},
+			];
+		}
+
+		return [];
+	})();
 
 	const sidebar = useSidebar();
 

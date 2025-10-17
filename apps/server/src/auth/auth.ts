@@ -14,7 +14,7 @@ export const auth = betterAuth({
 	trustedOrigins: [process.env.CORS_ORIGIN || ""],
 	user: {
 		additionalFields: {
-			companyId: {
+			organizationId: {
 				type: "string",
 				required: false,
 				input: false,
@@ -40,6 +40,12 @@ export const auth = betterAuth({
 				required: true,
 				defaultValue: "USER" as UserRole,
 				input: false,
+			},
+			deletedAt: {
+				type: "date",
+				required: false,
+				input: false,
+				defaultValue: null,
 			},
 		},
 	},

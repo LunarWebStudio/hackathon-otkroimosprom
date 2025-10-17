@@ -5,7 +5,7 @@ import type { ORPCContext } from "./context";
 export const o = os.$context<ORPCContext>();
 
 const requireAuth = o.middleware(async ({ context, next }) => {
-	if (!context.session?.user) {
+	if (!context.session?.user || !!context.session?.user.deletedAt) {
 		throw new ORPCError("UNAUTHORIZED");
 	}
 	return next({

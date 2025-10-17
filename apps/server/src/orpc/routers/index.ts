@@ -6,11 +6,11 @@ import { skillsRouter } from "./skill";
 import { specialitiesRouter } from "./speciality";
 
 export const appRouter = {
-	user: userRouter,
+	users: userRouter,
 	organizations: organizationRouter,
 	resume: resumeRouter,
 	skills: skillsRouter,
-	specialties: specialitiesRouter
+	specialties: specialitiesRouter,
 };
 
 export type AppRouter = typeof appRouter;

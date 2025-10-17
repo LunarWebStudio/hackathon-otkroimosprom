@@ -31,12 +31,12 @@ import { userRoleNames, type UserRole } from "@lunarweb/shared/types";
 export default function UpdateUser({ user }: { user: User }) {
 	const [open, setOpen] = useState(false);
 	const updateUserMutation = useMutation(
-		orpc.user.update.mutationOptions({
+		orpc.users.update.mutationOptions({
 			onSuccess: async () => {
 				setOpen(false);
 				toast.success("Пользователь обновлен");
 				await queryClient.invalidateQueries({
-					queryKey: orpc.user.get.queryKey(),
+					queryKey: orpc.users.get.queryKey(),
 				});
 			},
 		}),
@@ -98,7 +98,7 @@ export default function UpdateUser({ user }: { user: User }) {
 									<SelectValue placeholder="Роль" />
 								</SelectTrigger>
 								<SelectContent>
-									{userRolesEnum.enumValues.map((r) => (
+									{(["ADMIN", "USER"] as UserRole[]).map((r) => (
 										<SelectItem key={r} value={r}>
 											{userRoleNames[r]}
 										</SelectItem>

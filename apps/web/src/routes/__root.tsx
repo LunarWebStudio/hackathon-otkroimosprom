@@ -22,7 +22,7 @@ export interface RouterAppContext {
 
 export const Route = createRootRouteWithContext<RouterAppContext>()({
 	async beforeLoad(ctx) {
-		const session = await ctx.context.orpc.user.session.get.call();
+		const session = await ctx.context.orpc.users.session.get.call();
 		console.log({
 			user: ctx.context.session
 				? {
@@ -33,6 +33,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 				: undefined,
 			path: ctx.location.href,
 		});
+
 		return {
 			session,
 		};

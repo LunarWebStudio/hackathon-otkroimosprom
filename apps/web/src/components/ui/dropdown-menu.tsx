@@ -25,6 +25,7 @@ function DropdownMenuTrigger({
 		<DropdownMenuPrimitive.Trigger
 			data-slot="dropdown-menu-trigger"
 			{...props}
+			className={cn(props.className, "disabled:opacity-50")}
 		/>
 	);
 }

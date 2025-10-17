@@ -8,6 +8,7 @@ export const roleBadgeVariants = cva("size-fit py-1 rounded-md px-1.5", {
 			ADMIN: "bg-red-100 text-red-900",
 			USER: "bg-blue-100 text-blue-900",
 			HR: "bg-purple-100 text-purple-900",
+			COMPANY_MANAGER: "bg-green-100 text-green-900",
 		} as Record<UserRole, string>,
 	},
 });

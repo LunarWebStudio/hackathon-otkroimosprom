@@ -10,7 +10,12 @@ import {
 import { organizations } from "./organization";
 import { relations } from "drizzle-orm";
 
-export const userRolesEnum = pgEnum("user_roles", ["USER", "ADMIN", "HR"]);
+export const userRolesEnum = pgEnum("user_roles", [
+	"USER",
+	"ADMIN",
+	"COMPANY_MANAGER",
+	"HR",
+]);
 
 export const genderEnum = pgEnum("gender", ["MALE", "FEMALE"]);
 
@@ -27,6 +32,7 @@ export const user = pgTable("user", {
 	universityName: varchar("university_name"),
 	gender: genderEnum(),
 	role: userRolesEnum().notNull(),
+	deletedAt: timestamp("deleted_at"),
 	createdAt: timestamp("created_at").notNull(),
 	updatedAt: timestamp("updated_at").notNull(),
 });

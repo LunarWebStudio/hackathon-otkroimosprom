@@ -67,7 +67,9 @@ export const organizationRouter = {
 						.set({
 							organizationId: org.id,
 							role:
-								org.managerId !== context.session.user.id ? "HR" : undefined,
+								org.managerId !== context.session.user.id
+									? "COMPANY_MANAGER"
+									: undefined,
 						})
 						.where(eq(user.id, org.managerId));
 				}

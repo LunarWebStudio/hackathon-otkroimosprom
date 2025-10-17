@@ -7,18 +7,12 @@ import {
 	DashboardTitleText,
 } from "@/components/ui/dashboard";
 import { format } from "date-fns";
-import {
-	DataTable,
-	FilterableHeader,
-	ResetFiltersButton,
-} from "@/components/ui/data-table";
+import { DataTable, ResetFiltersButton } from "@/components/ui/data-table";
 import type { User } from "@/lib/types/user";
 import { createFileRoute } from "@tanstack/react-router";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useState } from "react";
-import { UserRoleSchema } from "@lunarweb/shared/schemas";
-import z from "zod/v4";
-import { userRoleNames, type UserRole } from "@lunarweb/shared/types";
+import { type UserRole } from "@lunarweb/shared/types";
 import UserRoleBadge from "@/components/role-badge";
 import {
 	DropdownMenu,
@@ -26,19 +20,15 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical } from "lucide-react";
-import UpdateUser from "./-update";
 import { useQuery } from "@tanstack/react-query";
 import { BreadcrumbDynamic } from "@/components/ui/breadcrumb";
-import { userRolesEnum } from "../../../../../../../packages/database/src/schema/auth";
+import DeleteUser from "@/routes/dashboard/admin/users/-delete";
+import CreateEmployee from "./-create";
 
-export const Route = createFileRoute("/dashboard/admin/users/")({
+export const Route = createFileRoute(
+	"/dashboard/organizations/$organizationId/employees/",
+)({
 	component: RouteComponent,
-	validateSearch: z
-		.object({
-			roles: UserRoleSchema.array().optional(),
-		})
-		.nullish()
-		.default({}),
 	async loader({ context }) {
 		return {
 			users: await context.orpc.users.get.call(),
@@ -66,6 +56,7 @@ function RouteComponent() {
 					</DashboardTitleText>
 				</DashboardTitle>
 				<div className="flex items-center gap-2">
+					<CreateEmployee />
 					<Search search={search} setSearch={setSearch} />
 				</div>
 			</DashboardHeader>
@@ -96,20 +87,7 @@ export const columns: ColumnDef<User>[] = [
 
 			return v.includes(role);
 		},
-		header: (opts) => {
-			return (
-				<FilterableHeader
-					values={userRolesEnum.enumValues.map((v) => ({
-						id: v,
-						name: userRoleNames[v],
-					}))}
-					searchKey="roles"
-					{...opts}
-				>
-					Роль
-				</FilterableHeader>
-			);
-		},
+		header: "Роль",
 		cell: ({ cell }) => <UserRoleBadge role={cell.getValue() as UserRole} />,
 	},
 	{
@@ -125,6 +103,7 @@ export const columns: ColumnDef<User>[] = [
 		id: "actions",
 		header: () => <ResetFiltersButton />,
 		cell: ({ row: { original: user } }) => {
+			const { session } = Route.useRouteContext();
 			return (
 				<div className="flex items-center justify-end">
 					<DropdownMenu>
@@ -132,7 +111,7 @@ export const columns: ColumnDef<User>[] = [
 							<EllipsisVertical />
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
-							<UpdateUser user={user} />
+							<DeleteUser user={user} disabled={user.id === session?.user.id} />
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</div>

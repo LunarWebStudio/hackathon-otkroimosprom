@@ -6,4 +6,5 @@ export const userRoleNames: Record<UserRole, string> = {
 	ADMIN: "Администратор",
 	USER: "Соискатель",
 	HR: "HR компании",
+	COMPANY_MANAGER: "Менеджер компании",
 };

@@ -2,6 +2,7 @@ import * as React from "react";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { Button } from "./button";
 import { cn } from "@/lib/utils";
+import { Label } from "./label";
 
 export interface InputProps
 	extends React.InputHTMLAttributes<HTMLInputElement>,
@@ -36,7 +37,7 @@ const Input = React.forwardRef<
 		const hasErrors = errors && errors.length > 0;
 
 		const inputClassName = cn(
-			"flex transition-all h-full duration-300 w-full placeholder:text-muted-foreground text-base resize-none px-3 file:border-0 file:bg-transparent file:text-foreground placeholder:text-[#94A3B8] focus-visible:ring-0 focus-visible:outline-hidden focus-visible:ring-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+			"flex transition-all h-full duration-300 w-full placeholder:text-zinc-500 text-base resize-none px-3 file:border-0 file:bg-transparent file:text-foreground focus-visible:ring-0 focus-visible:outline-hidden focus-visible:ring-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
 			prefix ? "pl-10" : "",
 			postfix ? "pr-8" : "",
 			size === "textarea" ? "h-[calc(100%-44px)] py-2 min-h-[120px]" : "",
@@ -45,11 +46,7 @@ const Input = React.forwardRef<
 
 		return (
 			<div className={cn("flex flex-col", className)}>
-				{!hideLabel && (
-					<p className="text-sm text-muted-foreground mb-0.5">
-						{props.placeholder}
-					</p>
-				)}
+				{!hideLabel && <Label>{props.placeholder}</Label>}
 
 				<div
 					className={cn(
