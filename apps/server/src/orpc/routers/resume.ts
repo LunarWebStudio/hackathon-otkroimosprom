@@ -7,56 +7,80 @@ import { resumes, skillsToResumes } from "@lunarweb/database/schema";
 import { db } from "@lunarweb/database";
 import { ResumeSchema } from "@lunarweb/shared/schemas";
 
-
 export const resumeRouter = {
-    getAll : roleProcedure(["ADMIN", "HR"]).handler(async () => {
-        return ServeCached(["resumes", "all"], DEFAULT_TTL, async () => await db.query.resumes.findMany({
-            where: isNull(resumes.deletedAt),
-            orderBy: desc(resumes.createdAt)
-        }))
-    }),
-    getById: protectedProcedure
-        .input(
-            z.object({
-                id: z.string()
-            })
-        )
-        .handler(async ({input}) => {
-            return ServeCached(["resumes", input.id], DEFAULT_TTL, async () => await db.query.resumes.findFirst({
-                where: eq(resumes.id, input.id)
-            }))
-        }),
-    getMyResumes: protectedProcedure.handler(({context}) => {
-        return ServeCached(["resumes", "my", context.session.user.id], DEFAULT_TTL, async () => await db.query.resumes.findMany({
-            where: and(eq(resumes.userId, context.session.user.id), isNull(resumes.deletedAt)),
-            orderBy: desc(resumes.createdAt)
-        }) )
-    }),
-    create: protectedProcedure
-    .input(ResumeSchema)
-        .handler(async ({context, input}) => {
-            await db.insert(resumes).values({
-                ...input,
-                specialtyId: input.specialtyId!,
-                userId: context.session.user.id
-            })
+	getAll: roleProcedure(["ADMIN", "HR"]).handler(async () => {
+		return ServeCached(
+			["resumes", "all"],
+			DEFAULT_TTL,
+			async () =>
+				await db.query.resumes.findMany({
+					where: isNull(resumes.deletedAt),
+					orderBy: desc(resumes.createdAt),
+				}),
+		);
+	}),
+	getById: protectedProcedure
+		.input(
+			z.object({
+				id: z.string(),
+			}),
+		)
+		.handler(async ({ input }) => {
+			return ServeCached(
+				["resumes", input.id],
+				DEFAULT_TTL,
+				async () =>
+					await db.query.resumes.findFirst({
+						where: eq(resumes.id, input.id),
+					}),
+			);
+		}),
+	getMyResumes: protectedProcedure.handler(({ context }) => {
+		return ServeCached(
+			["resumes", "my", context.session.user.id],
+			DEFAULT_TTL,
+			async () =>
+				await db.query.resumes.findMany({
+					where: and(
+						eq(resumes.userId, context.session.user.id),
+						isNull(resumes.deletedAt),
+					),
+					orderBy: desc(resumes.createdAt),
+				}),
+		);
+	}),
+	create: protectedProcedure
+		.input(ResumeSchema)
+		.handler(async ({ context, input }) => {
+			await db.insert(resumes).values({
+				...input,
+				specialtyId: input.specialtyId,
+				userId: context.session.user.id,
+			});
 
-            await InvalidateCached(["resumes"])
-        }),
-    update: protectedProcedure
-        .input(ResumeSchema)
-        .handler(async ({input, context}) => {
-            await db.update(resumes).set({
-                ...input,
-                specialtyId: input.specialtyId!
-            }).where(eq(resumes.userId, context.session.user.id))
+			await InvalidateCached(["resumes"]);
+		}),
+	update: protectedProcedure
+		.input(ResumeSchema)
+		.handler(async ({ input, context }) => {
+			await db
+				.update(resumes)
+				.set({
+					...input,
+					specialtyId: input.specialtyId,
+				})
+				.where(eq(resumes.userId, context.session.user.id));
 
-            await InvalidateCached(["resumes"])
-        }),
-    findBySkills: roleProcedure(["HR"])
-        .input(ResumeSchema)
-        .handler(async ({input}) => {
-            return ServeCached(["resumes", JSON.stringify(input.skillIds)], DEFAULT_TTL, async () => await db
+			await InvalidateCached(["resumes"]);
+		}),
+	findBySkills: roleProcedure(["HR"])
+		.input(ResumeSchema)
+		.handler(async ({ input }) => {
+			return ServeCached(
+				["resumes", JSON.stringify(input.skillIds)],
+				DEFAULT_TTL,
+				async () =>
+					await db
 						.select({
 							id: resumes.id,
 							title: resumes.title,
@@ -67,22 +91,25 @@ export const resumeRouter = {
 							eq(resumes.id, skillsToResumes.resumeId),
 						)
 						.where(inArray(skillsToResumes.skillId, input.skillIds))
-						.groupBy(resumes.id)
-						// .having(
-						// 	sql`COUNT(DISTINCT ${skillsToResumes.skillId}) = ${input.skillIds.length}`,
-						// )
-                    )
-        }),
-        findBySpeciality: roleProcedure(["HR"])
-            .input(ResumeSchema)
-            .handler(async ({ input }) => {
-                return ServeCached(
-                    ["resumes", "speciality", input.specialtyId!],
-                    DEFAULT_TTL,
-                    async () =>
-                        await db.query.resumes.findMany({
-                            where: and(isNull(resumes.deletedAt), eq(resumes.specialtyId, input.specialtyId!))
-                        })
-                );
-            }),
+						.groupBy(resumes.id),
+				// .having(
+				// 	sql`COUNT(DISTINCT ${skillsToResumes.skillId}) = ${input.skillIds.length}`,
+				// )
+			);
+		}),
+	findBySpeciality: roleProcedure(["HR"])
+		.input(ResumeSchema)
+		.handler(async ({ input }) => {
+			return ServeCached(
+				["resumes", "speciality", input.specialtyId],
+				DEFAULT_TTL,
+				async () =>
+					await db.query.resumes.findMany({
+						where: and(
+							isNull(resumes.deletedAt),
+							eq(resumes.specialtyId, input.specialtyId),
+						),
+					}),
+			);
+		}),
 };
