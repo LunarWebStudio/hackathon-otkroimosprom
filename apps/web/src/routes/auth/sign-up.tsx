@@ -1,0 +1,162 @@
+import Loader from "@/components/loader";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { authClient } from "@/lib/auth-client";
+import { useForm } from "@tanstack/react-form";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
+import z from "zod/v4";
+
+export const Route = createFileRoute("/auth/sign-up")({
+	component: SignUpPage,
+});
+
+function SignUpPage() {
+	const navigate = useNavigate({
+		from: "/",
+	});
+	const { isPending } = authClient.useSession();
+
+	const form = useForm({
+		defaultValues: {
+			email: "",
+			password: "",
+			name: "",
+		},
+		onSubmit: async ({ value }) => {
+			await authClient.signUp.email(
+				{
+					email: value.email,
+					password: value.password,
+					name: value.name,
+				},
+				{
+					onSuccess: () => {
+						navigate({
+							to: "/dashboard",
+						});
+						toast.success("Sign up successful");
+					},
+					onError: (error) => {
+						toast.error(error.error.message);
+					},
+				},
+			);
+		},
+		validators: {
+			onSubmit: z.object({
+				name: z
+					.string({
+						message: "Введите ваше имя",
+					})
+					.min(1, "Введите ваше имя"),
+				email: z.email("Введите вашу почту").min(1, "Введите вашу почту"),
+				password: z
+					.string({
+						message: "Введите пароль",
+					})
+					.min(8, "Пароль должен состоять не менее чем из 8 символов"),
+			}),
+		},
+	});
+
+	if (isPending) {
+		return <Loader />;
+	}
+
+	return (
+		<div className="mx-auto w-full mt-10 max-w-md p-6">
+			<h1 className="mb-6 text-center text-3xl font-bold">Create Account</h1>
+
+			<form
+				onSubmit={(e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					void form.handleSubmit();
+				}}
+				className="space-y-4"
+			>
+				<div>
+					<form.Field name="name">
+						{(field) => (
+							<div className="space-y-2">
+								<Label htmlFor={field.name}>Name</Label>
+								<Input
+									id={field.name}
+									name={field.name}
+									value={field.state.value}
+									onBlur={field.handleBlur}
+									onChange={(e) => field.handleChange(e.target.value)}
+								/>
+								{field.state.meta.errors.map((error) => (
+									<p key={error?.message} className="text-red-500">
+										{error?.message}
+									</p>
+								))}
+							</div>
+						)}
+					</form.Field>
+				</div>
+
+				<div>
+					<form.Field name="email">
+						{(field) => (
+							<div className="space-y-2">
+								<Label htmlFor={field.name}>Email</Label>
+								<Input
+									id={field.name}
+									name={field.name}
+									type="email"
+									value={field.state.value}
+									onBlur={field.handleBlur}
+									onChange={(e) => field.handleChange(e.target.value)}
+								/>
+								{field.state.meta.errors.map((error) => (
+									<p key={error?.message} className="text-red-500">
+										{error?.message}
+									</p>
+								))}
+							</div>
+						)}
+					</form.Field>
+				</div>
+
+				<div>
+					<form.Field name="password">
+						{(field) => (
+							<div className="space-y-2">
+								<Label htmlFor={field.name}>Password</Label>
+								<Input
+									id={field.name}
+									name={field.name}
+									type="password"
+									value={field.state.value}
+									onBlur={field.handleBlur}
+									onChange={(e) => field.handleChange(e.target.value)}
+								/>
+								{field.state.meta.errors.map((error) => (
+									<p key={error?.message} className="text-red-500">
+										{error?.message}
+									</p>
+								))}
+							</div>
+						)}
+					</form.Field>
+				</div>
+
+				<form.Subscribe>
+					{(state) => (
+						<Button
+							type="submit"
+							className="w-full"
+							disabled={!state.canSubmit || state.isSubmitting}
+						>
+							{state.isSubmitting ? "Submitting..." : "Sign Up"}
+						</Button>
+					)}
+				</form.Subscribe>
+			</form>
+		</div>
+	);
+}
