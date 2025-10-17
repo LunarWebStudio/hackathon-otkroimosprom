@@ -53,7 +53,7 @@ const Input = React.forwardRef<
 
 				<div
 					className={cn(
-						"relative rounded-md border h-11 transition-all duration-300 bg-background",
+						"relative rounded-md border h-11 transition-all duration-300 bg-secondary",
 						hasErrors
 							? "border-destructive/80 hover:border-destructive"
 							: "border-border hover:border-primary",

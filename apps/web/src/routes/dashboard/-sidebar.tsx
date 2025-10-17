@@ -1,7 +1,7 @@
 import {
 	Link,
-	type ResolveParams,
 	type ResolveFullSearchSchema,
+	type ResolveParams,
 	type ResolveSearchValidatorInputFn,
 	useLocation,
 	useRouteContext,
@@ -14,6 +14,7 @@ import {
 	UsersIcon,
 } from "lucide-react";
 import { type ReactNode, useEffect } from "react";
+import Logo from "@/components/logo";
 import {
 	Sidebar,
 	SidebarContent,
@@ -29,7 +30,6 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import type { RoutePath } from "@/lib/types/utils";
-import Logo from "@/components/logo";
 
 type Block = {
 	title: string;
@@ -102,12 +102,12 @@ export default function DashboardSidebar() {
 				{
 					icon: <UsersIcon />,
 					label: "Пользователи",
-					href: "/dashboard/users",
+					href: "/dashboard/admin/users",
 				},
 				{
 					icon: <SwatchBookIcon />,
 					label: "Компании",
-					href: "/dashboard/organizations",
+					href: "/dashboard/admin/organizations",
 				},
 				{
 					icon: <TextInitialIcon />,
@@ -128,12 +128,12 @@ export default function DashboardSidebar() {
 				{
 					icon: <TextInitialIcon />,
 					label: "Навыки",
-					href: "/dashboard/skills",
+					href: "/dashboard/admin/skills",
 				},
-								{
+				{
 					icon: <TextInitialIcon />,
 					label: "Специальности",
-					href: "/dashboard/specialties",
+					href: "/dashboard/admin/specialties",
 				},
 				{
 					icon: <ChartNoAxesCombined />,
@@ -182,9 +182,9 @@ export default function DashboardSidebar() {
 											<path
 												d="M2.25 14.75V4.25M9.75 5L5.25 9.5M5.25 9.5L9.75 14M5.25 9.5H15.75"
 												stroke="#18181B"
-												stroke-width="1.5"
-												stroke-linecap="round"
-												stroke-linejoin="round"
+												strokeWidth="1.5"
+												strokeLinecap="round"
+												strokeLinejoin="round"
 											/>
 										</svg>
 									</Link>

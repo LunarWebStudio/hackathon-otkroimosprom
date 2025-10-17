@@ -6,7 +6,7 @@ import {
 	OrganizationSchema,
 } from "@lunarweb/shared/schemas";
 import z from "zod/v4";
-import { and, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 
 export const organizationRouter = {
 	get: roleProcedure(["ADMIN"])
@@ -17,6 +17,7 @@ export const organizationRouter = {
 		)
 		.handler(async ({ context, input }) => {
 			return await db.query.organizations.findMany({
+				orderBy: desc(organizations.createdAt),
 				where: and(
 					isNull(organizations.deletedAt),
 					eq(organizations.status, "APPROVED").if(
@@ -51,7 +52,7 @@ export const organizationRouter = {
 				status: organizationRequestStatusSchema,
 			}),
 		)
-		.handler(async ({ input }) => {
+		.handler(async ({ input, context }) => {
 			await db.transaction(async (trx) => {
 				const [org] = await trx
 					.update(organizations)
@@ -65,6 +66,8 @@ export const organizationRouter = {
 						.update(user)
 						.set({
 							organizationId: org.id,
+							role:
+								org.managerId !== context.session.user.id ? "HR" : undefined,
 						})
 						.where(eq(user.id, org.managerId));
 				}

@@ -28,7 +28,8 @@ body {
   --muted-foreground: hsl(240, 5%, 64%);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
+  --destructive: hsl(357, 100%, 45%);
+  --approved: hsl(145, 100%, 25%);
   --border: hsl(240, 6%, 90%);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -70,6 +71,7 @@ body {
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-approved: var(--approved);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);

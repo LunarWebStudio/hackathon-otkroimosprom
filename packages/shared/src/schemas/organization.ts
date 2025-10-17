@@ -19,7 +19,6 @@ export const OrganizationSchema = z.object({
 		.min(1, "Введите ОРГН/ОРГНИП"),
 	kpp: z.string().nullish(),
 	address: z.string().nullish(),
-	lawAddress: z.string().nullish(),
 	contacts: z.string().nullish(),
 });
 

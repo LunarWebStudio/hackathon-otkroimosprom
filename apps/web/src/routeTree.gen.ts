@@ -15,15 +15,14 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignOutRouteImport } from './routes/auth/sign-out'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
-import { Route as DashboardUsersRouteRouteImport } from './routes/dashboard/users/route'
-import { Route as DashboardSkillsRouteRouteImport } from './routes/dashboard/skills/route'
-import { Route as DashboardOrganizationsRouteRouteImport } from './routes/dashboard/organizations/route'
-import { Route as DashboardUsersIndexRouteImport } from './routes/dashboard/users/index'
-import { Route as DashboardSpecialtiesIndexRouteImport } from './routes/dashboard/specialties/index'
-import { Route as DashboardSkillsIndexRouteImport } from './routes/dashboard/skills/index'
-import { Route as DashboardOrganizationsIndexRouteImport } from './routes/dashboard/organizations/index'
-import { Route as DashboardOrganizationsOrganizationIdRouteRouteImport } from './routes/dashboard/organizations/$organizationId/route'
-import { Route as DashboardOrganizationsOrganizationIdIndexRouteImport } from './routes/dashboard/organizations/$organizationId/index'
+import { Route as OrganizationsCreateIndexRouteImport } from './routes/organizations/create/index'
+import { Route as DashboardAdminUsersRouteRouteImport } from './routes/dashboard/admin/users/route'
+import { Route as DashboardAdminSkillsRouteRouteImport } from './routes/dashboard/admin/skills/route'
+import { Route as DashboardAdminOrganizationsRouteRouteImport } from './routes/dashboard/admin/organizations/route'
+import { Route as DashboardAdminUsersIndexRouteImport } from './routes/dashboard/admin/users/index'
+import { Route as DashboardAdminSpecialtiesIndexRouteImport } from './routes/dashboard/admin/specialties/index'
+import { Route as DashboardAdminSkillsIndexRouteImport } from './routes/dashboard/admin/skills/index'
+import { Route as DashboardAdminOrganizationsIndexRouteImport } from './routes/dashboard/admin/organizations/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
@@ -55,73 +54,70 @@ const AuthSignInRoute = AuthSignInRouteImport.update({
   path: '/auth/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardUsersRouteRoute = DashboardUsersRouteRouteImport.update({
-  id: '/users',
-  path: '/users',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardSkillsRouteRoute = DashboardSkillsRouteRouteImport.update({
-  id: '/skills',
-  path: '/skills',
-  getParentRoute: () => DashboardRouteRoute,
-} as any)
-const DashboardOrganizationsRouteRoute =
-  DashboardOrganizationsRouteRouteImport.update({
-    id: '/organizations',
-    path: '/organizations',
+const OrganizationsCreateIndexRoute =
+  OrganizationsCreateIndexRouteImport.update({
+    id: '/organizations/create/',
+    path: '/organizations/create/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DashboardAdminUsersRouteRoute =
+  DashboardAdminUsersRouteRouteImport.update({
+    id: '/admin/users',
+    path: '/admin/users',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
-const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardUsersRouteRoute,
-} as any)
-const DashboardSpecialtiesIndexRoute =
-  DashboardSpecialtiesIndexRouteImport.update({
-    id: '/specialties/',
-    path: '/specialties/',
+const DashboardAdminSkillsRouteRoute =
+  DashboardAdminSkillsRouteRouteImport.update({
+    id: '/admin/skills',
+    path: '/admin/skills',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
-const DashboardSkillsIndexRoute = DashboardSkillsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => DashboardSkillsRouteRoute,
-} as any)
-const DashboardOrganizationsIndexRoute =
-  DashboardOrganizationsIndexRouteImport.update({
+const DashboardAdminOrganizationsRouteRoute =
+  DashboardAdminOrganizationsRouteRouteImport.update({
+    id: '/admin/organizations',
+    path: '/admin/organizations',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
+const DashboardAdminUsersIndexRoute =
+  DashboardAdminUsersIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => DashboardOrganizationsRouteRoute,
+    getParentRoute: () => DashboardAdminUsersRouteRoute,
   } as any)
-const DashboardOrganizationsOrganizationIdRouteRoute =
-  DashboardOrganizationsOrganizationIdRouteRouteImport.update({
-    id: '/$organizationId',
-    path: '/$organizationId',
-    getParentRoute: () => DashboardOrganizationsRouteRoute,
+const DashboardAdminSpecialtiesIndexRoute =
+  DashboardAdminSpecialtiesIndexRouteImport.update({
+    id: '/admin/specialties/',
+    path: '/admin/specialties/',
+    getParentRoute: () => DashboardRouteRoute,
   } as any)
-const DashboardOrganizationsOrganizationIdIndexRoute =
-  DashboardOrganizationsOrganizationIdIndexRouteImport.update({
+const DashboardAdminSkillsIndexRoute =
+  DashboardAdminSkillsIndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => DashboardOrganizationsOrganizationIdRouteRoute,
+    getParentRoute: () => DashboardAdminSkillsRouteRoute,
+  } as any)
+const DashboardAdminOrganizationsIndexRoute =
+  DashboardAdminOrganizationsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardAdminOrganizationsRouteRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/dashboard/organizations': typeof DashboardOrganizationsRouteRouteWithChildren
-  '/dashboard/skills': typeof DashboardSkillsRouteRouteWithChildren
-  '/dashboard/users': typeof DashboardUsersRouteRouteWithChildren
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-out': typeof AuthSignOutRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
-  '/dashboard/organizations/': typeof DashboardOrganizationsIndexRoute
-  '/dashboard/skills/': typeof DashboardSkillsIndexRoute
-  '/dashboard/specialties': typeof DashboardSpecialtiesIndexRoute
-  '/dashboard/users/': typeof DashboardUsersIndexRoute
-  '/dashboard/organizations/$organizationId/': typeof DashboardOrganizationsOrganizationIdIndexRoute
+  '/dashboard/admin/organizations': typeof DashboardAdminOrganizationsRouteRouteWithChildren
+  '/dashboard/admin/skills': typeof DashboardAdminSkillsRouteRouteWithChildren
+  '/dashboard/admin/users': typeof DashboardAdminUsersRouteRouteWithChildren
+  '/organizations/create': typeof OrganizationsCreateIndexRoute
+  '/dashboard/admin/organizations/': typeof DashboardAdminOrganizationsIndexRoute
+  '/dashboard/admin/skills/': typeof DashboardAdminSkillsIndexRoute
+  '/dashboard/admin/specialties': typeof DashboardAdminSpecialtiesIndexRoute
+  '/dashboard/admin/users/': typeof DashboardAdminUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -129,48 +125,46 @@ export interface FileRoutesByTo {
   '/auth/sign-out': typeof AuthSignOutRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard': typeof DashboardIndexRoute
-  '/dashboard/organizations': typeof DashboardOrganizationsIndexRoute
-  '/dashboard/skills': typeof DashboardSkillsIndexRoute
-  '/dashboard/specialties': typeof DashboardSpecialtiesIndexRoute
-  '/dashboard/users': typeof DashboardUsersIndexRoute
-  '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdIndexRoute
+  '/organizations/create': typeof OrganizationsCreateIndexRoute
+  '/dashboard/admin/organizations': typeof DashboardAdminOrganizationsIndexRoute
+  '/dashboard/admin/skills': typeof DashboardAdminSkillsIndexRoute
+  '/dashboard/admin/specialties': typeof DashboardAdminSpecialtiesIndexRoute
+  '/dashboard/admin/users': typeof DashboardAdminUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
-  '/dashboard/organizations': typeof DashboardOrganizationsRouteRouteWithChildren
-  '/dashboard/skills': typeof DashboardSkillsRouteRouteWithChildren
-  '/dashboard/users': typeof DashboardUsersRouteRouteWithChildren
   '/auth/sign-in': typeof AuthSignInRoute
   '/auth/sign-out': typeof AuthSignOutRoute
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/': typeof DashboardIndexRoute
-  '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
-  '/dashboard/organizations/': typeof DashboardOrganizationsIndexRoute
-  '/dashboard/skills/': typeof DashboardSkillsIndexRoute
-  '/dashboard/specialties/': typeof DashboardSpecialtiesIndexRoute
-  '/dashboard/users/': typeof DashboardUsersIndexRoute
-  '/dashboard/organizations/$organizationId/': typeof DashboardOrganizationsOrganizationIdIndexRoute
+  '/dashboard/admin/organizations': typeof DashboardAdminOrganizationsRouteRouteWithChildren
+  '/dashboard/admin/skills': typeof DashboardAdminSkillsRouteRouteWithChildren
+  '/dashboard/admin/users': typeof DashboardAdminUsersRouteRouteWithChildren
+  '/organizations/create/': typeof OrganizationsCreateIndexRoute
+  '/dashboard/admin/organizations/': typeof DashboardAdminOrganizationsIndexRoute
+  '/dashboard/admin/skills/': typeof DashboardAdminSkillsIndexRoute
+  '/dashboard/admin/specialties/': typeof DashboardAdminSpecialtiesIndexRoute
+  '/dashboard/admin/users/': typeof DashboardAdminUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
-    | '/dashboard/organizations'
-    | '/dashboard/skills'
-    | '/dashboard/users'
     | '/auth/sign-in'
     | '/auth/sign-out'
     | '/auth/sign-up'
     | '/dashboard/'
-    | '/dashboard/organizations/$organizationId'
-    | '/dashboard/organizations/'
-    | '/dashboard/skills/'
-    | '/dashboard/specialties'
-    | '/dashboard/users/'
-    | '/dashboard/organizations/$organizationId/'
+    | '/dashboard/admin/organizations'
+    | '/dashboard/admin/skills'
+    | '/dashboard/admin/users'
+    | '/organizations/create'
+    | '/dashboard/admin/organizations/'
+    | '/dashboard/admin/skills/'
+    | '/dashboard/admin/specialties'
+    | '/dashboard/admin/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -178,28 +172,27 @@ export interface FileRouteTypes {
     | '/auth/sign-out'
     | '/auth/sign-up'
     | '/dashboard'
-    | '/dashboard/organizations'
-    | '/dashboard/skills'
-    | '/dashboard/specialties'
-    | '/dashboard/users'
-    | '/dashboard/organizations/$organizationId'
+    | '/organizations/create'
+    | '/dashboard/admin/organizations'
+    | '/dashboard/admin/skills'
+    | '/dashboard/admin/specialties'
+    | '/dashboard/admin/users'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
-    | '/dashboard/organizations'
-    | '/dashboard/skills'
-    | '/dashboard/users'
     | '/auth/sign-in'
     | '/auth/sign-out'
     | '/auth/sign-up'
     | '/dashboard/'
-    | '/dashboard/organizations/$organizationId'
-    | '/dashboard/organizations/'
-    | '/dashboard/skills/'
-    | '/dashboard/specialties/'
-    | '/dashboard/users/'
-    | '/dashboard/organizations/$organizationId/'
+    | '/dashboard/admin/organizations'
+    | '/dashboard/admin/skills'
+    | '/dashboard/admin/users'
+    | '/organizations/create/'
+    | '/dashboard/admin/organizations/'
+    | '/dashboard/admin/skills/'
+    | '/dashboard/admin/specialties/'
+    | '/dashboard/admin/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -208,6 +201,7 @@ export interface RootRouteChildren {
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignOutRoute: typeof AuthSignOutRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
+  OrganizationsCreateIndexRoute: typeof OrganizationsCreateIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -254,141 +248,123 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignInRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard/users': {
-      id: '/dashboard/users'
-      path: '/users'
-      fullPath: '/dashboard/users'
-      preLoaderRoute: typeof DashboardUsersRouteRouteImport
+    '/organizations/create/': {
+      id: '/organizations/create/'
+      path: '/organizations/create'
+      fullPath: '/organizations/create'
+      preLoaderRoute: typeof OrganizationsCreateIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/admin/users': {
+      id: '/dashboard/admin/users'
+      path: '/admin/users'
+      fullPath: '/dashboard/admin/users'
+      preLoaderRoute: typeof DashboardAdminUsersRouteRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/skills': {
-      id: '/dashboard/skills'
-      path: '/skills'
-      fullPath: '/dashboard/skills'
-      preLoaderRoute: typeof DashboardSkillsRouteRouteImport
+    '/dashboard/admin/skills': {
+      id: '/dashboard/admin/skills'
+      path: '/admin/skills'
+      fullPath: '/dashboard/admin/skills'
+      preLoaderRoute: typeof DashboardAdminSkillsRouteRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/organizations': {
-      id: '/dashboard/organizations'
-      path: '/organizations'
-      fullPath: '/dashboard/organizations'
-      preLoaderRoute: typeof DashboardOrganizationsRouteRouteImport
+    '/dashboard/admin/organizations': {
+      id: '/dashboard/admin/organizations'
+      path: '/admin/organizations'
+      fullPath: '/dashboard/admin/organizations'
+      preLoaderRoute: typeof DashboardAdminOrganizationsRouteRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/users/': {
-      id: '/dashboard/users/'
+    '/dashboard/admin/users/': {
+      id: '/dashboard/admin/users/'
       path: '/'
-      fullPath: '/dashboard/users/'
-      preLoaderRoute: typeof DashboardUsersIndexRouteImport
-      parentRoute: typeof DashboardUsersRouteRoute
+      fullPath: '/dashboard/admin/users/'
+      preLoaderRoute: typeof DashboardAdminUsersIndexRouteImport
+      parentRoute: typeof DashboardAdminUsersRouteRoute
     }
-    '/dashboard/specialties/': {
-      id: '/dashboard/specialties/'
-      path: '/specialties'
-      fullPath: '/dashboard/specialties'
-      preLoaderRoute: typeof DashboardSpecialtiesIndexRouteImport
+    '/dashboard/admin/specialties/': {
+      id: '/dashboard/admin/specialties/'
+      path: '/admin/specialties'
+      fullPath: '/dashboard/admin/specialties'
+      preLoaderRoute: typeof DashboardAdminSpecialtiesIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
-    '/dashboard/skills/': {
-      id: '/dashboard/skills/'
+    '/dashboard/admin/skills/': {
+      id: '/dashboard/admin/skills/'
       path: '/'
-      fullPath: '/dashboard/skills/'
-      preLoaderRoute: typeof DashboardSkillsIndexRouteImport
-      parentRoute: typeof DashboardSkillsRouteRoute
+      fullPath: '/dashboard/admin/skills/'
+      preLoaderRoute: typeof DashboardAdminSkillsIndexRouteImport
+      parentRoute: typeof DashboardAdminSkillsRouteRoute
     }
-    '/dashboard/organizations/': {
-      id: '/dashboard/organizations/'
+    '/dashboard/admin/organizations/': {
+      id: '/dashboard/admin/organizations/'
       path: '/'
-      fullPath: '/dashboard/organizations/'
-      preLoaderRoute: typeof DashboardOrganizationsIndexRouteImport
-      parentRoute: typeof DashboardOrganizationsRouteRoute
-    }
-    '/dashboard/organizations/$organizationId': {
-      id: '/dashboard/organizations/$organizationId'
-      path: '/$organizationId'
-      fullPath: '/dashboard/organizations/$organizationId'
-      preLoaderRoute: typeof DashboardOrganizationsOrganizationIdRouteRouteImport
-      parentRoute: typeof DashboardOrganizationsRouteRoute
-    }
-    '/dashboard/organizations/$organizationId/': {
-      id: '/dashboard/organizations/$organizationId/'
-      path: '/'
-      fullPath: '/dashboard/organizations/$organizationId/'
-      preLoaderRoute: typeof DashboardOrganizationsOrganizationIdIndexRouteImport
-      parentRoute: typeof DashboardOrganizationsOrganizationIdRouteRoute
+      fullPath: '/dashboard/admin/organizations/'
+      preLoaderRoute: typeof DashboardAdminOrganizationsIndexRouteImport
+      parentRoute: typeof DashboardAdminOrganizationsRouteRoute
     }
   }
 }
 
-interface DashboardOrganizationsOrganizationIdRouteRouteChildren {
-  DashboardOrganizationsOrganizationIdIndexRoute: typeof DashboardOrganizationsOrganizationIdIndexRoute
+interface DashboardAdminOrganizationsRouteRouteChildren {
+  DashboardAdminOrganizationsIndexRoute: typeof DashboardAdminOrganizationsIndexRoute
 }
 
-const DashboardOrganizationsOrganizationIdRouteRouteChildren: DashboardOrganizationsOrganizationIdRouteRouteChildren =
+const DashboardAdminOrganizationsRouteRouteChildren: DashboardAdminOrganizationsRouteRouteChildren =
   {
-    DashboardOrganizationsOrganizationIdIndexRoute:
-      DashboardOrganizationsOrganizationIdIndexRoute,
+    DashboardAdminOrganizationsIndexRoute:
+      DashboardAdminOrganizationsIndexRoute,
   }
 
-const DashboardOrganizationsOrganizationIdRouteRouteWithChildren =
-  DashboardOrganizationsOrganizationIdRouteRoute._addFileChildren(
-    DashboardOrganizationsOrganizationIdRouteRouteChildren,
+const DashboardAdminOrganizationsRouteRouteWithChildren =
+  DashboardAdminOrganizationsRouteRoute._addFileChildren(
+    DashboardAdminOrganizationsRouteRouteChildren,
   )
 
-interface DashboardOrganizationsRouteRouteChildren {
-  DashboardOrganizationsOrganizationIdRouteRoute: typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
-  DashboardOrganizationsIndexRoute: typeof DashboardOrganizationsIndexRoute
+interface DashboardAdminSkillsRouteRouteChildren {
+  DashboardAdminSkillsIndexRoute: typeof DashboardAdminSkillsIndexRoute
 }
 
-const DashboardOrganizationsRouteRouteChildren: DashboardOrganizationsRouteRouteChildren =
+const DashboardAdminSkillsRouteRouteChildren: DashboardAdminSkillsRouteRouteChildren =
   {
-    DashboardOrganizationsOrganizationIdRouteRoute:
-      DashboardOrganizationsOrganizationIdRouteRouteWithChildren,
-    DashboardOrganizationsIndexRoute: DashboardOrganizationsIndexRoute,
+    DashboardAdminSkillsIndexRoute: DashboardAdminSkillsIndexRoute,
   }
 
-const DashboardOrganizationsRouteRouteWithChildren =
-  DashboardOrganizationsRouteRoute._addFileChildren(
-    DashboardOrganizationsRouteRouteChildren,
+const DashboardAdminSkillsRouteRouteWithChildren =
+  DashboardAdminSkillsRouteRoute._addFileChildren(
+    DashboardAdminSkillsRouteRouteChildren,
   )
 
-interface DashboardSkillsRouteRouteChildren {
-  DashboardSkillsIndexRoute: typeof DashboardSkillsIndexRoute
+interface DashboardAdminUsersRouteRouteChildren {
+  DashboardAdminUsersIndexRoute: typeof DashboardAdminUsersIndexRoute
 }
 
-const DashboardSkillsRouteRouteChildren: DashboardSkillsRouteRouteChildren = {
-  DashboardSkillsIndexRoute: DashboardSkillsIndexRoute,
-}
+const DashboardAdminUsersRouteRouteChildren: DashboardAdminUsersRouteRouteChildren =
+  {
+    DashboardAdminUsersIndexRoute: DashboardAdminUsersIndexRoute,
+  }
 
-const DashboardSkillsRouteRouteWithChildren =
-  DashboardSkillsRouteRoute._addFileChildren(DashboardSkillsRouteRouteChildren)
-
-interface DashboardUsersRouteRouteChildren {
-  DashboardUsersIndexRoute: typeof DashboardUsersIndexRoute
-}
-
-const DashboardUsersRouteRouteChildren: DashboardUsersRouteRouteChildren = {
-  DashboardUsersIndexRoute: DashboardUsersIndexRoute,
-}
-
-const DashboardUsersRouteRouteWithChildren =
-  DashboardUsersRouteRoute._addFileChildren(DashboardUsersRouteRouteChildren)
+const DashboardAdminUsersRouteRouteWithChildren =
+  DashboardAdminUsersRouteRoute._addFileChildren(
+    DashboardAdminUsersRouteRouteChildren,
+  )
 
 interface DashboardRouteRouteChildren {
-  DashboardOrganizationsRouteRoute: typeof DashboardOrganizationsRouteRouteWithChildren
-  DashboardSkillsRouteRoute: typeof DashboardSkillsRouteRouteWithChildren
-  DashboardUsersRouteRoute: typeof DashboardUsersRouteRouteWithChildren
   DashboardIndexRoute: typeof DashboardIndexRoute
-  DashboardSpecialtiesIndexRoute: typeof DashboardSpecialtiesIndexRoute
+  DashboardAdminOrganizationsRouteRoute: typeof DashboardAdminOrganizationsRouteRouteWithChildren
+  DashboardAdminSkillsRouteRoute: typeof DashboardAdminSkillsRouteRouteWithChildren
+  DashboardAdminUsersRouteRoute: typeof DashboardAdminUsersRouteRouteWithChildren
+  DashboardAdminSpecialtiesIndexRoute: typeof DashboardAdminSpecialtiesIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
-  DashboardOrganizationsRouteRoute:
-    DashboardOrganizationsRouteRouteWithChildren,
-  DashboardSkillsRouteRoute: DashboardSkillsRouteRouteWithChildren,
-  DashboardUsersRouteRoute: DashboardUsersRouteRouteWithChildren,
   DashboardIndexRoute: DashboardIndexRoute,
-  DashboardSpecialtiesIndexRoute: DashboardSpecialtiesIndexRoute,
+  DashboardAdminOrganizationsRouteRoute:
+    DashboardAdminOrganizationsRouteRouteWithChildren,
+  DashboardAdminSkillsRouteRoute: DashboardAdminSkillsRouteRouteWithChildren,
+  DashboardAdminUsersRouteRoute: DashboardAdminUsersRouteRouteWithChildren,
+  DashboardAdminSpecialtiesIndexRoute: DashboardAdminSpecialtiesIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
@@ -401,6 +377,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthSignInRoute: AuthSignInRoute,
   AuthSignOutRoute: AuthSignOutRoute,
   AuthSignUpRoute: AuthSignUpRoute,
+  OrganizationsCreateIndexRoute: OrganizationsCreateIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

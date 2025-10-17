@@ -16,7 +16,6 @@ export const organizations = pg.pgTable("organizations", {
 	orgn: pg.varchar({ length: 255 }),
 	kpp: pg.varchar({ length: 255 }),
 	address: pg.text(),
-	lawAddress: pg.text(),
 	contacts: pg.text(),
 	status: organizationRequestsStatus().notNull().default("PENDING"),
 	managerId: pg
@@ -37,7 +36,7 @@ export const organizationRelations = relations(
 			relationName: "organizationsToUser",
 		}),
 		vacancies: many(vacancies, {
-			relationName: "organizationsToVacancies"
-		})
+			relationName: "organizationsToVacancies",
+		}),
 	}),
 );
