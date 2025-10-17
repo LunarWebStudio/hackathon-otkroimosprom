@@ -1,14 +1,14 @@
 import { db } from "@lunarweb/database";
-import { protectedProcedure } from "../orpc";
+import { protectedProcedure, roleProcedure } from "../orpc";
 import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
-import { desc, eq, isNotNull, and } from "drizzle-orm";
+import { desc, eq, isNotNull, and, isNull } from "drizzle-orm";
 import { requests } from "@lunarweb/database/schema";
 import { id } from "zod/v4/locales";
 import z from "zod/v4";
 import { RequestSchema } from "@lunarweb/shared/schemas";
 
 export const requestsRouter = {
-	getAll: protectedProcedure
+	getAll: roleProcedure(["HR", "USER"])
 		.input(
 			z.object({
 				status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]).optional(),
@@ -45,7 +45,7 @@ export const requestsRouter = {
 			}
 		}),
 
-	getById: protectedProcedure
+	getById: roleProcedure(["HR", "USER"])
 		.input(
 			z.object({
 				id: z.string(),
@@ -62,7 +62,7 @@ export const requestsRouter = {
 			);
 		}),
 
-	create: protectedProcedure
+	create: roleProcedure(["HR", "USER"])
 		.input(RequestSchema)
 		.handler(async ({ input, context }) => {
 			const role = context.session.user.role;
@@ -78,7 +78,7 @@ export const requestsRouter = {
 
 			await InvalidateCached(["requests"]);
 		}),
-	delete: protectedProcedure
+	delete: roleProcedure(["HR", "USER"])
 		.input(
 			z.object({
 				id: z.string(),
@@ -90,5 +90,25 @@ export const requestsRouter = {
 				.set({ deletedAt: new Date() })
 				.where(eq(requests.id, input.id));
 			await InvalidateCached(["requests"]);
+		}),
+	getRequestsByVacancy: roleProcedure(["HR"])
+		.input(
+			z.object({
+				vacancyId: z.string(),
+			}),
+		)
+		.handler(async ({ input }) => {
+			return ServeCached(
+				["requests", "vacancy", input.vacancyId],
+				DEFAULT_TTL,
+				async () =>
+					await db.query.requests.findMany({
+						where: and(
+							eq(requests.vacancyId, input.vacancyId),
+							isNull(requests.deletedAt),
+						),
+						orderBy: desc(requests.createdAt),
+					}),
+			);
 		}),
 };
