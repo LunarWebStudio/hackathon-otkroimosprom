@@ -8,7 +8,7 @@ export const skills = pg.pgTable("skills", {
 	name: pg.varchar({ length: 255 }).notNull(),
 });
 
-export const skillsToResumes = pgTable("skills_to_resumes", {
+export const skillsToResumes = pg.pgTable("skills_to_resumes", {
 	...commonFields,
 	resumeId: pg
 		.varchar("resume_id", { length: 255 })
