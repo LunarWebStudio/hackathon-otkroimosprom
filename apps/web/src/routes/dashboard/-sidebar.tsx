@@ -125,6 +125,11 @@ export default function DashboardSidebar() {
 					label: "Навыки",
 					href: "/dashboard/skills",
 				},
+								{
+					icon: <TextInitialIcon />,
+					label: "Специальности",
+					href: "/dashboard/specialties",
+				},
 				{
 					icon: <ChartNoAxesCombined />,
 					label: "Аналитика",

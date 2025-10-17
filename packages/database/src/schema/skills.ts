@@ -3,7 +3,7 @@ import { commonFields } from "./utils";
 import { resumes } from "./resume";
 import { relations } from "drizzle-orm";
 
-export const skill = pgTable("skill", {
+export const skill = pgTable("skills", {
 	...commonFields,
 	name: varchar("name", { length: 255 }).notNull(),
 });

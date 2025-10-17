@@ -112,7 +112,7 @@ CREATE TABLE "resumes" (
 	"description" varchar(255),
 	"fileId" varchar(255),
 	"citizenship" varchar(255),
-	"specialtyId" varchar(255),
+	"specialtyId" varchar(255) NOT NULL,
 	"userId" varchar(255)
 );
 --> statement-breakpoint
@@ -132,14 +132,6 @@ CREATE TABLE "specialties" (
 	"name" varchar(255) NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "skill" (
-	"id" varchar(255) PRIMARY KEY NOT NULL,
-	"serial" serial NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"deleted_at" timestamp,
-	"name" varchar(255) NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE "skills_to_resumes" (
 	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"serial" serial NOT NULL,
@@ -147,23 +139,6 @@ CREATE TABLE "skills_to_resumes" (
 	"deleted_at" timestamp,
 	"resume_id" varchar(255) NOT NULL,
 	"skill_id" varchar(255) NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "profession" (
-	"id" varchar(255) PRIMARY KEY NOT NULL,
-	"serial" serial NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"deleted_at" timestamp,
-	"name" varchar(255) NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "professions_to_resumes" (
-	"id" varchar(255) PRIMARY KEY NOT NULL,
-	"serial" serial NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"deleted_at" timestamp,
-	"resume_id" varchar(255) NOT NULL,
-	"profession_id" varchar(255) NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "account" ADD CONSTRAINT "account_user_id_user_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
@@ -175,6 +150,4 @@ ALTER TABLE "resumes" ADD CONSTRAINT "resumes_fileId_files_id_fk" FOREIGN KEY ("
 ALTER TABLE "resumes" ADD CONSTRAINT "resumes_specialtyId_specialties_id_fk" FOREIGN KEY ("specialtyId") REFERENCES "public"."specialties"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "resumes" ADD CONSTRAINT "resumes_userId_user_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."user"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "skills_to_resumes" ADD CONSTRAINT "skills_to_resumes_resume_id_resumes_id_fk" FOREIGN KEY ("resume_id") REFERENCES "public"."resumes"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "skills_to_resumes" ADD CONSTRAINT "skills_to_resumes_skill_id_skill_id_fk" FOREIGN KEY ("skill_id") REFERENCES "public"."skill"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "professions_to_resumes" ADD CONSTRAINT "professions_to_resumes_resume_id_resumes_id_fk" FOREIGN KEY ("resume_id") REFERENCES "public"."resumes"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "professions_to_resumes" ADD CONSTRAINT "professions_to_resumes_profession_id_profession_id_fk" FOREIGN KEY ("profession_id") REFERENCES "public"."profession"("id") ON DELETE no action ON UPDATE no action;
+ALTER TABLE "skills_to_resumes" ADD CONSTRAINT "skills_to_resumes_skill_id_skills_id_fk" FOREIGN KEY ("skill_id") REFERENCES "public"."skills"("id") ON DELETE no action ON UPDATE no action;

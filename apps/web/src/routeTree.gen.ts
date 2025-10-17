@@ -16,6 +16,7 @@ import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
 import { Route as AuthSignOutRouteImport } from './routes/auth/sign-out'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 import { Route as DashboardUsersIndexRouteImport } from './routes/dashboard/users/index'
+import { Route as DashboardSpecialtiesIndexRouteImport } from './routes/dashboard/specialties/index'
 import { Route as DashboardSkillsIndexRouteImport } from './routes/dashboard/skills/index'
 
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
@@ -53,6 +54,12 @@ const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
   path: '/users/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
+const DashboardSpecialtiesIndexRoute =
+  DashboardSpecialtiesIndexRouteImport.update({
+    id: '/specialties/',
+    path: '/specialties/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardSkillsIndexRoute = DashboardSkillsIndexRouteImport.update({
   id: '/skills/',
   path: '/skills/',
@@ -67,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/skills': typeof DashboardSkillsIndexRoute
+  '/dashboard/specialties': typeof DashboardSpecialtiesIndexRoute
   '/dashboard/users': typeof DashboardUsersIndexRoute
 }
 export interface FileRoutesByTo {
@@ -76,6 +84,7 @@ export interface FileRoutesByTo {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/skills': typeof DashboardSkillsIndexRoute
+  '/dashboard/specialties': typeof DashboardSpecialtiesIndexRoute
   '/dashboard/users': typeof DashboardUsersIndexRoute
 }
 export interface FileRoutesById {
@@ -87,6 +96,7 @@ export interface FileRoutesById {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/dashboard/skills/': typeof DashboardSkillsIndexRoute
+  '/dashboard/specialties/': typeof DashboardSpecialtiesIndexRoute
   '/dashboard/users/': typeof DashboardUsersIndexRoute
 }
 export interface FileRouteTypes {
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/dashboard/'
     | '/dashboard/skills'
+    | '/dashboard/specialties'
     | '/dashboard/users'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/dashboard'
     | '/dashboard/skills'
+    | '/dashboard/specialties'
     | '/dashboard/users'
   id:
     | '__root__'
@@ -118,6 +130,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/dashboard/'
     | '/dashboard/skills/'
+    | '/dashboard/specialties/'
     | '/dashboard/users/'
   fileRoutesById: FileRoutesById
 }
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardUsersIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/specialties/': {
+      id: '/dashboard/specialties/'
+      path: '/specialties'
+      fullPath: '/dashboard/specialties'
+      preLoaderRoute: typeof DashboardSpecialtiesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/skills/': {
       id: '/dashboard/skills/'
       path: '/skills'
@@ -193,12 +213,14 @@ declare module '@tanstack/react-router' {
 interface DashboardRouteRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardSkillsIndexRoute: typeof DashboardSkillsIndexRoute
+  DashboardSpecialtiesIndexRoute: typeof DashboardSpecialtiesIndexRoute
   DashboardUsersIndexRoute: typeof DashboardUsersIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardSkillsIndexRoute: DashboardSkillsIndexRoute,
+  DashboardSpecialtiesIndexRoute: DashboardSpecialtiesIndexRoute,
   DashboardUsersIndexRoute: DashboardUsersIndexRoute,
 }
 

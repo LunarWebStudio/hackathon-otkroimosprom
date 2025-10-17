@@ -1,14 +1,14 @@
 import { db } from "@lunarweb/database";
-import { protectedProcedure, roleProcedure } from "../orpc";
+import { protectedProcedure, publicProcedure, roleProcedure } from "../orpc";
 import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
 import { and, desc, eq, isNull } from "drizzle-orm";
 import { speciality } from "@lunarweb/database/schema";
 import { z } from "zod";
 
-export const specialitysRouter = {
-	getAll: protectedProcedure.handler(async () => {
+export const specialitiesRouter = {
+	getAll: publicProcedure.handler(async () => {
 		return ServeCached(
-			["specialitys", "all"],
+			["specialties", "all"],
 			DEFAULT_TTL,
 			async () =>
 				await db.query.speciality.findMany({
@@ -26,7 +26,7 @@ export const specialitysRouter = {
 		)
 		.handler(async ({ input }) => {
 			await db.insert(speciality).values(input);
-			await InvalidateCached(["specialitys"]);
+			await InvalidateCached(["specialties"]);
 		}),
 
 	update: roleProcedure(["ADMIN"])
@@ -44,7 +44,7 @@ export const specialitysRouter = {
 				})
 				.where(eq(speciality.id, input.id));
 
-			await InvalidateCached(["specialitys"]);
+			await InvalidateCached(["specialties"]);
 		}),
 
 	delete: roleProcedure(["ADMIN"])
@@ -61,6 +61,6 @@ export const specialitysRouter = {
 				})
 				.where(eq(speciality.id, input.id));
 
-			await InvalidateCached(["specialitys"]);
+			await InvalidateCached(["specialties"]);
 		}),
 };
