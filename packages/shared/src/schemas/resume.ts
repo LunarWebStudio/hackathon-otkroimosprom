@@ -13,5 +13,5 @@ export const ResumeSchema = z.object({
 	description: z.string().optional().nullable(),
 	fileId: z.string().optional().nullable(),
 	citizenship: z.string().optional().nullable(),
-	specialtyId: z.string().optional().nullable(),
+	specialtyId: z.string(),
 });

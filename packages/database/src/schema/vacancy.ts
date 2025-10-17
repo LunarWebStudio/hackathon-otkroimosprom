@@ -2,6 +2,7 @@ import * as pg from "drizzle-orm/pg-core"
 import { commonFields } from "./utils"
 import { organizations } from "./organization"
 import { relations } from "drizzle-orm";
+import { files } from "./file";
 
 export const workFormatTypes = pg.pgEnum(
     "work_format_types",
@@ -28,7 +29,8 @@ export const vacancies = pg.pgTable("vacancies", {
     salaryFrom: pg.integer("salary_from"),
     salaryTo: pg.integer("salary_to"),
     expiresAt: pg.timestamp("expires_at").notNull(),
-    status: vacancyStatuses().notNull().default("ARCHIVE")
+    status: vacancyStatuses().notNull().default("ARCHIVE"),
+    fileId: pg.varchar("file_id", {length: 255}).references(() => files.id)
 })
 
 

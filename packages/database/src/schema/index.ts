@@ -3,4 +3,5 @@ export * from "./file";
 export * from "./organization";
 export * from "./resume";
 export * from "./skills";
-export * from "./speciality"
+export * from "./speciality";
+export * from "./vacancy";
