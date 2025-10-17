@@ -3,6 +3,7 @@ import * as schema from "@lunarweb/database/schema";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import type { UserRole } from "@lunarweb/shared/types";
+import { env } from "@lunarweb/env";
 
 export const auth = betterAuth({
 	database: drizzleAdapter(db, {
@@ -39,6 +40,23 @@ export const auth = betterAuth({
 				required: true,
 				defaultValue: "USER" as UserRole,
 				input: false,
+			},
+		},
+	},
+	databaseHooks: {
+		user: {
+			create: {
+				before: (user) =>
+					new Promise((resolve) => {
+						resolve({
+							data: {
+								...user,
+								role: (user.email === env.MAIN_ADMIN_EMAIL
+									? "ADMIN"
+									: "USER") as UserRole,
+							},
+						});
+					}),
 			},
 		},
 	},
