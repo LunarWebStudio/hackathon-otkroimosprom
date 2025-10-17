@@ -4,6 +4,7 @@ import {
 	type ResolveParams,
 	type ResolveSearchValidatorInputFn,
 	useLocation,
+	useParams,
 	useRouteContext,
 } from "@tanstack/react-router";
 import {
@@ -69,11 +70,17 @@ function SidebarBlock({ block }: { block: Block }) {
 
 function SidebarItem({ item }: { item: Item<RoutePath> }) {
 	const { pathname } = useLocation();
+	const { organizationId } = useParams({ strict: false });
 	const sidebar = useSidebar();
 
 	return (
 		<SidebarMenuItem key={item.label}>
-			<SidebarMenuButton isActive={pathname === item.href}>
+			<SidebarMenuButton
+				isActive={
+					pathname ===
+					item.href.replace("$organizationId", organizationId ?? "INVALID")
+				}
+			>
 				<Link
 					to={item.href}
 					params={item.params}
@@ -113,22 +120,6 @@ export default function DashboardSidebar() {
 				},
 				{
 					icon: <TextInitialIcon />,
-					label: "Вакансии",
-					href: "/dashboard/vacancies",
-					search: {
-						type: "job",
-					},
-				},
-				{
-					icon: <SwatchBookIcon />,
-					label: "Стажировки",
-					href: "/dashboard/positions",
-					search: {
-						type: "internship",
-					},
-				},
-				{
-					icon: <TextInitialIcon />,
 					label: "Навыки",
 					href: "/dashboard/admin/skills",
 				},
@@ -146,7 +137,7 @@ export default function DashboardSidebar() {
 		},
 	];
 
-	const hrBlocks: Item[] = [
+	const hrBlocks: Item<RoutePath>[] = [
 		{
 			icon: <HotelIcon />,
 			label: "Стажировки",
@@ -171,7 +162,7 @@ export default function DashboardSidebar() {
 		},
 	];
 
-	const companyManagerBlocks: Item[] = [
+	const companyManagerBlocks: Item<RoutePath>[] = [
 		{
 			icon: <HotelIcon />,
 			label: "Компания",
