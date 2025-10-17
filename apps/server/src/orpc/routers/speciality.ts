@@ -2,18 +2,18 @@ import { db } from "@lunarweb/database";
 import { protectedProcedure, roleProcedure } from "../orpc";
 import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
 import { and, desc, eq, isNull } from "drizzle-orm";
-import { profession } from "@lunarweb/database/schema";
+import { speciality } from "@lunarweb/database/schema";
 import { z } from "zod";
 
-export const professionsRouter = {
+export const specialitysRouter = {
 	getAll: protectedProcedure.handler(async () => {
 		return ServeCached(
-			["professions", "all"],
+			["specialitys", "all"],
 			DEFAULT_TTL,
 			async () =>
-				await db.query.profession.findMany({
-					where: isNull(profession.deletedAt),
-					orderBy: desc(profession.createdAt),
+				await db.query.speciality.findMany({
+					where: isNull(speciality.deletedAt),
+					orderBy: desc(speciality.createdAt),
 				}),
 		);
 	}),
@@ -25,8 +25,8 @@ export const professionsRouter = {
 			}),
 		)
 		.handler(async ({ input }) => {
-			await db.insert(profession).values(input);
-			await InvalidateCached(["professions"]);
+			await db.insert(speciality).values(input);
+			await InvalidateCached(["specialitys"]);
 		}),
 
 	update: roleProcedure(["ADMIN"])
@@ -38,13 +38,13 @@ export const professionsRouter = {
 		)
 		.handler(async ({ input }) => {
 			await db
-				.update(profession)
+				.update(speciality)
 				.set({
 					name: input.name, 
 				})
-				.where(eq(profession.id, input.id));
+				.where(eq(speciality.id, input.id));
 
-			await InvalidateCached(["professions"]);
+			await InvalidateCached(["specialitys"]);
 		}),
 
 	delete: roleProcedure(["ADMIN"])
@@ -55,12 +55,12 @@ export const professionsRouter = {
 		)
 		.handler(async ({ input }) => {
 			await db
-				.update(profession)
+				.update(speciality)
 				.set({
 					deletedAt: new Date(),
 				})
-				.where(eq(profession.id, input.id));
+				.where(eq(speciality.id, input.id));
 
-			await InvalidateCached(["professions"]);
+			await InvalidateCached(["specialitys"]);
 		}),
 };

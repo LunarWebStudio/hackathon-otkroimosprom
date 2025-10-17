@@ -28,6 +28,6 @@ export const resumes = pg.pgTable("resumes", {
 	fileId: pg.varchar({ length: 255 }).references(() => files.id),
 	citizenship: pg.varchar({ length: 255 }),
 
-	specialtyId: pg.varchar({ length: 255 }).references(() => specialties.id),
+	specialtyId: pg.varchar({ length: 255 }).references(() => specialties.id).notNull(),
 	userId: pg.varchar({ length: 255 }).references(() => user.id),
 });
