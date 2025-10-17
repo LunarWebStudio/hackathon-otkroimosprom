@@ -1,37 +1,38 @@
 import { pgTable, varchar } from "drizzle-orm/pg-core";
 import { commonFields } from "./utils";
-import { user } from "./auth";
+import { resumes } from "./resume"; 
 import { relations } from "drizzle-orm";
 
 export const skill = pgTable("skill", {
-    ...commonFields,
-    name: varchar("name", {length: 255}).notNull()
-})
+	...commonFields,
+	name: varchar("name", { length: 255 }).notNull(),
+});
 
-
-const skillsToUsers = pgTable("skills_to_users", {
-    ...commonFields,
-    userId: varchar("user_id", {length: 255}).notNull().references(() => user.id),
-    skillId: varchar("skill_id", {length: 255}).notNull().references(() => skill.id)
-})
+export const skillsToResumes = pgTable("skills_to_resumes", {
+	...commonFields,
+	resumeId: varchar("resume_id", { length: 255 })
+		.notNull()
+		.references(() => resumes.id),
+	skillId: varchar("skill_id", { length: 255 })
+		.notNull()
+		.references(() => skill.id),
+});
 
 export const skillRelations = relations(skill, ({ many }) => ({
-	users: many(skillsToUsers),
+	resumes: many(skillsToResumes),
 }));
 
-
-export const userRelations = relations(user, ({ many }) => ({
-	skills: many(skillsToUsers),
+export const resumeSkillRelations = relations(resumes, ({ many }) => ({
+	skills: many(skillsToResumes),
 }));
 
-
-export const skillsToUsersRelations = relations(skillsToUsers, ({ one }) => ({
-	user: one(user, {
-		fields: [skillsToUsers.userId],
-		references: [user.id],
+export const skillsToResumesRelations = relations(skillsToResumes, ({ one }) => ({
+	resume: one(resumes, {
+		fields: [skillsToResumes.resumeId],
+		references: [resumes.id],
 	}),
 	skill: one(skill, {
-		fields: [skillsToUsers.skillId],
+		fields: [skillsToResumes.skillId],
 		references: [skill.id],
 	}),
 }));
