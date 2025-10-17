@@ -8,13 +8,6 @@ export const specialties = pg.pgTable("specialties", {
 	name: pg.varchar({ length: 255 }).notNull(),
 });
 
-export const resumeRelations = relations(resumes, ({ one }) => ({
-	speciality: one(specialties, {
-		fields: [resumes.specialtyId],
-		references: [specialties.id],
-	}),
-}));
-
 export const specialityRelations = relations(specialties, ({ many }) => ({
 	resumes: many(resumes),
 }));
