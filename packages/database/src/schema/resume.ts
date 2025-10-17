@@ -2,6 +2,7 @@ import * as pg from "drizzle-orm/pg-core";
 import { commonFields } from "./utils";
 import { files } from "./file";
 import { genderEnum, user } from "./auth";
+import { specialties } from "./speciality";
 
 export const resumes = pg.pgTable("resumes", {
 	...commonFields,
