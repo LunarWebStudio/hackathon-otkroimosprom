@@ -7,10 +7,12 @@ export interface InputProps
 	extends React.InputHTMLAttributes<HTMLInputElement>,
 		React.TextareaHTMLAttributes<HTMLTextAreaElement> {
 	className?: string;
+	inputClassName?: string;
 	prefix?: React.ReactNode;
 	postfix?: React.ReactNode;
 	errors?: (string | undefined)[];
 	size?: "default" | "textarea";
+	hideLabel?: boolean;
 }
 
 const Input = React.forwardRef<
@@ -20,12 +22,13 @@ const Input = React.forwardRef<
 	(
 		{
 			className,
+			inputClassName: customInputClassName,
 			errors,
 			size = "default",
 			prefix,
 			postfix,
-			placeholder,
 			type,
+			hideLabel,
 			...props
 		},
 		ref,
@@ -33,56 +36,50 @@ const Input = React.forwardRef<
 		const hasErrors = errors && errors.length > 0;
 
 		const inputClassName = cn(
-			"flex transition-all duration-300 w-full text-base resize-none px-3 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:ring-0 focus-visible:outline-hidden focus-visible:ring-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-			prefix ? "pl-8" : "",
+			"flex transition-all h-full duration-300 w-full placeholder:text-muted-foreground text-base resize-none px-3 file:border-0 file:bg-transparent file:text-foreground placeholder:text-[#94A3B8] focus-visible:ring-0 focus-visible:outline-hidden focus-visible:ring-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+			prefix ? "pl-10" : "",
 			postfix ? "pr-8" : "",
-			placeholder && props.value ? "h-10 mt-4" : "h-14",
 			size === "textarea" ? "h-[calc(100%-44px)] py-2 min-h-[120px]" : "",
+			customInputClassName,
 		);
 
 		return (
 			<div className={cn("flex flex-col", className)}>
+				{!hideLabel && (
+					<p className="text-sm text-muted-foreground mb-0.5">
+						{props.placeholder}
+					</p>
+				)}
+
 				<div
 					className={cn(
-						"relative rounded-md border-2 bg-input/5 h-14 transition-all duration-300",
+						"relative rounded-md border h-11 transition-all duration-300 bg-background",
 						hasErrors
 							? "border-destructive/80 hover:border-destructive"
-							: "border-input/10 hover:border-input/30",
+							: "border-border hover:border-primary",
 						size === "textarea" ? "h-fit min-h-[120px]" : "",
 					)}
 				>
 					{prefix && (
-						<div className="absolute px-3 h-14 flex items-center justify-center left-0">
+						<div className="absolute px-3 inset-y-0 flex items-center justify-center left-0">
 							{prefix}
 						</div>
 					)}
 					{postfix && (
-						<div className="absolute px-3 h-14 flex items-center justify-center right-0">
+						<div className="absolute px-3 h-10 flex items-center justify-center right-0">
 							{postfix}
 						</div>
 					)}
-					<div
-						className={cn(
-							"pointer-events-none absolute transition-all duration-300 text-xs text-muted-foreground top-1",
-							prefix ? "left-8" : "left-3",
-							placeholder && props.value ? "" : "opacity-0 blur-sm scale-80",
-						)}
-					>
-						{placeholder}
-					</div>
-
 					{size === "default" ? (
 						<input
 							type={type}
-							className={inputClassName}
-							placeholder={placeholder}
+							className={cn("h-full peer", inputClassName)}
 							ref={ref as React.Ref<HTMLInputElement>}
 							{...props}
 						/>
 					) : (
 						<textarea
-							className={cn(inputClassName)}
-							placeholder={placeholder}
+							className={cn("peer", inputClassName)}
 							ref={ref as React.Ref<HTMLTextAreaElement>}
 							{...props}
 						/>

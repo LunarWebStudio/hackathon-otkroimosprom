@@ -36,7 +36,8 @@ export const Route = createFileRoute("/dashboard/users/")({
 		.object({
 			roles: UserRoleSchema.array().optional(),
 		})
-		.nullish(),
+		.nullish()
+		.default({}),
 	async loader({ context }) {
 		return {
 			users: await context.orpc.user.get.call(),

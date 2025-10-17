@@ -160,9 +160,23 @@ export default function DashboardSidebar() {
 						<SidebarGroup>
 							<SidebarGroupContent>
 								<SidebarMenuButton>
-									<Link to={"/auth/sign-out"}>
-										<LogOutIcon />
-										<span>Выход</span>
+									<Link to={"/"} className="w-full justify-between">
+										<span>Обратно на сайт</span>
+										<svg
+											width="18"
+											height="19"
+											viewBox="0 0 18 19"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												d="M2.25 14.75V4.25M9.75 5L5.25 9.5M5.25 9.5L9.75 14M5.25 9.5H15.75"
+												stroke="#18181B"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											/>
+										</svg>
 									</Link>
 								</SidebarMenuButton>
 							</SidebarGroupContent>
