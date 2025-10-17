@@ -1,10 +1,10 @@
 import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
 import { publicProcedure, roleProcedure } from "../orpc";
 import { db } from "@lunarweb/database";
-import { desc, eq, isNull } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { user } from "@lunarweb/database/schema";
-import { z } from "zod/v4";
 import { UserSchema } from "@lunarweb/shared/schemas";
+import z from "zod/v4";
 
 export const userRouter = {
 	session: {
