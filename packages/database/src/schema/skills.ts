@@ -1,6 +1,6 @@
 import { pgTable, varchar } from "drizzle-orm/pg-core";
 import { commonFields } from "./utils";
-import { resumes } from "./resume"; 
+import { resumes } from "./resume";
 import { relations } from "drizzle-orm";
 
 export const skill = pgTable("skill", {
@@ -26,13 +26,16 @@ export const resumeSkillRelations = relations(resumes, ({ many }) => ({
 	skills: many(skillsToResumes),
 }));
 
-export const skillsToResumesRelations = relations(skillsToResumes, ({ one }) => ({
-	resume: one(resumes, {
-		fields: [skillsToResumes.resumeId],
-		references: [resumes.id],
+export const skillsToResumesRelations = relations(
+	skillsToResumes,
+	({ one }) => ({
+		resume: one(resumes, {
+			fields: [skillsToResumes.resumeId],
+			references: [resumes.id],
+		}),
+		skill: one(skill, {
+			fields: [skillsToResumes.skillId],
+			references: [skill.id],
+		}),
 	}),
-	skill: one(skill, {
-		fields: [skillsToResumes.skillId],
-		references: [skill.id],
-	}),
-}));
+);

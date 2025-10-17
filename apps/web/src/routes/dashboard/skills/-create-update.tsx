@@ -9,63 +9,76 @@ import {
 } from "@/components/ui/dialog";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import {
-	SelectTrigger,
-	Select,
-	SelectValue,
-	SelectContent,
-	SelectItem,
-} from "@/components/ui/select";
-import { userRoleToString, type User } from "@/lib/types/user";
+import type { Skill } from "@/lib/types/skill";
 import { orpc, queryClient } from "@/utils/orpc";
-import { UserSchema } from "@lunarweb/shared/schemas";
+import { SkillSchema } from "@lunarweb/shared/schemas";
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
 import { SquarePenIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import z from "zod/v4";
-import { userRolesEnum } from "../../../../../../packages/database/src/schema/auth";
-import type { UserRole } from "@lunarweb/shared/types";
 
-export default function UpdateUser({ user }: { user: User }) {
+export default function CreateUpdateSkill({ skill }: { skill?: Skill }) {
 	const [open, setOpen] = useState(false);
-	const updateUserMutation = useMutation(
-		orpc.user.update.mutationOptions({
+	const updateSkillMutation = useMutation(
+		orpc.skills.update.mutationOptions({
 			onSuccess: async () => {
 				setOpen(false);
-				toast.success("Пользователь обновлен");
+				toast.success("Навык обновлен");
 				await queryClient.invalidateQueries({
-					queryKey: orpc.user.get.queryKey(),
+					queryKey: orpc.skills.getAll.queryKey(),
+				});
+			},
+		}),
+	);
+
+	const createSkillMutation = useMutation(
+		orpc.skills.create.mutationOptions({
+			onSuccess: async () => {
+				setOpen(false);
+				toast.success("Навык создан");
+				await queryClient.invalidateQueries({
+					queryKey: orpc.skills.getAll.queryKey(),
 				});
 			},
 		}),
 	);
 
 	const form = useForm({
-		defaultValues: user as z.infer<typeof UserSchema>,
+		defaultValues: skill as z.infer<typeof SkillSchema>,
 		onSubmit: async ({ value }) => {
-			updateUserMutation.mutate({
-				...value,
-				id: user.id,
-			});
+			if (skill) {
+				updateSkillMutation.mutate({
+					...value,
+					id: skill.id,
+				});
+			} else {
+				createSkillMutation.mutate({
+					...value,
+				});
+			}
 		},
 		validators: {
-			onSubmit: UserSchema,
+			onSubmit: SkillSchema,
 		},
 	});
 
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-					<SquarePenIcon />
-					<span>Редактировать</span>
-				</DropdownMenuItem>
+				{skill ? (
+					<DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+						<SquarePenIcon />
+						<span>Редактировать</span>
+					</DropdownMenuItem>
+				) : (
+					<Button>Создать</Button>
+				)}
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>Редактировать пользователя</DialogTitle>
+					<DialogTitle>{skill ? "Редактировать" : "Создать"} навык</DialogTitle>
 				</DialogHeader>
 				<form
 					onSubmit={(e) => {
@@ -83,37 +96,21 @@ export default function UpdateUser({ user }: { user: User }) {
 								value={field.state.value}
 								onBlur={field.handleBlur}
 								onChange={(e) => field.handleChange(e.target.value)}
-								placeholder="ФИО"
+								placeholder="Название"
 								errors={field.state.meta.errors.map((error) => error?.message)}
 							/>
 						)}
 					</form.Field>
-					<form.Field name="role">
-						{(field) => (
-							<Select
-								value={field.state.value}
-								onValueChange={(v) => field.handleChange(v as UserRole)}
-							>
-								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Роль" />
-								</SelectTrigger>
-								<SelectContent>
-									{userRolesEnum.enumValues.map((r) => (
-										<SelectItem key={r} value={r}>
-											{userRoleToString[r]}
-										</SelectItem>
-									))}
-								</SelectContent>
-							</Select>
-						)}
-					</form.Field>
-
 					<DialogFooter className="grid-cols-1">
 						<form.Subscribe>
 							{(state) => (
 								<Button
 									type="submit"
-									loading={state.isSubmitting || updateUserMutation.isPending}
+									loading={
+										state.isSubmitting ||
+										updateSkillMutation.isPending ||
+										createSkillMutation.isPending
+									}
 									disabled={!state.canSubmit}
 								>
 									Сохранить

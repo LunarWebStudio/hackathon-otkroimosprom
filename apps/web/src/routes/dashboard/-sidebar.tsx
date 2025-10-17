@@ -75,6 +75,7 @@ function SidebarItem({ item }: { item: Item<RoutePath> }) {
 				<Link
 					to={item.href}
 					params={item.params}
+					search={item.search}
 					onClick={() => {
 						if (sidebar.isMobile) {
 							sidebar.setOpenMobile(false);
@@ -118,6 +119,11 @@ export default function DashboardSidebar() {
 					search: {
 						type: "internship",
 					},
+				},
+				{
+					icon: <TextInitialIcon />,
+					label: "Навыки",
+					href: "/dashboard/skills",
 				},
 				{
 					icon: <ChartNoAxesCombined />,
