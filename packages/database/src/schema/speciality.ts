@@ -1,20 +1,20 @@
-import { pgTable, varchar } from "drizzle-orm/pg-core";
+import * as pg from "drizzle-orm/pg-core";
 import { commonFields } from "./utils";
 import { resumes } from "./resume";
 import { relations } from "drizzle-orm";
 
-export const speciality = pgTable("specialties", {
+export const specialties = pg.pgTable("specialties", {
 	...commonFields,
-	name: varchar("name", { length: 255 }).notNull(),
+	name: pg.varchar({ length: 255 }).notNull(),
 });
 
 export const resumeRelations = relations(resumes, ({ one }) => ({
-	speciality: one(speciality, {
+	speciality: one(specialties, {
 		fields: [resumes.specialtyId],
-		references: [speciality.id],
+		references: [specialties.id],
 	}),
 }));
 
-export const specialityRelations = relations(speciality, ({ many }) => ({
+export const specialityRelations = relations(specialties, ({ many }) => ({
 	resumes: many(resumes),
 }));
