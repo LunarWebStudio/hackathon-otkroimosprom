@@ -1,26 +1,12 @@
 import { protectedProcedure, publicProcedure, roleProcedure } from "../orpc";
 import { z } from "zod";
-import { and, desc, eq, isNull } from "drizzle-orm";
+import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { ORPCError } from "@orpc/server";
 import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
-import { resumes } from "@lunarweb/database/schema";
+import { resumes, skillsToResumes } from "@lunarweb/database/schema";
 import { db } from "@lunarweb/database";
+import { ResumeSchema } from "@lunarweb/shared/schemas";
 
-export const ResumeSchema = z.object({
-	title: z.string().min(1),
-	photoId: z.string().optional().nullable(),
-	birthDate: z.date().optional().nullable(),
-	gender: z.enum(["MALE", "FEMALE"]).optional().nullable(),
-	phoneNumber: z.string().optional().nullable(),
-	email: z.string().email().optional().nullable(),
-	skillIds: z.array(z.string()).min(1),
-	experience: z.string().optional().nullable(),
-	courses: z.array(z.string()).min(1),
-	description: z.string().optional().nullable(),
-	fileId: z.string().optional().nullable(),
-	citizenship: z.string().optional().nullable(),
-	specialtyId: z.string().optional().nullable(),
-});
 
 export const resumeRouter = {
     getAll : roleProcedure(["ADMIN", "HR"]).handler(async () => {
@@ -51,6 +37,7 @@ export const resumeRouter = {
         .handler(async ({context, input}) => {
             await db.insert(resumes).values({
                 ...input,
+                specialtyId: input.specialtyId!,
                 userId: context.session.user.id
             })
 
@@ -60,9 +47,42 @@ export const resumeRouter = {
         .input(ResumeSchema)
         .handler(async ({input, context}) => {
             await db.update(resumes).set({
-                ...input
+                ...input,
+                specialtyId: input.specialtyId!
             }).where(eq(resumes.userId, context.session.user.id))
 
             await InvalidateCached(["resumes"])
-        })
+        }),
+    findBySkills: roleProcedure(["HR"])
+        .input(ResumeSchema)
+        .handler(async ({input}) => {
+            return ServeCached(["resumes", JSON.stringify(input.skillIds)], DEFAULT_TTL, async () => await db
+						.select({
+							id: resumes.id,
+							title: resumes.title,
+						})
+						.from(resumes)
+						.innerJoin(
+							skillsToResumes,
+							eq(resumes.id, skillsToResumes.resumeId),
+						)
+						.where(inArray(skillsToResumes.skillId, input.skillIds))
+						.groupBy(resumes.id)
+						// .having(
+						// 	sql`COUNT(DISTINCT ${skillsToResumes.skillId}) = ${input.skillIds.length}`,
+						// )
+                    )
+        }),
+        findBySpeciality: roleProcedure(["HR"])
+            .input(ResumeSchema)
+            .handler(async ({ input }) => {
+                return ServeCached(
+                    ["resumes", "speciality", input.specialtyId!],
+                    DEFAULT_TTL,
+                    async () =>
+                        await db.query.resumes.findMany({
+                            where: and(isNull(resumes.deletedAt), eq(resumes.specialtyId, input.specialtyId!))
+                        })
+                );
+            }),
 };
