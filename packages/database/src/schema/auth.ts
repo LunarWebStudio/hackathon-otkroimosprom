@@ -7,12 +7,7 @@ import {
 	varchar,
 } from "drizzle-orm/pg-core";
 
-export const userRolesEnum = pgEnum("user_roles", [
-	"USER",
-	"ADMIN",
-	"HR",
-	"UNIVERSITY",
-]);
+export const userRolesEnum = pgEnum("user_roles", ["USER", "ADMIN", "HR"]);
 
 export const genderEnum = pgEnum("gender", ["MALE", "FEMALE"]);
 

@@ -1,10 +1,18 @@
 import {
 	Link,
 	type ResolveParams,
+	type ResolveFullSearchSchema,
+	type ResolveSearchValidatorInputFn,
 	useLocation,
 	useRouteContext,
 } from "@tanstack/react-router";
-import { LogOutIcon } from "lucide-react";
+import {
+	ChartNoAxesCombined,
+	LogOutIcon,
+	SwatchBookIcon,
+	TextInitialIcon,
+	UsersIcon,
+} from "lucide-react";
 import { type ReactNode, useEffect } from "react";
 import {
 	Sidebar,
@@ -21,6 +29,7 @@ import {
 	useSidebar,
 } from "@/components/ui/sidebar";
 import type { RoutePath } from "@/lib/types/utils";
+import Logo from "@/components/logo";
 
 type Block = {
 	title: string;
@@ -32,6 +41,7 @@ type Item<T extends RoutePath> = {
 	label: string;
 	href: T;
 	params?: ResolveParams<T> | any; // TODO: fix any and infer types properly
+	search?: ResolveFullSearchSchema<T, ResolveSearchValidatorInputFn<T>> | any;
 };
 
 function SidebarBlock({ block }: { block: Block }) {
@@ -42,7 +52,7 @@ function SidebarBlock({ block }: { block: Block }) {
 	return (
 		<SidebarGroup>
 			<SidebarGroupContent>
-				<SidebarGroupLabel className="text-muted-foreground text-base">
+				<SidebarGroupLabel className="font-medium mb-2 text-base text-foreground">
 					{block.title}
 				</SidebarGroupLabel>
 				<SidebarMenu>
@@ -84,7 +94,39 @@ export default function DashboardSidebar() {
 		strict: false,
 	});
 
-	const blocks: Block[] = [];
+	const blocks: Block[] = [
+		{
+			title: "Меню",
+			items: [
+				{
+					icon: <UsersIcon />,
+					label: "Пользователи",
+					href: "/dashboard/users",
+				},
+				{
+					icon: <TextInitialIcon />,
+					label: "Вакансии",
+					href: "/dashboard/vacancies",
+					search: {
+						type: "job",
+					},
+				},
+				{
+					icon: <SwatchBookIcon />,
+					label: "Стажировки",
+					href: "/dashboard/positions",
+					search: {
+						type: "internship",
+					},
+				},
+				{
+					icon: <ChartNoAxesCombined />,
+					label: "Аналитика",
+					href: "/dashboard/analytics",
+				},
+			],
+		},
+	];
 
 	const sidebar = useSidebar();
 
@@ -101,8 +143,8 @@ export default function DashboardSidebar() {
 				</Link>
 			</nav>
 			<Sidebar>
-				<SidebarHeader className="h-16 border-b border-white/10 flex items-center justify-center">
-					LOGO
+				<SidebarHeader className="mb-6 pt-4">
+					<Logo className="w-full" />
 				</SidebarHeader>
 				<SidebarContent>
 					{blocks.map((block) => (
