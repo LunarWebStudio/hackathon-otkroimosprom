@@ -3,12 +3,14 @@ import { userRouter } from "./user";
 import { organizationRouter } from "./organization";
 import { resumeRouter } from "./resume";
 import { skillsRouter } from "./skill";
+import { specialitiesRouter } from "./speciality";
 
 export const appRouter = {
 	user: userRouter,
 	organizations: organizationRouter,
 	resume: resumeRouter,
 	skills: skillsRouter,
+	specialties: specialitiesRouter
 };
 
 export type AppRouter = typeof appRouter;

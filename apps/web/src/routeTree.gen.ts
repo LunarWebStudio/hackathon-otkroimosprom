@@ -19,6 +19,7 @@ import { Route as DashboardUsersRouteRouteImport } from './routes/dashboard/user
 import { Route as DashboardSkillsRouteRouteImport } from './routes/dashboard/skills/route'
 import { Route as DashboardOrganizationsRouteRouteImport } from './routes/dashboard/organizations/route'
 import { Route as DashboardUsersIndexRouteImport } from './routes/dashboard/users/index'
+import { Route as DashboardSpecialtiesIndexRouteImport } from './routes/dashboard/specialties/index'
 import { Route as DashboardSkillsIndexRouteImport } from './routes/dashboard/skills/index'
 import { Route as DashboardOrganizationsIndexRouteImport } from './routes/dashboard/organizations/index'
 import { Route as DashboardOrganizationsOrganizationIdRouteRouteImport } from './routes/dashboard/organizations/$organizationId/route'
@@ -75,6 +76,12 @@ const DashboardUsersIndexRoute = DashboardUsersIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardUsersRouteRoute,
 } as any)
+const DashboardSpecialtiesIndexRoute =
+  DashboardSpecialtiesIndexRouteImport.update({
+    id: '/specialties/',
+    path: '/specialties/',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardSkillsIndexRoute = DashboardSkillsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -112,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
   '/dashboard/organizations/': typeof DashboardOrganizationsIndexRoute
   '/dashboard/skills/': typeof DashboardSkillsIndexRoute
+  '/dashboard/specialties': typeof DashboardSpecialtiesIndexRoute
   '/dashboard/users/': typeof DashboardUsersIndexRoute
   '/dashboard/organizations/$organizationId/': typeof DashboardOrganizationsOrganizationIdIndexRoute
 }
@@ -123,6 +131,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/organizations': typeof DashboardOrganizationsIndexRoute
   '/dashboard/skills': typeof DashboardSkillsIndexRoute
+  '/dashboard/specialties': typeof DashboardSpecialtiesIndexRoute
   '/dashboard/users': typeof DashboardUsersIndexRoute
   '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdIndexRoute
 }
@@ -140,6 +149,7 @@ export interface FileRoutesById {
   '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
   '/dashboard/organizations/': typeof DashboardOrganizationsIndexRoute
   '/dashboard/skills/': typeof DashboardSkillsIndexRoute
+  '/dashboard/specialties/': typeof DashboardSpecialtiesIndexRoute
   '/dashboard/users/': typeof DashboardUsersIndexRoute
   '/dashboard/organizations/$organizationId/': typeof DashboardOrganizationsOrganizationIdIndexRoute
 }
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/dashboard/organizations/$organizationId'
     | '/dashboard/organizations/'
     | '/dashboard/skills/'
+    | '/dashboard/specialties'
     | '/dashboard/users/'
     | '/dashboard/organizations/$organizationId/'
   fileRoutesByTo: FileRoutesByTo
@@ -169,6 +180,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/organizations'
     | '/dashboard/skills'
+    | '/dashboard/specialties'
     | '/dashboard/users'
     | '/dashboard/organizations/$organizationId'
   id:
@@ -185,6 +197,7 @@ export interface FileRouteTypes {
     | '/dashboard/organizations/$organizationId'
     | '/dashboard/organizations/'
     | '/dashboard/skills/'
+    | '/dashboard/specialties/'
     | '/dashboard/users/'
     | '/dashboard/organizations/$organizationId/'
   fileRoutesById: FileRoutesById
@@ -268,6 +281,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/users/'
       preLoaderRoute: typeof DashboardUsersIndexRouteImport
       parentRoute: typeof DashboardUsersRouteRoute
+    }
+    '/dashboard/specialties/': {
+      id: '/dashboard/specialties/'
+      path: '/specialties'
+      fullPath: '/dashboard/specialties'
+      preLoaderRoute: typeof DashboardSpecialtiesIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
     }
     '/dashboard/skills/': {
       id: '/dashboard/skills/'
@@ -359,6 +379,7 @@ interface DashboardRouteRouteChildren {
   DashboardSkillsRouteRoute: typeof DashboardSkillsRouteRouteWithChildren
   DashboardUsersRouteRoute: typeof DashboardUsersRouteRouteWithChildren
   DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardSpecialtiesIndexRoute: typeof DashboardSpecialtiesIndexRoute
 }
 
 const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
@@ -367,6 +388,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardSkillsRouteRoute: DashboardSkillsRouteRouteWithChildren,
   DashboardUsersRouteRoute: DashboardUsersRouteRouteWithChildren,
   DashboardIndexRoute: DashboardIndexRoute,
+  DashboardSpecialtiesIndexRoute: DashboardSpecialtiesIndexRoute,
 }
 
 const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(

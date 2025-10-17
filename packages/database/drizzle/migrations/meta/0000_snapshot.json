@@ -1,5 +1,5 @@
 {
-  "id": "145fc18a-c825-4696-8df9-a6694be838ff",
+  "id": "1c1b73f4-c354-4b5a-bfa0-2d75e3f54db8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -706,7 +706,7 @@
           "name": "specialtyId",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "userId": {
           "name": "userId",
@@ -864,50 +864,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.skill": {
-      "name": "skill",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(255)",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "serial": {
-          "name": "serial",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "deleted_at": {
-          "name": "deleted_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.skills_to_resumes": {
       "name": "skills_to_resumes",
       "schema": "",
@@ -965,133 +921,12 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "skills_to_resumes_skill_id_skill_id_fk": {
-          "name": "skills_to_resumes_skill_id_skill_id_fk",
+        "skills_to_resumes_skill_id_skills_id_fk": {
+          "name": "skills_to_resumes_skill_id_skills_id_fk",
           "tableFrom": "skills_to_resumes",
-          "tableTo": "skill",
+          "tableTo": "skills",
           "columnsFrom": [
             "skill_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.profession": {
-      "name": "profession",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(255)",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "serial": {
-          "name": "serial",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "deleted_at": {
-          "name": "deleted_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.professions_to_resumes": {
-      "name": "professions_to_resumes",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "varchar(255)",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "serial": {
-          "name": "serial",
-          "type": "serial",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "deleted_at": {
-          "name": "deleted_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "resume_id": {
-          "name": "resume_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "profession_id": {
-          "name": "profession_id",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "professions_to_resumes_resume_id_resumes_id_fk": {
-          "name": "professions_to_resumes_resume_id_resumes_id_fk",
-          "tableFrom": "professions_to_resumes",
-          "tableTo": "resumes",
-          "columnsFrom": [
-            "resume_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "professions_to_resumes_profession_id_profession_id_fk": {
-          "name": "professions_to_resumes_profession_id_profession_id_fk",
-          "tableFrom": "professions_to_resumes",
-          "tableTo": "profession",
-          "columnsFrom": [
-            "profession_id"
           ],
           "columnsTo": [
             "id"
