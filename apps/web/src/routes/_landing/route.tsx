@@ -20,7 +20,7 @@ function RouteComponent() {
 	return (
 		<div className="max-w-screen overflow-x-hidden lg:p-0">
 			<Header />
-			<main>
+			<main className="mt-15">
 				<Outlet />
 			</main>
 		</div>

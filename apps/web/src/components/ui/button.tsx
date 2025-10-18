@@ -26,6 +26,7 @@ const buttonVariants = cva(
 				white: "bg-white text-foregroud border border-input hover:bg-white/90",
 				input:
 					"bg-secondary !h-11 text-sm justify-between border border-input/10 disabled:opacity-30 hover:opacity-80",
+				dark: "bg-maintext text-white hover:bg-maintext/80",
 			},
 			size: {
 				default: "h-10 px-3 py-2",
