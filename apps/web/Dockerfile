@@ -1,11 +1,11 @@
 # Pruner stage
-FROM oven/bun:latest AS pruner
+FROM oven/bun:1.2.23 AS pruner
 WORKDIR /app
 COPY . .
 RUN bunx turbo prune web --docker
 
 # Installer stage
-FROM oven/bun:latest AS installer
+FROM oven/bun:1.2.23 AS installer
 WORKDIR /app
 COPY --from=pruner /app/out/json ./
 COPY --from=pruner /app/out/bun.lock ./bun.lock
@@ -14,7 +14,7 @@ COPY apps/server ./apps/server
 RUN bun install
 
 # Builder stage
-FROM oven/bun:latest AS builder
+FROM oven/bun:1.2.23 AS builder
 WORKDIR /app
 ARG VITE_SERVER_URL
 ENV VITE_SERVER_URL=$VITE_SERVER_URL
@@ -25,7 +25,7 @@ COPY --from=pruner /app/out/full ./
 RUN bunx turbo run build --filter=web
 
 # Final stage
-FROM oven/bun:latest
+FROM oven/bun:1.2.23
 WORKDIR /app
 COPY --from=builder /app/apps/web/.output ./.output
 COPY --from=builder /app/apps/web/package.json ./

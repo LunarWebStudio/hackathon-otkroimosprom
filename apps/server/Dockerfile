@@ -1,11 +1,11 @@
 # Pruner stage
-FROM oven/bun:latest AS pruner
+FROM oven/bun:1.2.23 AS pruner
 WORKDIR /app
 COPY . .
 RUN bunx turbo prune server --docker
 
 # Installer stage
-FROM oven/bun:latest AS installer
+FROM oven/bun:1.2.23 AS installer
 WORKDIR /app
 COPY --from=pruner /app/out/json ./
 COPY --from=pruner /app/out/bun.lock ./bun.lock
@@ -16,19 +16,19 @@ COPY turbo.json ./turbo.json
 RUN bun install
 
 # Build packages stage
-FROM oven/bun:latest AS build-packages
+FROM oven/bun:1.2.23 AS build-packages
 WORKDIR /app
 COPY --from=installer /app ./
 RUN bun run --filter="@lunarweb/*" build
 
 # Builder stage
-FROM oven/bun:latest AS builder
+FROM oven/bun:1.2.23 AS builder
 WORKDIR /app
 COPY --from=build-packages /app ./
 RUN bun run --filter=server compile
 
 # Final stage
-FROM oven/bun:latest
+FROM oven/bun:1.2.23
 WORKDIR /app
 
 # Copy the compiled server binary
