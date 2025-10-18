@@ -25,9 +25,9 @@ export const Route = createFileRoute("/dashboard")({
 			});
 		}
 
-		if (context.session.user.role === "USER") {
-			throw notFound();
-		}
+		// if (context.session.user.role === "USER") {
+		// 	throw notFound();
+		// }
 
 		return {
 			crumbs: ["Личный кабинет"],

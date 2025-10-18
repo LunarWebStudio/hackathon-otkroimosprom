@@ -5,9 +5,18 @@ import { genderEnum, user } from "./auth";
 import { specialties } from "./speciality";
 import { relations } from "drizzle-orm";
 
+export const educationLevelEnum = pg.pgEnum("education_level", [
+	"PRIMARY",
+	"BASIC",
+	"SECONDARY",
+	"VOCATIONAL_SECONDARY",
+	"HIGHER",
+]);
+
 export const resumes = pg.pgTable("resumes", {
 	...commonFields,
 	title: pg.varchar({ length: 255 }).notNull(),
+	name: pg.varchar({ length: 255 }).notNull(),
 	photoId: pg.varchar({ length: 255 }).references(() => files.id),
 	birthDate: pg.timestamp(),
 	gender: genderEnum(),
@@ -20,6 +29,8 @@ export const resumes = pg.pgTable("resumes", {
 	fileId: pg.varchar({ length: 255 }).references(() => files.id),
 	citizenship: pg.varchar({ length: 255 }),
 
+	university: pg.varchar({ length: 255 }).notNull(),
+	educationLevel: educationLevelEnum(),
 	specialtyId: pg
 		.varchar({ length: 255 })
 		.references(() => specialties.id)

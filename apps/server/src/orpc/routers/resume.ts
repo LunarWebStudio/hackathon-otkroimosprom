@@ -1,24 +1,43 @@
 import { protectedProcedure, publicProcedure, roleProcedure } from "../orpc";
-import { z } from "zod";
 import { and, desc, eq, inArray, isNull, sql } from "drizzle-orm";
 import { ORPCError } from "@orpc/server";
 import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
 import { resumes, skillsToResumes } from "@lunarweb/database/schema";
 import { db } from "@lunarweb/database";
 import { ResumeSchema } from "@lunarweb/shared/schemas";
+import z from "zod/v4";
 
 export const resumeRouter = {
-	getAll: roleProcedure(["ADMIN", "HR"]).handler(async () => {
-		return ServeCached(
-			["resumes", "all"],
-			DEFAULT_TTL,
-			async () =>
-				await db.query.resumes.findMany({
-					where: isNull(resumes.deletedAt),
-					orderBy: desc(resumes.createdAt),
-				}),
-		);
-	}),
+	getAll: roleProcedure(["ADMIN", "HR", "USER"]).handler(
+		async ({ context }) => {
+			const role = context.session.user.role;
+
+			if (role === "USER") {
+				return ServeCached(
+					["resumes", "all"],
+					DEFAULT_TTL,
+					async () =>
+						await db.query.resumes.findMany({
+							where: and(
+								isNull(resumes.deletedAt),
+								eq(resumes.userId, context.session.user.id),
+							),
+							orderBy: desc(resumes.createdAt),
+						}),
+				);
+			}
+
+			return ServeCached(
+				["resumes", "all"],
+				DEFAULT_TTL,
+				async () =>
+					await db.query.resumes.findMany({
+						where: isNull(resumes.deletedAt),
+						orderBy: desc(resumes.createdAt),
+					}),
+			);
+		},
+	),
 	getById: protectedProcedure
 		.input(
 			z.object({
@@ -61,15 +80,9 @@ export const resumeRouter = {
 			await InvalidateCached(["resumes"]);
 		}),
 	update: protectedProcedure
-		.input(ResumeSchema)
-		.handler(async ({ input, context }) => {
-			await db
-				.update(resumes)
-				.set({
-					...input,
-					specialtyId: input.specialtyId,
-				})
-				.where(eq(resumes.userId, context.session.user.id));
+		.input(ResumeSchema.extend({ id: z.string() }))
+		.handler(async ({ input }) => {
+			await db.update(resumes).set(input).where(eq(resumes.id, input.id));
 
 			await InvalidateCached(["resumes"]);
 		}),
