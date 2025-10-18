@@ -1,6 +1,6 @@
 import { db } from "@lunarweb/database";
 import { organizations, user } from "@lunarweb/database/schema";
-import { protectedProcedure, roleProcedure } from "../orpc";
+import { protectedProcedure, publicProcedure, roleProcedure } from "../orpc";
 import {
 	organizationRequestStatusSchema,
 	OrganizationSchema,
@@ -75,4 +75,14 @@ export const organizationRouter = {
 				}
 			});
 		}),
+
+	getForFilter: publicProcedure.handler(async () => {
+		return await db.query.organizations.findMany({
+			orderBy: desc(organizations.createdAt),
+			where: and(
+				isNull(organizations.deletedAt),
+				eq(organizations.status, "APPROVED"),
+			),
+		});
+	}),
 };

@@ -150,24 +150,19 @@ export const vacanciesRouter = {
 					},
 				},
 			});
-
 			const vacanciesWithRating = v.map((v) => ({
 				...v,
 				compatabilityRating: 0,
 			}));
-
 			if (!context.session) {
 				return vacanciesWithRating;
 			}
-
 			const latestResume = await db.query.resumes.findFirst({
 				where: and(eq(resumes.userId, context.session.user.id)),
 			});
-
 			if (!latestResume) {
 				return vacanciesWithRating;
 			}
-
 			const vacanciesWithActualRating = v.map((v) => {
 				const resumeSkillIdsSet = new Set(latestResume.skillIds);
 				const vacancySkillIdsSet = new Set(v.skillIds);
@@ -176,13 +171,11 @@ export const vacanciesRouter = {
 				);
 				const union = new Set([...resumeSkillIdsSet, ...vacancySkillIdsSet]);
 				const percent = intersection.size / union.size;
-
 				return {
 					...v,
 					compatabilityRating: percent,
 				};
 			});
-
 			return vacanciesWithActualRating.sort(
 				(a, b) => b.compatabilityRating - a.compatabilityRating,
 			);

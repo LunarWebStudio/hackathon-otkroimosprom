@@ -47,6 +47,7 @@ body {
 	--sidebar-border: oklch(0.922 0 0);
 	--sidebar-ring: oklch(0.708 0 0);
 	--maintext: hsla(249, 15%, 25%, 1);
+	--vacancy-card: hsla(0, 0%, 96%, 1);
 }
 
 @theme inline {
@@ -87,6 +88,7 @@ body {
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-maintext: var(--maintext);
+	--color-vacancy-card: var(--vacancy-card);
 }
 
 @layer base {

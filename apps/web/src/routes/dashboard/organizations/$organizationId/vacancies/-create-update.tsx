@@ -59,7 +59,7 @@ export default function CreateUpdateVacancy({
 		orpc.vacancies.create.mutationOptions({
 			onSuccess: async () => {
 				setOpen(false);
-				toast.success("Навык создан");
+				toast.success("Вакансия создана");
 				await queryClient.invalidateQueries({
 					queryKey: orpc.vacancies.getAll.queryKey(),
 				});
@@ -71,10 +71,11 @@ export default function CreateUpdateVacancy({
 		orpc.vacancies.update.mutationOptions({
 			onSuccess: async () => {
 				setOpen(false);
-				toast.success("Навык обновлен");
+				toast.success("Вакансия обновлена");
 				await queryClient.invalidateQueries({
 					queryKey: orpc.vacancies.getAll.queryKey(),
 				});
+				form.reset();
 			},
 		}),
 	);
@@ -456,7 +457,7 @@ export default function CreateUpdateVacancy({
 						)}
 						{tabIndex !== tabs.length - 1 ? (
 							<Button type="button" onClick={() => setTabIndex(tabIndex + 1)}>
-								Сохранить
+								{tabIndex < tabs.length - 1 ? "Далее" : "Сохранить"}
 							</Button>
 						) : (
 							<form.Subscribe>

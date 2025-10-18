@@ -156,6 +156,12 @@ function SignUpPage() {
 						</Button>
 					)}
 				</form.Subscribe>
+				<a
+					className="text-base text-maintext hover:text-primary hover:underline"
+					href="/auth/sign-in"
+				>
+					Войти
+				</a>
 			</form>
 		</div>
 	);
