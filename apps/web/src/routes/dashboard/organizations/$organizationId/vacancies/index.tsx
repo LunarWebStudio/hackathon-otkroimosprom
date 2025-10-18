@@ -31,8 +31,9 @@ export const Route = createFileRoute(
 )({
 	validateSearch: z
 		.object({
-			type: VacancyTypeSchema.nullish(),
+			type: VacancyTypeSchema.nullish().default("JOB"),
 		})
+		.nullish()
 		.default({
 			type: "JOB",
 		}),

@@ -18,7 +18,6 @@ export const ResumeSchema = z.object({
 		.array(z.string())
 		.min(1, { message: "Выберите хотя бы один навык" }),
 	experience: z.string().optional().nullable(),
-	courses: z.array(z.string()).min(1, { message: "Укажите хотя бы один курс" }),
 	description: z.string().optional().nullable(),
 	fileId: z.string().optional().nullable(),
 	citizenship: z.string().optional().nullable(),

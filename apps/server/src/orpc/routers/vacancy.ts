@@ -49,9 +49,12 @@ export const vacanciesRouter = {
 		.input(
 			z
 				.object({
-					type: VacancyTypeSchema.nullish(),
+					type: VacancyTypeSchema.nullish().default("JOB"),
 				})
-				.nullish(),
+				.nullish()
+				.default({
+					type: "JOB",
+				}),
 		)
 		.handler(async ({ input, context }) => {
 			return await db.query.vacancies.findMany({
