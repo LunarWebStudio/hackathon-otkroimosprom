@@ -15,6 +15,7 @@ import {
 	HotelIcon,
 	LogOutIcon,
 	MessageSquareShare,
+	Plus,
 	SwatchBookIcon,
 	TextInitialIcon,
 	User,
@@ -247,6 +248,11 @@ export default function DashboardSidebar() {
 			search: {
 				type: "internship",
 			},
+		},
+		{
+			icon: <Plus />,
+			label: "Создать компанию",
+			href: "/organizations/create",
 		},
 	];
 

@@ -3,7 +3,7 @@ import { HeaderLogo } from "@/components/ui/Logo";
 
 export default function Footer() {
 	return (
-		<footer className="bg-primary text-white py-12">
+		<footer className="bg-primary text-white py-12 mt-40">
 			<div className="container mx-auto px-4">
 				<div className="flex flex-row items-start justify-center gap-10">
 					{/* ЛОГОТИП + СОЦИАЛКИ */}
