@@ -235,7 +235,7 @@ export default function DashboardSidebar() {
 		{
 			icon: <BriefcaseBusiness />,
 			label: "Вакансии",
-			href: "/dashboard/vacancies",
+			href: "/dashboard/users/vacancies",
 			search: {
 				type: "job",
 			},
@@ -243,7 +243,7 @@ export default function DashboardSidebar() {
 		{
 			icon: <GraduationCap />,
 			label: "Стажировки",
-			href: "/dashboard/vacancies",
+			href: "/dashboard/users/vacancies",
 			search: {
 				type: "internship",
 			},

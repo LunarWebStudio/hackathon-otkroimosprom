@@ -1,15 +1,17 @@
 import { db } from "@lunarweb/database";
-import { publicProcedure, roleProcedure } from "../orpc";
 import {
 	organizationRequestStatusSchema,
 	VacancySchema,
 	VacancyTypeSchema,
 } from "@lunarweb/shared/schemas";
-import { vacancies } from "../../../../../packages/database/src/schema/vacancy";
+import { and, desc, eq, gte, isNull, lte } from "drizzle-orm";
 import z from "zod/v4";
-import { eq, isNull, and, desc } from "drizzle-orm";
+import { vacancies } from "../../../../../packages/database/src/schema/vacancy";
+import { publicProcedure, roleProcedure } from "../orpc";
+
 export { vacancies } from "@lunarweb/database/schema";
-import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
+import { resumes } from "@lunarweb/database/schema";
+import { InvalidateCached } from "@lunarweb/redis";
 import { ORPCError } from "@orpc/server";
 
 export const vacanciesRouter = {
@@ -121,4 +123,69 @@ export const vacanciesRouter = {
 				);
 			await InvalidateCached(["vacancies"]);
 		}),
+	/*
+	 * Ну по хорошему конечно тут надо КРУТЕЙШИЙ SQL запрос
+	 * */
+	getByCompatabilityRating: publicProcedure.handler(
+		async ({ context, input }) => {
+			const v = await db.query.vacancies.findMany({
+				orderBy: desc(vacancies.createdAt),
+				where: and(
+					isNull(vacancies.deletedAt),
+					eq(vacancies.status, "APPROVED"),
+					gte(vacancies.expiresAt, new Date()),
+				),
+				with: {
+					organization: {
+						columns: {
+							id: true,
+							name: true,
+						},
+					},
+					specialty: {
+						columns: {
+							id: true,
+							name: true,
+						},
+					},
+				},
+			});
+
+			const vacanciesWithRating = v.map((v) => ({
+				...v,
+				compatabilityRating: 0,
+			}));
+
+			if (!context.session) {
+				return vacanciesWithRating;
+			}
+
+			const latestResume = await db.query.resumes.findFirst({
+				where: and(eq(resumes.userId, context.session.user.id)),
+			});
+
+			if (!latestResume) {
+				return vacanciesWithRating;
+			}
+
+			const vacanciesWithActualRating = v.map((v) => {
+				const resumeSkillIdsSet = new Set(latestResume.skillIds);
+				const vacancySkillIdsSet = new Set(v.skillIds);
+				const intersection = new Set(
+					[...resumeSkillIdsSet].filter((x) => vacancySkillIdsSet.has(x)),
+				);
+				const union = new Set([...resumeSkillIdsSet, ...vacancySkillIdsSet]);
+				const percent = intersection.size / union.size;
+
+				return {
+					...v,
+					compatabilityRating: percent,
+				};
+			});
+
+			return vacanciesWithActualRating.sort(
+				(a, b) => b.compatabilityRating - a.compatabilityRating,
+			);
+		},
+	),
 };
