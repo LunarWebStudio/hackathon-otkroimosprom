@@ -12,15 +12,21 @@ export const queryClient = new QueryClient({
 	queryCache: new QueryCache({
 		onError: (error) => {
 			toast.error(`Ошибка: ${error.message}`);
-			console.log({ error });
+			console.error({ error });
 		},
 	}),
 	mutationCache: new MutationCache({
 		onError: (error) => {
 			toast.error(`Ошибка: ${error.message}`);
-			console.log({ error });
+			console.error({ error });
 		},
 	}),
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: true,
+			staleTime: 1000 * 60 * 10,
+		},
+	},
 });
 
 export const getClientLink = createIsomorphicFn()

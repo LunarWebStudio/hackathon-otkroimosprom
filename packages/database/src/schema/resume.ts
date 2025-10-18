@@ -24,7 +24,6 @@ export const resumes = pg.pgTable("resumes", {
 	email: pg.varchar({ length: 255 }),
 	skillIds: pg.varchar({ length: 255 }).notNull().array().notNull(),
 	experience: pg.varchar({ length: 255 }),
-	courses: pg.varchar({ length: 255 }).notNull().array().notNull(),
 	description: pg.varchar({ length: 255 }),
 	fileId: pg.varchar({ length: 255 }).references(() => files.id),
 	citizenship: pg.varchar({ length: 255 }),
