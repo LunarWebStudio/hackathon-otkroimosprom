@@ -10,7 +10,7 @@ import {
 import { VacancyTypeSchema } from "@lunarweb/shared/schemas";
 import { workFormatNames } from "@lunarweb/shared/types";
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { z } from "zod/v4";
 import CreateUpdateVacancy from "./-create-update";
@@ -22,9 +22,10 @@ import { format } from "date-fns";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, SquareArrowUpLeftIcon } from "lucide-react";
 
 export const Route = createFileRoute(
 	"/dashboard/organizations/$organizationId/vacancies/",
@@ -126,6 +127,7 @@ export const columns: ColumnDef<Vacancy>[] = [
 		id: "actions",
 		header: "",
 		cell: ({ row: { original: vacancy } }) => {
+			const params = Route.useParams();
 			return (
 				<div className="flex items-center justify-end">
 					<DropdownMenu>
@@ -133,6 +135,21 @@ export const columns: ColumnDef<Vacancy>[] = [
 							<EllipsisVertical />
 						</DropdownMenuTrigger>
 						<DropdownMenuContent>
+							<DropdownMenuItem>
+								<Link
+									to={
+										"/dashboard/organizations/$organizationId/vacancies/$vacancyId"
+									}
+									params={{
+										...params,
+										vacancyId: vacancy.id,
+									}}
+									className="flex items-center gap-2"
+								>
+									<SquareArrowUpLeftIcon />
+									Отклики
+								</Link>
+							</DropdownMenuItem>
 							<CreateUpdateVacancy vacancy={vacancy} />
 						</DropdownMenuContent>
 					</DropdownMenu>
