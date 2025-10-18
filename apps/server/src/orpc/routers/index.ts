@@ -7,6 +7,7 @@ import { specialitiesRouter } from "./speciality";
 import { vacanciesRouter } from "./vacancy";
 import { requestsRouter } from "./request";
 import { responseRouter } from "./response";
+import { orpcFileRouter } from "./file";
 
 export const appRouter = {
 	users: userRouter,
@@ -17,6 +18,7 @@ export const appRouter = {
 	vacancies: vacanciesRouter,
 	requests: requestsRouter,
 	responses: responseRouter,
+	files: orpcFileRouter,
 };
 
 export type AppRouter = typeof appRouter;

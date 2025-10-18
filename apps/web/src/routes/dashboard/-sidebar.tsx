@@ -9,12 +9,17 @@ import {
 	useSearch,
 } from "@tanstack/react-router";
 import {
+	BriefcaseBusiness,
 	ChartNoAxesCombined,
+	GraduationCap,
 	HotelIcon,
 	LogOutIcon,
+	MessageSquareShare,
 	SwatchBookIcon,
 	TextInitialIcon,
+	User,
 	UserPlusIcon,
+	Users,
 	UsersIcon,
 } from "lucide-react";
 import { type ReactNode, useEffect } from "react";
@@ -210,6 +215,41 @@ export default function DashboardSidebar() {
 		},
 	];
 
+	const userBlocks: Item<RoutePath>[] = [
+		{
+			icon: <User />,
+			label: "Резюме",
+			href: "/dashboard/users/$userId/resume",
+			params: {
+				userId: session?.user.id,
+			},
+		},
+		{
+			icon: <MessageSquareShare />,
+			label: "Отклики",
+			href: "/dashboard/users/$userId/requests",
+			params: {
+				userId: session?.user.id,
+			},
+		},
+		{
+			icon: <BriefcaseBusiness />,
+			label: "Вакансии",
+			href: "/dashboard/vacancies",
+			search: {
+				type: "job",
+			},
+		},
+		{
+			icon: <GraduationCap />,
+			label: "Стажировки",
+			href: "/dashboard/vacancies",
+			search: {
+				type: "internship",
+			},
+		},
+	];
+
 	const blocks = (() => {
 		if (session?.user.role === "ADMIN") {
 			return adminBlocks;
@@ -228,6 +268,15 @@ export default function DashboardSidebar() {
 							? companyManagerBlocks
 							: []),
 					],
+				},
+			];
+		}
+
+		if (session?.user.role === "USER") {
+			return [
+				{
+					title: "Меню",
+					items: [...userBlocks],
 				},
 			];
 		}

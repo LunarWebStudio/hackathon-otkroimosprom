@@ -3,6 +3,9 @@
   "workspaces": {
     "": {
       "name": "test-orpc-tanstack-start",
+      "dependencies": {
+        "react-day-picker": "^9.11.1",
+      },
       "devDependencies": {
         "@biomejs/biome": "^2.0.0",
         "turbo": "^2.5.4",
