@@ -2,10 +2,14 @@ import { db } from "@lunarweb/database";
 import { protectedProcedure, roleProcedure } from "../orpc";
 import { DEFAULT_TTL, InvalidateCached, ServeCached } from "@lunarweb/redis";
 import { desc, eq, isNotNull, and, isNull } from "drizzle-orm";
-import { requests } from "@lunarweb/database/schema";
+import { requests, resumes, vacancies } from "@lunarweb/database/schema";
 import { id } from "zod/v4/locales";
 import z from "zod/v4";
-import { RequestSchema } from "@lunarweb/shared/schemas";
+import {
+	organizationRequestStatusSchema,
+	RequestSchema,
+} from "@lunarweb/shared/schemas";
+import { ORPCError } from "@orpc/server";
 
 export const requestsRouter = {
 	getAll: roleProcedure(["HR", "USER"])
@@ -44,39 +48,96 @@ export const requestsRouter = {
 				);
 			}
 		}),
-
-	getById: roleProcedure(["HR", "USER"])
+	getCompany: roleProcedure(["HR", "COMPANY_MANAGER"])
+		.input(
+			z.object({
+				vacancyId: z.string(),
+			}),
+		)
+		.handler(async ({ context, input }) => {
+			return await db.query.requests.findMany({
+				orderBy: desc(requests.createdAt),
+				where: and(
+					eq(
+						requests.organizationId,
+						context.session.user.organizationId ?? "INVALID",
+					),
+					eq(requests.vacancyId, input.vacancyId),
+				),
+				with: {
+					vacancy: true,
+					organization: true,
+					resume: true,
+				},
+			});
+		}),
+	getStudent: roleProcedure(["USER"]).handler(async ({ context }) => {
+		return await db.query.requests.findMany({
+			orderBy: desc(requests.createdAt),
+			where: eq(requests.userId, context.session.user.id ?? "INVALID"),
+			with: {
+				vacancy: true,
+				organization: true,
+			},
+		});
+	}),
+	updateStatus: roleProcedure(["HR", "COMPANY_MANAGER"])
 		.input(
 			z.object({
 				id: z.string(),
+				status: z.enum(["PENDING", "ACCEPTED", "REJECTED"]),
 			}),
 		)
-		.handler(async ({ input }) => {
-			return ServeCached(
-				["requests", input.id],
-				DEFAULT_TTL,
-				async () =>
-					await db.query.requests.findFirst({
-						where: isNotNull(requests.id),
-					}),
-			);
+		.handler(async ({ input, context }) => {
+			await db
+				.update(requests)
+				.set({
+					status: input.status,
+				})
+				.where(
+					and(
+						eq(requests.id, input.id),
+						eq(
+							requests.organizationId,
+							context.session.user.organizationId ?? "INVALID",
+						),
+					),
+				)
+				.returning();
 		}),
-
 	create: roleProcedure(["HR", "USER"])
 		.input(RequestSchema)
 		.handler(async ({ input, context }) => {
-			const role = context.session.user.role;
-			if (role === "HR") {
-				await db.insert(requests).values({
-					vacancyId: input.vacancyId,
-				});
-			} else if (role === "USER") {
-				await db.insert(requests).values({
-					resumeId: input.resumeId,
+			const latestResume = await db.query.resumes.findFirst({
+				where: and(eq(resumes.userId, context.session.user.id)),
+			});
+
+			if (!latestResume) {
+				throw new ORPCError("BAD_REQUEST", {
+					message: "У вас нет резюме",
 				});
 			}
 
-			await InvalidateCached(["requests"]);
+			const vacancy = await db.query.vacancies.findFirst({
+				where: eq(vacancies.id, input.vacancyId),
+
+				columns: {
+					organizationId: true,
+				},
+			});
+
+			if (!vacancy) {
+				throw new ORPCError("NOT_FOUND", {
+					message: "Вакансия не найдена",
+				});
+			}
+
+			await db.insert(requests).values({
+				vacancyId: input.vacancyId,
+				resumeId: latestResume.id,
+				userId: context.session.user.id,
+				organizationId: vacancy.organizationId,
+			});
 		}),
 	delete: roleProcedure(["HR", "USER"])
 		.input(

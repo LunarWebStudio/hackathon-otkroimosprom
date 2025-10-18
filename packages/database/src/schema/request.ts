@@ -1,9 +1,10 @@
 import * as pg from "drizzle-orm/pg-core";
 import { commonFields } from "./utils";
-import { user } from "./auth";
 import { vacancies } from "./vacancy";
 import { resumes } from "./resume";
 import { relations } from "drizzle-orm";
+import { user } from "./auth";
+import { organizations } from "./organization";
 
 export const requestStatus = pg.pgEnum("request_status", [
 	"PENDING",
@@ -19,6 +20,14 @@ export const requests = pg.pgTable("requests", {
 	resumeId: pg
 		.varchar("resume_id", { length: 255 })
 		.references(() => resumes.id),
+	userId: pg
+		.varchar("user_id", { length: 255 })
+		.notNull()
+		.references(() => user.id),
+	organizationId: pg
+		.varchar("organization_id", { length: 255 })
+		.notNull()
+		.references(() => organizations.id),
 	status: requestStatus().notNull().default("PENDING"),
 	text: pg.text("text"),
 });
@@ -31,5 +40,13 @@ export const requestsRelation = relations(requests, ({ one }) => ({
 	resume: one(resumes, {
 		fields: [requests.resumeId],
 		references: [resumes.id],
+	}),
+	user: one(user, {
+		fields: [requests.userId],
+		references: [user.id],
+	}),
+	organization: one(organizations, {
+		fields: [requests.organizationId],
+		references: [organizations.id],
 	}),
 }));

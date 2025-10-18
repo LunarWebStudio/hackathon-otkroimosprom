@@ -3,6 +3,7 @@ import { commonFields, organizationRequestsStatus } from "./utils";
 import { organizations } from "./organization";
 import { relations } from "drizzle-orm";
 import { specialties } from "./speciality";
+import { requests } from ".";
 
 export const workFormatTypes = pg.pgEnum("work_format_types", [
 	"REMOTE",
@@ -36,7 +37,7 @@ export const vacancies = pg.pgTable("vacancies", {
 	status: organizationRequestsStatus().notNull().default("PENDING"),
 });
 
-export const vacanciesRelations = relations(vacancies, ({ one }) => ({
+export const vacanciesRelations = relations(vacancies, ({ one, many }) => ({
 	organization: one(organizations, {
 		fields: [vacancies.organizationId],
 		references: [organizations.id],
@@ -45,4 +46,5 @@ export const vacanciesRelations = relations(vacancies, ({ one }) => ({
 		fields: [vacancies.specialtyId],
 		references: [specialties.id],
 	}),
+	requests: many(requests),
 }));
