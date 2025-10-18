@@ -6,6 +6,7 @@ import {
 	useLocation,
 	useParams,
 	useRouteContext,
+	useSearch,
 } from "@tanstack/react-router";
 import {
 	BriefcaseBusiness,
@@ -77,13 +78,25 @@ function SidebarItem({ item }: { item: Item<RoutePath> }) {
 	const { pathname } = useLocation();
 	const { organizationId } = useParams({ strict: false });
 	const sidebar = useSidebar();
+	const search = useSearch({
+		strict: false,
+	});
+
+	const isSearchEqual = (() => {
+		if (!item.search) return true;
+		if (!search) return false;
+		const itemSearch = item.search as Record<string, unknown>;
+		const searchKeys = Object.keys(search);
+		return searchKeys.every((key) => itemSearch[key] === search[key]);
+	})();
 
 	return (
 		<SidebarMenuItem key={item.label}>
 			<SidebarMenuButton
 				isActive={
 					pathname ===
-					item.href.replace("$organizationId", organizationId ?? "INVALID")
+						`${item.href.replace("$organizationId", organizationId ?? "INVALID")}` &&
+					isSearchEqual
 				}
 			>
 				<Link
@@ -151,7 +164,7 @@ export default function DashboardSidebar() {
 				organizationId: session?.user.organizationId,
 			},
 			search: {
-				type: "internship",
+				type: "INTERNSHIP",
 			},
 		},
 		{
@@ -162,7 +175,7 @@ export default function DashboardSidebar() {
 				organizationId: session?.user.organizationId,
 			},
 			search: {
-				type: "job",
+				type: "JOB",
 			},
 		},
 	];

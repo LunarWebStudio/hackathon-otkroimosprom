@@ -1,7 +1,7 @@
 import * as pg from "drizzle-orm/pg-core";
-import { commonFields } from "./utils";
+import { commonFields, genderEnum } from "./utils";
 import { files } from "./file";
-import { genderEnum, user } from "./auth";
+import { user } from "./auth";
 import { specialties } from "./speciality";
 import { relations } from "drizzle-orm";
 
@@ -35,7 +35,7 @@ export const resumes = pg.pgTable("resumes", {
 		.varchar({ length: 255 })
 		.references(() => specialties.id)
 		.notNull(),
-	userId: pg.varchar({ length: 255 }).references(() => user.id),
+	userId: pg.varchar({ length: 255 }).references((): pg.AnyPgColumn => user.id),
 });
 
 export const resumeRelations = relations(resumes, ({ one }) => ({

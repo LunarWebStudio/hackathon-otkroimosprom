@@ -9,6 +9,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { organizations } from "./organization";
 import { relations } from "drizzle-orm";
+import { genderEnum } from "./utils";
 
 export const userRolesEnum = pgEnum("user_roles", [
 	"USER",
@@ -16,8 +17,6 @@ export const userRolesEnum = pgEnum("user_roles", [
 	"COMPANY_MANAGER",
 	"HR",
 ]);
-
-export const genderEnum = pgEnum("gender", ["MALE", "FEMALE"]);
 
 export const user = pgTable("user", {
 	id: text("id").primaryKey(),
