@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as LandingRouteRouteImport } from './routes/_landing/route'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as LandingIndexRouteImport } from './routes/_landing/index'
 import { Route as AuthSignUpRouteImport } from './routes/auth/sign-up'
@@ -41,15 +42,19 @@ const DashboardRouteRoute = DashboardRouteRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LandingRouteRoute = LandingRouteRouteImport.update({
+  id: '/_landing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 const LandingIndexRoute = LandingIndexRouteImport.update({
-  id: '/_landing/',
+  id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LandingRouteRoute,
 } as any)
 const AuthSignUpRoute = AuthSignUpRouteImport.update({
   id: '/auth/sign-up',
@@ -235,6 +240,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/_landing': typeof LandingRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/dashboard/users': typeof DashboardUsersRouteRouteWithChildren
   '/auth/sign-in': typeof AuthSignInRoute
@@ -311,6 +317,7 @@ export interface FileRouteTypes {
     | '/dashboard/users/$userId/resume'
   id:
     | '__root__'
+    | '/_landing'
     | '/dashboard'
     | '/dashboard/users'
     | '/auth/sign-in'
@@ -340,11 +347,11 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  LandingRouteRoute: typeof LandingRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   AuthSignInRoute: typeof AuthSignInRoute
   AuthSignOutRoute: typeof AuthSignOutRoute
   AuthSignUpRoute: typeof AuthSignUpRoute
-  LandingIndexRoute: typeof LandingIndexRoute
   OrganizationsCreateIndexRoute: typeof OrganizationsCreateIndexRoute
 }
 
@@ -355,6 +362,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_landing': {
+      id: '/_landing'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LandingRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/': {
@@ -369,7 +383,7 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof LandingIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LandingRouteRoute
     }
     '/auth/sign-up': {
       id: '/auth/sign-up'
@@ -534,6 +548,18 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface LandingRouteRouteChildren {
+  LandingIndexRoute: typeof LandingIndexRoute
+}
+
+const LandingRouteRouteChildren: LandingRouteRouteChildren = {
+  LandingIndexRoute: LandingIndexRoute,
+}
+
+const LandingRouteRouteWithChildren = LandingRouteRoute._addFileChildren(
+  LandingRouteRouteChildren,
+)
 
 interface DashboardUsersUserIdResumeRouteRouteChildren {
   DashboardUsersUserIdResumeIndexRoute: typeof DashboardUsersUserIdResumeIndexRoute
@@ -701,11 +727,11 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  LandingRouteRoute: LandingRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   AuthSignInRoute: AuthSignInRoute,
   AuthSignOutRoute: AuthSignOutRoute,
   AuthSignUpRoute: AuthSignUpRoute,
-  LandingIndexRoute: LandingIndexRoute,
   OrganizationsCreateIndexRoute: OrganizationsCreateIndexRoute,
 }
 export const routeTree = rootRouteImport
