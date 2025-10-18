@@ -15,6 +15,13 @@
       "when": 1760733112243,
       "tag": "0001_married_bullseye",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1760738364418,
+      "tag": "0002_majestic_molten_man",
+      "breakpoints": true
     }
   ]
 }

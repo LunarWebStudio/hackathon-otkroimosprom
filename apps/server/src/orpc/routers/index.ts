@@ -4,6 +4,9 @@ import { organizationRouter } from "./organization";
 import { resumeRouter } from "./resume";
 import { skillsRouter } from "./skill";
 import { specialitiesRouter } from "./speciality";
+import { vacanciesRouter } from "./vacancy";
+import { requestsRouter } from "./request";
+import { responseRouter } from "./response";
 
 export const appRouter = {
 	users: userRouter,
@@ -11,6 +14,9 @@ export const appRouter = {
 	resume: resumeRouter,
 	skills: skillsRouter,
 	specialties: specialitiesRouter,
+	vacancies: vacanciesRouter,
+	requests: requestsRouter,
+	responses: responseRouter,
 };
 
 export type AppRouter = typeof appRouter;

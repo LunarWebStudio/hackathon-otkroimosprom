@@ -5,3 +5,5 @@ export * from "./resume";
 export * from "./skills";
 export * from "./speciality";
 export * from "./vacancy";
+export * from "./request";
+export * from "./response";
