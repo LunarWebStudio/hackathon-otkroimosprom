@@ -99,6 +99,27 @@ function ResumeCard({ resume }: { resume: Resume }) {
 					</div>
 				</BlockContent>
 			</Block>
+			<Block className="w-full">
+				<BlockHeader>Навыки</BlockHeader>
+				<BlockContent className="flex flex-row flex-wrap gap-2">
+					{skills
+						?.filter((s) => resume.skillIds.includes(s.id))
+						.map((skill) => (
+							<div
+								key={skill.id}
+								className="size-fit px-2 py-1 rounded-md border bg-secondary"
+							>
+								{skill.name}
+							</div>
+						))}
+				</BlockContent>
+			</Block>
+			<Block className="w-full">
+				<BlockHeader>О себе</BlockHeader>
+				<BlockContent className="flex flex-row flex-wrap gap-2 whitespace-pre-wrap">
+					{resume.experience}
+				</BlockContent>
+			</Block>
 		</div>
 	);
 }

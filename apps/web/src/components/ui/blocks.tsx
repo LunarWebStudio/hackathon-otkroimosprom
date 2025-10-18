@@ -7,7 +7,7 @@ export function Block({
 }: React.ComponentProps<"div">) {
 	return (
 		<div
-			className={cn("flex flex-col rounded-xl bg-secondary", className)}
+			className={cn("flex flex-col rounded-md bg-secondary", className)}
 			{...props}
 		>
 			{children}
@@ -41,7 +41,7 @@ export function BlockContent({
 	return (
 		<div
 			className={cn(
-				"flex flex-col gap-2 grow p-4 bg-background border rounded-xl font-normal",
+				"flex flex-col gap-2 grow p-4 bg-background border rounded-md font-normal",
 				className,
 			)}
 			{...props}
