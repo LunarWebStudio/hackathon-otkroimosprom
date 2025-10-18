@@ -539,7 +539,7 @@ export function CreateUpdateResume({
 							)}
 							{tabIndex !== tabs.length - 1 ? (
 								<Button type="button" onClick={() => setTabIndex(tabIndex + 1)}>
-									Сохранить
+									Далее
 								</Button>
 							) : (
 								<form.Subscribe>

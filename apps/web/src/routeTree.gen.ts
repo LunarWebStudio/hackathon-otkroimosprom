@@ -24,6 +24,7 @@ import { Route as DashboardAdminVacanciesRouteRouteImport } from './routes/dashb
 import { Route as DashboardAdminUsersRouteRouteImport } from './routes/dashboard/admin/users/route'
 import { Route as DashboardAdminSkillsRouteRouteImport } from './routes/dashboard/admin/skills/route'
 import { Route as DashboardAdminOrganizationsRouteRouteImport } from './routes/dashboard/admin/organizations/route'
+import { Route as LandingVacanciesVacancyIdRouteRouteImport } from './routes/_landing/vacancies/$vacancyId/route'
 import { Route as DashboardUsersVacanciesIndexRouteImport } from './routes/dashboard/users/vacancies/index'
 import { Route as DashboardUsersRequestsIndexRouteImport } from './routes/dashboard/users/requests/index'
 import { Route as DashboardOrganizationsOrganizationIdIndexRouteImport } from './routes/dashboard/organizations/$organizationId/index'
@@ -32,6 +33,7 @@ import { Route as DashboardAdminUsersIndexRouteImport } from './routes/dashboard
 import { Route as DashboardAdminSpecialtiesIndexRouteImport } from './routes/dashboard/admin/specialties/index'
 import { Route as DashboardAdminSkillsIndexRouteImport } from './routes/dashboard/admin/skills/index'
 import { Route as DashboardAdminOrganizationsIndexRouteImport } from './routes/dashboard/admin/organizations/index'
+import { Route as LandingVacanciesVacancyIdIndexRouteImport } from './routes/_landing/vacancies/$vacancyId/index'
 import { Route as DashboardUsersUserIdResumeRouteRouteImport } from './routes/dashboard/users/$userId/resume/route'
 import { Route as DashboardOrganizationsOrganizationIdVacanciesRouteRouteImport } from './routes/dashboard/organizations/$organizationId/vacancies/route'
 import { Route as DashboardOrganizationsOrganizationIdEmployeesRouteRouteImport } from './routes/dashboard/organizations/$organizationId/employees/route'
@@ -121,6 +123,12 @@ const DashboardAdminOrganizationsRouteRoute =
     path: '/admin/organizations',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
+const LandingVacanciesVacancyIdRouteRoute =
+  LandingVacanciesVacancyIdRouteRouteImport.update({
+    id: '/vacancies/$vacancyId',
+    path: '/vacancies/$vacancyId',
+    getParentRoute: () => LandingRouteRoute,
+  } as any)
 const DashboardUsersVacanciesIndexRoute =
   DashboardUsersVacanciesIndexRouteImport.update({
     id: '/vacancies/',
@@ -168,6 +176,12 @@ const DashboardAdminOrganizationsIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => DashboardAdminOrganizationsRouteRoute,
+  } as any)
+const LandingVacanciesVacancyIdIndexRoute =
+  LandingVacanciesVacancyIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => LandingVacanciesVacancyIdRouteRoute,
   } as any)
 const DashboardUsersUserIdResumeRouteRoute =
   DashboardUsersUserIdResumeRouteRouteImport.update({
@@ -231,6 +245,7 @@ export interface FileRoutesByFullPath {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/': typeof LandingIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/vacancies/$vacancyId': typeof LandingVacanciesVacancyIdRouteRouteWithChildren
   '/dashboard/admin/organizations': typeof DashboardAdminOrganizationsRouteRouteWithChildren
   '/dashboard/admin/skills': typeof DashboardAdminSkillsRouteRouteWithChildren
   '/dashboard/admin/users': typeof DashboardAdminUsersRouteRouteWithChildren
@@ -241,6 +256,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/organizations/$organizationId/employees': typeof DashboardOrganizationsOrganizationIdEmployeesRouteRouteWithChildren
   '/dashboard/organizations/$organizationId/vacancies': typeof DashboardOrganizationsOrganizationIdVacanciesRouteRouteWithChildren
   '/dashboard/users/$userId/resume': typeof DashboardUsersUserIdResumeRouteRouteWithChildren
+  '/vacancies/$vacancyId/': typeof LandingVacanciesVacancyIdIndexRoute
   '/dashboard/admin/organizations/': typeof DashboardAdminOrganizationsIndexRoute
   '/dashboard/admin/skills/': typeof DashboardAdminSkillsIndexRoute
   '/dashboard/admin/specialties': typeof DashboardAdminSpecialtiesIndexRoute
@@ -263,6 +279,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/dashboard/users': typeof DashboardUsersIndexRoute
   '/organizations/create': typeof OrganizationsCreateIndexRoute
+  '/vacancies/$vacancyId': typeof LandingVacanciesVacancyIdIndexRoute
   '/dashboard/admin/organizations': typeof DashboardAdminOrganizationsIndexRoute
   '/dashboard/admin/skills': typeof DashboardAdminSkillsIndexRoute
   '/dashboard/admin/specialties': typeof DashboardAdminSpecialtiesIndexRoute
@@ -287,6 +304,7 @@ export interface FileRoutesById {
   '/auth/sign-up': typeof AuthSignUpRoute
   '/_landing/': typeof LandingIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/_landing/vacancies/$vacancyId': typeof LandingVacanciesVacancyIdRouteRouteWithChildren
   '/dashboard/admin/organizations': typeof DashboardAdminOrganizationsRouteRouteWithChildren
   '/dashboard/admin/skills': typeof DashboardAdminSkillsRouteRouteWithChildren
   '/dashboard/admin/users': typeof DashboardAdminUsersRouteRouteWithChildren
@@ -297,6 +315,7 @@ export interface FileRoutesById {
   '/dashboard/organizations/$organizationId/employees': typeof DashboardOrganizationsOrganizationIdEmployeesRouteRouteWithChildren
   '/dashboard/organizations/$organizationId/vacancies': typeof DashboardOrganizationsOrganizationIdVacanciesRouteRouteWithChildren
   '/dashboard/users/$userId/resume': typeof DashboardUsersUserIdResumeRouteRouteWithChildren
+  '/_landing/vacancies/$vacancyId/': typeof LandingVacanciesVacancyIdIndexRoute
   '/dashboard/admin/organizations/': typeof DashboardAdminOrganizationsIndexRoute
   '/dashboard/admin/skills/': typeof DashboardAdminSkillsIndexRoute
   '/dashboard/admin/specialties/': typeof DashboardAdminSpecialtiesIndexRoute
@@ -321,6 +340,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/'
     | '/dashboard/'
+    | '/vacancies/$vacancyId'
     | '/dashboard/admin/organizations'
     | '/dashboard/admin/skills'
     | '/dashboard/admin/users'
@@ -331,6 +351,7 @@ export interface FileRouteTypes {
     | '/dashboard/organizations/$organizationId/employees'
     | '/dashboard/organizations/$organizationId/vacancies'
     | '/dashboard/users/$userId/resume'
+    | '/vacancies/$vacancyId/'
     | '/dashboard/admin/organizations/'
     | '/dashboard/admin/skills/'
     | '/dashboard/admin/specialties'
@@ -353,6 +374,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/dashboard/users'
     | '/organizations/create'
+    | '/vacancies/$vacancyId'
     | '/dashboard/admin/organizations'
     | '/dashboard/admin/skills'
     | '/dashboard/admin/specialties'
@@ -376,6 +398,7 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
     | '/_landing/'
     | '/dashboard/'
+    | '/_landing/vacancies/$vacancyId'
     | '/dashboard/admin/organizations'
     | '/dashboard/admin/skills'
     | '/dashboard/admin/users'
@@ -386,6 +409,7 @@ export interface FileRouteTypes {
     | '/dashboard/organizations/$organizationId/employees'
     | '/dashboard/organizations/$organizationId/vacancies'
     | '/dashboard/users/$userId/resume'
+    | '/_landing/vacancies/$vacancyId/'
     | '/dashboard/admin/organizations/'
     | '/dashboard/admin/skills/'
     | '/dashboard/admin/specialties/'
@@ -517,6 +541,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardAdminOrganizationsRouteRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/_landing/vacancies/$vacancyId': {
+      id: '/_landing/vacancies/$vacancyId'
+      path: '/vacancies/$vacancyId'
+      fullPath: '/vacancies/$vacancyId'
+      preLoaderRoute: typeof LandingVacanciesVacancyIdRouteRouteImport
+      parentRoute: typeof LandingRouteRoute
+    }
     '/dashboard/users/vacancies/': {
       id: '/dashboard/users/vacancies/'
       path: '/vacancies'
@@ -572,6 +603,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/admin/organizations/'
       preLoaderRoute: typeof DashboardAdminOrganizationsIndexRouteImport
       parentRoute: typeof DashboardAdminOrganizationsRouteRoute
+    }
+    '/_landing/vacancies/$vacancyId/': {
+      id: '/_landing/vacancies/$vacancyId/'
+      path: '/'
+      fullPath: '/vacancies/$vacancyId/'
+      preLoaderRoute: typeof LandingVacanciesVacancyIdIndexRouteImport
+      parentRoute: typeof LandingVacanciesVacancyIdRouteRoute
     }
     '/dashboard/users/$userId/resume': {
       id: '/dashboard/users/$userId/resume'
@@ -632,12 +670,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LandingVacanciesVacancyIdRouteRouteChildren {
+  LandingVacanciesVacancyIdIndexRoute: typeof LandingVacanciesVacancyIdIndexRoute
+}
+
+const LandingVacanciesVacancyIdRouteRouteChildren: LandingVacanciesVacancyIdRouteRouteChildren =
+  {
+    LandingVacanciesVacancyIdIndexRoute: LandingVacanciesVacancyIdIndexRoute,
+  }
+
+const LandingVacanciesVacancyIdRouteRouteWithChildren =
+  LandingVacanciesVacancyIdRouteRoute._addFileChildren(
+    LandingVacanciesVacancyIdRouteRouteChildren,
+  )
+
 interface LandingRouteRouteChildren {
   LandingIndexRoute: typeof LandingIndexRoute
+  LandingVacanciesVacancyIdRouteRoute: typeof LandingVacanciesVacancyIdRouteRouteWithChildren
 }
 
 const LandingRouteRouteChildren: LandingRouteRouteChildren = {
   LandingIndexRoute: LandingIndexRoute,
+  LandingVacanciesVacancyIdRouteRoute:
+    LandingVacanciesVacancyIdRouteRouteWithChildren,
 }
 
 const LandingRouteRouteWithChildren = LandingRouteRoute._addFileChildren(

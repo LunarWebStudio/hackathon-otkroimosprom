@@ -10,6 +10,15 @@ import { Dot } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useMemo } from "react";
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { DialogTrigger } from "@radix-ui/react-dialog";
 
 export const Route = createFileRoute("/_landing/")({
 	component: RouteComponent,
@@ -249,7 +258,7 @@ export function Vacancies({ type }: { type: "job" | "internship" }) {
 								<Button
 									className="mt-6"
 									onClick={() =>
-										(window.location.href = `/vacancy/${vacancy.id}`)
+										(window.location.href = `/vacancies/${vacancy.id}`)
 									}
 								>
 									Откликнуться

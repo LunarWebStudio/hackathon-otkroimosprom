@@ -45,6 +45,10 @@ export const vacanciesRouter = {
 		.handler(async ({ input }) => {
 			return await db.query.vacancies.findFirst({
 				where: eq(vacancies.id, input.id),
+				with: {
+					organization: true,
+					specialty: true,
+				},
 			});
 		}),
 	getAll: roleProcedure(["ADMIN", "HR", "COMPANY_MANAGER"])

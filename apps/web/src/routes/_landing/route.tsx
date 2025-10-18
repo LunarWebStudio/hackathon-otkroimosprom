@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { Header } from "./-header";
 import { Provider } from "@radix-ui/react-tooltip";
+import Footer from "./-footer";
 
 export const Route = createFileRoute("/_landing")({
 	component: RouteComponent,
@@ -23,6 +24,7 @@ function RouteComponent() {
 			<main className="mt-15">
 				<Outlet />
 			</main>
+			<Footer />
 		</div>
 	);
 }
