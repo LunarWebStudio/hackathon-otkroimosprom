@@ -29,31 +29,3 @@ services:
       BETTER_AUTH_URL: ${BETTER_AUTH_URL}
       MAIN_ADMIN_EMAIL: ${MAIN_ADMIN_EMAIL} 
       MAIN_ADMIN_PASSWORD: ${MAIN_ADMIN_PASSWORD}
-#
-# version: "3"
-#
-# services:
-#   redis:
-#     image: "redis:latest"
-#     ports:
-#       - "6379:6379"
-#     environment:
-#       - REDIS_PASSWORD=password
-#       - REDIS_USER=w1png
-#       - REDIS_USER_PASSWORD=password
-#
-#   minio:
-#       image: "minio/minio:latest"
-#       ports:
-#         - "9000:9000"
-#         - "9090:9090"
-#       environment:
-#         MINIO_ROOT_USER: "root"
-#         MINIO_ROOT_PASSWORD: "12345678"
-#       volumes:
-#         - "minio:/data/minio"
-#       command: minio server /data/minio --console-address ":9090"
-#       restart: 
-#         always
-# volumes:
-#   minio:

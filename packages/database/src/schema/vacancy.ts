@@ -41,4 +41,8 @@ export const vacanciesRelations = relations(vacancies, ({ one }) => ({
 		fields: [vacancies.organizationId],
 		references: [organizations.id],
 	}),
+	specialty: one(specialties, {
+		fields: [vacancies.specialtyId],
+		references: [specialties.id],
+	}),
 }));
