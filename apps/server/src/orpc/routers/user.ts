@@ -4,7 +4,7 @@ import { and, desc, eq, isNull } from "drizzle-orm";
 import { user } from "@lunarweb/database/schema";
 import { EmployeeSchema, UserSchema } from "@lunarweb/shared/schemas";
 import z from "zod/v4";
-import { auth } from "@/auth/auth";
+import { auth } from "../../auth/auth";
 import { ORPCError } from "@orpc/server";
 
 export const userRouter = {
