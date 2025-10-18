@@ -1,6 +1,6 @@
 import { logger } from "@lunarweb/logger";
 import { DefaultLogger, type LogWriter } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/node-postgres";
+import { drizzle } from "drizzle-orm/bun-sql";
 import * as schema from "./schema";
 
 class WinstonLogger implements LogWriter {

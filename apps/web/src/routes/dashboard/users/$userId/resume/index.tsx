@@ -8,6 +8,8 @@ import {
 import { createFileRoute } from "@tanstack/react-router";
 import { FileSvg } from "./-fileSvg";
 import { CreateUpdateResume } from "./-createUpdate";
+import type { Resume } from "@/lib/types/resume";
+import { Block, BlockHeader } from "@/components/ui/blocks";
 
 export const Route = createFileRoute("/dashboard/users/$userId/resume/")({
 	component: RouteComponent,
@@ -31,7 +33,7 @@ function RouteComponent() {
 				</DashboardTitle>
 			</DashboardHeader>
 			<DashboardContent className="flex items-center justify-center">
-				{resumes.length === 0 && (
+				{resumes.length === 0 ? (
 					<div className="w-fit items-center flex flex-col gap-4">
 						<div className="bg-zinc-100 rounded-[8px] py-1.5 px-2.5 w-fit">
 							<FileSvg />
@@ -45,8 +47,20 @@ function RouteComponent() {
 							specialties={specialties ?? []}
 						/>
 					</div>
+				) : (
+					<ResumeCard resume={resumes[0]} />
 				)}
 			</DashboardContent>
 		</Dashboard>
+	);
+}
+
+function ResumeCard({ resume }: { resume: Resume }) {
+	return (
+		<div className="flex flex-col gap-4">
+			<Block>
+				<BlockHeader>Основная информация</BlockHeader>
+			</Block>
+		</div>
 	);
 }

@@ -23,6 +23,7 @@
 		"@lunarweb/database": "workspace:*",
 		"@lunarweb/env": "workspace:*",
 		"@lunarweb/redis": "workspace:*",
+		"drizzle-orm": "catalog:",
 		"mime-types": "^3.0.1",
 		"sharp": "^0.34.3"
 	}
