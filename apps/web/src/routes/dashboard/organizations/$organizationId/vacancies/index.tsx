@@ -33,6 +33,7 @@ export const Route = createFileRoute(
 		.object({
 			type: VacancyTypeSchema.nullish(),
 		})
+		.nullish()
 		.default({
 			type: "JOB",
 		}),
