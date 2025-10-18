@@ -142,6 +142,22 @@ export default function DashboardSidebar() {
 					href: "/dashboard/admin/specialties",
 				},
 				{
+					icon: <UsersIcon />,
+					label: "Вакансии",
+					href: "/dashboard/admin/vacancies",
+					search: {
+						type: "JOB",
+					},
+				},
+				{
+					icon: <UsersIcon />,
+					label: "Стажировки",
+					href: "/dashboard/admin/vacancies",
+					search: {
+						type: "INTERNSHIP",
+					},
+				},
+				{
 					icon: <ChartNoAxesCombined />,
 					label: "Аналитика",
 					href: "/dashboard/analytics",

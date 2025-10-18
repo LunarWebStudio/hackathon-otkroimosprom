@@ -1,6 +1,10 @@
 import { db } from "@lunarweb/database";
 import { publicProcedure, roleProcedure } from "../orpc";
-import { VacancySchema, VacancyTypeSchema } from "@lunarweb/shared/schemas";
+import {
+	organizationRequestStatusSchema,
+	VacancySchema,
+	VacancyTypeSchema,
+} from "@lunarweb/shared/schemas";
 import { vacancies } from "../../../../../packages/database/src/schema/vacancy";
 import z from "zod/v4";
 import { eq, isNull, and, desc } from "drizzle-orm";
@@ -41,7 +45,7 @@ export const vacanciesRouter = {
 				where: eq(vacancies.id, input.id),
 			});
 		}),
-	getAll: roleProcedure(["HR", "COMPANY_MANAGER"])
+	getAll: roleProcedure(["ADMIN", "HR", "COMPANY_MANAGER"])
 		.input(
 			z
 				.object({
@@ -57,10 +61,35 @@ export const vacanciesRouter = {
 					eq(
 						vacancies.organizationId,
 						context.session.user.organizationId ?? "INVALID",
-					),
+					).if(context.session.user.role !== "ADMIN"),
 				),
+				with: {
+					organization: {
+						columns: {
+							id: true,
+							name: true,
+						},
+					},
+				},
 				orderBy: desc(vacancies.createdAt),
 			});
+		}),
+	updateStatus: roleProcedure(["ADMIN"])
+		.input(
+			z.object({
+				id: z.string(),
+				status: organizationRequestStatusSchema,
+			}),
+		)
+		.handler(async ({ input }) => {
+			const ret = await db
+				.update(vacancies)
+				.set({
+					status: input.status,
+				})
+				.where(eq(vacancies.id, input.id))
+				.returning();
+			console.log({ ret });
 		}),
 	delete: roleProcedure(["HR", "COMPANY_MANAGER"])
 		.input(

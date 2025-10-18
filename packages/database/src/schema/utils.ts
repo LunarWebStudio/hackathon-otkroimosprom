@@ -1,6 +1,10 @@
 import { pgEnum, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 
 export const genderEnum = pgEnum("gender", ["MALE", "FEMALE"]);
+export const organizationRequestsStatus = pgEnum(
+	"organization_requests_status",
+	["PENDING", "APPROVED", "REJECTED"],
+);
 
 export const commonFields = {
 	id: varchar("id", { length: 255 })

@@ -7,4 +7,4 @@ export * from "./speciality";
 export * from "./vacancy";
 export * from "./request";
 export * from "./response";
-export { genderEnum } from "./utils";
+export { genderEnum, organizationRequestsStatus } from "./utils";

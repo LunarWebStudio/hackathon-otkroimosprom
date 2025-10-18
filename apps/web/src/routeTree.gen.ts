@@ -17,10 +17,12 @@ import { Route as AuthSignOutRouteImport } from './routes/auth/sign-out'
 import { Route as AuthSignInRouteImport } from './routes/auth/sign-in'
 import { Route as OrganizationsCreateIndexRouteImport } from './routes/organizations/create/index'
 import { Route as DashboardOrganizationsOrganizationIdRouteRouteImport } from './routes/dashboard/organizations/$organizationId/route'
+import { Route as DashboardAdminVacanciesRouteRouteImport } from './routes/dashboard/admin/vacancies/route'
 import { Route as DashboardAdminUsersRouteRouteImport } from './routes/dashboard/admin/users/route'
 import { Route as DashboardAdminSkillsRouteRouteImport } from './routes/dashboard/admin/skills/route'
 import { Route as DashboardAdminOrganizationsRouteRouteImport } from './routes/dashboard/admin/organizations/route'
 import { Route as DashboardOrganizationsOrganizationIdIndexRouteImport } from './routes/dashboard/organizations/$organizationId/index'
+import { Route as DashboardAdminVacanciesIndexRouteImport } from './routes/dashboard/admin/vacancies/index'
 import { Route as DashboardAdminUsersIndexRouteImport } from './routes/dashboard/admin/users/index'
 import { Route as DashboardAdminSpecialtiesIndexRouteImport } from './routes/dashboard/admin/specialties/index'
 import { Route as DashboardAdminSkillsIndexRouteImport } from './routes/dashboard/admin/skills/index'
@@ -72,6 +74,12 @@ const DashboardOrganizationsOrganizationIdRouteRoute =
     path: '/organizations/$organizationId',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
+const DashboardAdminVacanciesRouteRoute =
+  DashboardAdminVacanciesRouteRouteImport.update({
+    id: '/admin/vacancies',
+    path: '/admin/vacancies',
+    getParentRoute: () => DashboardRouteRoute,
+  } as any)
 const DashboardAdminUsersRouteRoute =
   DashboardAdminUsersRouteRouteImport.update({
     id: '/admin/users',
@@ -95,6 +103,12 @@ const DashboardOrganizationsOrganizationIdIndexRoute =
     id: '/',
     path: '/',
     getParentRoute: () => DashboardOrganizationsOrganizationIdRouteRoute,
+  } as any)
+const DashboardAdminVacanciesIndexRoute =
+  DashboardAdminVacanciesIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardAdminVacanciesRouteRoute,
   } as any)
 const DashboardAdminUsersIndexRoute =
   DashboardAdminUsersIndexRouteImport.update({
@@ -157,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/admin/organizations': typeof DashboardAdminOrganizationsRouteRouteWithChildren
   '/dashboard/admin/skills': typeof DashboardAdminSkillsRouteRouteWithChildren
   '/dashboard/admin/users': typeof DashboardAdminUsersRouteRouteWithChildren
+  '/dashboard/admin/vacancies': typeof DashboardAdminVacanciesRouteRouteWithChildren
   '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
   '/organizations/create': typeof OrganizationsCreateIndexRoute
   '/dashboard/organizations/$organizationId/employees': typeof DashboardOrganizationsOrganizationIdEmployeesRouteRouteWithChildren
@@ -165,6 +180,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/admin/skills/': typeof DashboardAdminSkillsIndexRoute
   '/dashboard/admin/specialties': typeof DashboardAdminSpecialtiesIndexRoute
   '/dashboard/admin/users/': typeof DashboardAdminUsersIndexRoute
+  '/dashboard/admin/vacancies/': typeof DashboardAdminVacanciesIndexRoute
   '/dashboard/organizations/$organizationId/': typeof DashboardOrganizationsOrganizationIdIndexRoute
   '/dashboard/organizations/$organizationId/employees/': typeof DashboardOrganizationsOrganizationIdEmployeesIndexRoute
   '/dashboard/organizations/$organizationId/vacancies/': typeof DashboardOrganizationsOrganizationIdVacanciesIndexRoute
@@ -180,6 +196,7 @@ export interface FileRoutesByTo {
   '/dashboard/admin/skills': typeof DashboardAdminSkillsIndexRoute
   '/dashboard/admin/specialties': typeof DashboardAdminSpecialtiesIndexRoute
   '/dashboard/admin/users': typeof DashboardAdminUsersIndexRoute
+  '/dashboard/admin/vacancies': typeof DashboardAdminVacanciesIndexRoute
   '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdIndexRoute
   '/dashboard/organizations/$organizationId/employees': typeof DashboardOrganizationsOrganizationIdEmployeesIndexRoute
   '/dashboard/organizations/$organizationId/vacancies': typeof DashboardOrganizationsOrganizationIdVacanciesIndexRoute
@@ -195,6 +212,7 @@ export interface FileRoutesById {
   '/dashboard/admin/organizations': typeof DashboardAdminOrganizationsRouteRouteWithChildren
   '/dashboard/admin/skills': typeof DashboardAdminSkillsRouteRouteWithChildren
   '/dashboard/admin/users': typeof DashboardAdminUsersRouteRouteWithChildren
+  '/dashboard/admin/vacancies': typeof DashboardAdminVacanciesRouteRouteWithChildren
   '/dashboard/organizations/$organizationId': typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
   '/organizations/create/': typeof OrganizationsCreateIndexRoute
   '/dashboard/organizations/$organizationId/employees': typeof DashboardOrganizationsOrganizationIdEmployeesRouteRouteWithChildren
@@ -203,6 +221,7 @@ export interface FileRoutesById {
   '/dashboard/admin/skills/': typeof DashboardAdminSkillsIndexRoute
   '/dashboard/admin/specialties/': typeof DashboardAdminSpecialtiesIndexRoute
   '/dashboard/admin/users/': typeof DashboardAdminUsersIndexRoute
+  '/dashboard/admin/vacancies/': typeof DashboardAdminVacanciesIndexRoute
   '/dashboard/organizations/$organizationId/': typeof DashboardOrganizationsOrganizationIdIndexRoute
   '/dashboard/organizations/$organizationId/employees/': typeof DashboardOrganizationsOrganizationIdEmployeesIndexRoute
   '/dashboard/organizations/$organizationId/vacancies/': typeof DashboardOrganizationsOrganizationIdVacanciesIndexRoute
@@ -219,6 +238,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/organizations'
     | '/dashboard/admin/skills'
     | '/dashboard/admin/users'
+    | '/dashboard/admin/vacancies'
     | '/dashboard/organizations/$organizationId'
     | '/organizations/create'
     | '/dashboard/organizations/$organizationId/employees'
@@ -227,6 +247,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/skills/'
     | '/dashboard/admin/specialties'
     | '/dashboard/admin/users/'
+    | '/dashboard/admin/vacancies/'
     | '/dashboard/organizations/$organizationId/'
     | '/dashboard/organizations/$organizationId/employees/'
     | '/dashboard/organizations/$organizationId/vacancies/'
@@ -242,6 +263,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/skills'
     | '/dashboard/admin/specialties'
     | '/dashboard/admin/users'
+    | '/dashboard/admin/vacancies'
     | '/dashboard/organizations/$organizationId'
     | '/dashboard/organizations/$organizationId/employees'
     | '/dashboard/organizations/$organizationId/vacancies'
@@ -256,6 +278,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/organizations'
     | '/dashboard/admin/skills'
     | '/dashboard/admin/users'
+    | '/dashboard/admin/vacancies'
     | '/dashboard/organizations/$organizationId'
     | '/organizations/create/'
     | '/dashboard/organizations/$organizationId/employees'
@@ -264,6 +287,7 @@ export interface FileRouteTypes {
     | '/dashboard/admin/skills/'
     | '/dashboard/admin/specialties/'
     | '/dashboard/admin/users/'
+    | '/dashboard/admin/vacancies/'
     | '/dashboard/organizations/$organizationId/'
     | '/dashboard/organizations/$organizationId/employees/'
     | '/dashboard/organizations/$organizationId/vacancies/'
@@ -336,6 +360,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardOrganizationsOrganizationIdRouteRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
+    '/dashboard/admin/vacancies': {
+      id: '/dashboard/admin/vacancies'
+      path: '/admin/vacancies'
+      fullPath: '/dashboard/admin/vacancies'
+      preLoaderRoute: typeof DashboardAdminVacanciesRouteRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
     '/dashboard/admin/users': {
       id: '/dashboard/admin/users'
       path: '/admin/users'
@@ -363,6 +394,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/organizations/$organizationId/'
       preLoaderRoute: typeof DashboardOrganizationsOrganizationIdIndexRouteImport
       parentRoute: typeof DashboardOrganizationsOrganizationIdRouteRoute
+    }
+    '/dashboard/admin/vacancies/': {
+      id: '/dashboard/admin/vacancies/'
+      path: '/'
+      fullPath: '/dashboard/admin/vacancies/'
+      preLoaderRoute: typeof DashboardAdminVacanciesIndexRouteImport
+      parentRoute: typeof DashboardAdminVacanciesRouteRoute
     }
     '/dashboard/admin/users/': {
       id: '/dashboard/admin/users/'
@@ -466,6 +504,20 @@ const DashboardAdminUsersRouteRouteWithChildren =
     DashboardAdminUsersRouteRouteChildren,
   )
 
+interface DashboardAdminVacanciesRouteRouteChildren {
+  DashboardAdminVacanciesIndexRoute: typeof DashboardAdminVacanciesIndexRoute
+}
+
+const DashboardAdminVacanciesRouteRouteChildren: DashboardAdminVacanciesRouteRouteChildren =
+  {
+    DashboardAdminVacanciesIndexRoute: DashboardAdminVacanciesIndexRoute,
+  }
+
+const DashboardAdminVacanciesRouteRouteWithChildren =
+  DashboardAdminVacanciesRouteRoute._addFileChildren(
+    DashboardAdminVacanciesRouteRouteChildren,
+  )
+
 interface DashboardOrganizationsOrganizationIdEmployeesRouteRouteChildren {
   DashboardOrganizationsOrganizationIdEmployeesIndexRoute: typeof DashboardOrganizationsOrganizationIdEmployeesIndexRoute
 }
@@ -522,6 +574,7 @@ interface DashboardRouteRouteChildren {
   DashboardAdminOrganizationsRouteRoute: typeof DashboardAdminOrganizationsRouteRouteWithChildren
   DashboardAdminSkillsRouteRoute: typeof DashboardAdminSkillsRouteRouteWithChildren
   DashboardAdminUsersRouteRoute: typeof DashboardAdminUsersRouteRouteWithChildren
+  DashboardAdminVacanciesRouteRoute: typeof DashboardAdminVacanciesRouteRouteWithChildren
   DashboardOrganizationsOrganizationIdRouteRoute: typeof DashboardOrganizationsOrganizationIdRouteRouteWithChildren
   DashboardAdminSpecialtiesIndexRoute: typeof DashboardAdminSpecialtiesIndexRoute
 }
@@ -532,6 +585,8 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
     DashboardAdminOrganizationsRouteRouteWithChildren,
   DashboardAdminSkillsRouteRoute: DashboardAdminSkillsRouteRouteWithChildren,
   DashboardAdminUsersRouteRoute: DashboardAdminUsersRouteRouteWithChildren,
+  DashboardAdminVacanciesRouteRoute:
+    DashboardAdminVacanciesRouteRouteWithChildren,
   DashboardOrganizationsOrganizationIdRouteRoute:
     DashboardOrganizationsOrganizationIdRouteRouteWithChildren,
   DashboardAdminSpecialtiesIndexRoute: DashboardAdminSpecialtiesIndexRoute,

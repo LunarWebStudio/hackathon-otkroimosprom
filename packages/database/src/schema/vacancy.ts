@@ -1,5 +1,5 @@
 import * as pg from "drizzle-orm/pg-core";
-import { commonFields } from "./utils";
+import { commonFields, organizationRequestsStatus } from "./utils";
 import { organizations } from "./organization";
 import { relations } from "drizzle-orm";
 import { specialties } from "./speciality";
@@ -33,6 +33,7 @@ export const vacancies = pg.pgTable("vacancies", {
 	salaryFrom: pg.integer("salary_from"),
 	salaryTo: pg.integer("salary_to"),
 	expiresAt: pg.timestamp("expires_at").notNull(),
+	status: organizationRequestsStatus().notNull().default("PENDING"),
 });
 
 export const vacanciesRelations = relations(vacancies, ({ one }) => ({
