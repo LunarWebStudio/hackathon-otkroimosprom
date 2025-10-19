@@ -50,6 +50,13 @@
       "when": 1760828432654,
       "tag": "0006_lovely_eternity",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1760840175749,
+      "tag": "0007_windy_havok",
+      "breakpoints": true
     }
   ]
 }

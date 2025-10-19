@@ -1,0 +1,1 @@
+ALTER TYPE "public"."organization_requests_status" ADD VALUE 'COMPLETED';

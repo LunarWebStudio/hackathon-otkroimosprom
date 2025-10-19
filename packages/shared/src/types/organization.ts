@@ -9,5 +9,6 @@ export const organizationRequestStatusNames: Record<
 > = {
 	PENDING: "Модерация",
 	APPROVED: "Опубликована",
-	REJECTED: "Отклонено",
+	REJECTED: "Отклонена",
+	COMPLETED: "Завершена",
 };

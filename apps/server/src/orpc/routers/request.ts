@@ -89,21 +89,41 @@ export const requestsRouter = {
 			}),
 		)
 		.handler(async ({ input, context }) => {
-			await db
-				.update(requests)
-				.set({
-					status: input.status,
-				})
-				.where(
-					and(
-						eq(requests.id, input.id),
-						eq(
-							requests.organizationId,
-							context.session.user.organizationId ?? "INVALID",
+			await db.transaction(async (trx) => {
+				const [request] = await trx
+					.update(requests)
+					.set({
+						status: input.status,
+					})
+					.where(
+						and(
+							eq(requests.id, input.id),
+							eq(
+								requests.organizationId,
+								context.session.user.organizationId ?? "INVALID",
+							),
 						),
-					),
-				)
-				.returning();
+					)
+					.returning();
+
+				if (input.status === "ACCEPTED" && !!request.vacancyId) {
+					const vacancy = await trx.query.vacancies.findFirst({
+						where: eq(vacancies.id, request.vacancyId),
+						with: {
+							requests: true,
+						},
+					});
+
+					if (vacancy?.type === "INTERNSHIP" && vacancy.requests.length === 2) {
+						await trx
+							.update(vacancies)
+							.set({
+								status: "COMPLETED",
+							})
+							.where(eq(vacancies.id, vacancy.id));
+					}
+				}
+			});
 		}),
 	create: roleProcedure(["HR", "USER"])
 		.input(RequestSchema)

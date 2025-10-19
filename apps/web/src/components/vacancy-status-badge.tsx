@@ -10,6 +10,7 @@ export const vacancyStatusBadgeVariants = cva(
 				REJECTED: "bg-red-100 text-red-900",
 				APPROVED: "bg-green-100 text-green-900",
 				PENDING: "bg-yellow-100 text-yellow-900",
+				COMPLETED: "bg-violet-900 text-violet-100",
 			},
 		},
 	},
@@ -18,7 +19,7 @@ export const vacancyStatusBadgeVariants = cva(
 export interface UservacancyStatusBadgeProps
 	extends React.HTMLAttributes<"div">,
 		VariantProps<typeof vacancyStatusBadgeVariants> {
-	vacancyStatus: "ARCHIVED" | "APPROVED" | "PENDING" | "REJECTED";
+	vacancyStatus: "ARCHIVED" | "APPROVED" | "PENDING" | "REJECTED" | "COMPLETED";
 }
 
 export default function VacancyStatusBadge({
@@ -35,7 +36,9 @@ export default function VacancyStatusBadge({
 					? "Отклонена"
 					: vacancyStatus === "APPROVED"
 						? "Опубликована"
-						: "Модерация"}
+						: vacancyStatus === "COMPLETED"
+							? "Завершена"
+							: "Модерация"}
 		</div>
 	);
 }
