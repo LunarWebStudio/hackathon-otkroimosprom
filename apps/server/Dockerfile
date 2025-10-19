@@ -8,7 +8,7 @@ RUN bunx turbo prune server --docker
 FROM oven/bun:1.2.23 AS installer
 WORKDIR /app
 COPY --from=pruner /app/out/json ./
-COPY --from=pruner /app/out/bun.lock ./bun.lock
+COPY --from=pruner /app/bun.lock ./bun.lock
 COPY --from=pruner /app/out/full ./out/full
 COPY packages /app/packages
 COPY apps/server/src ./apps/server/src
