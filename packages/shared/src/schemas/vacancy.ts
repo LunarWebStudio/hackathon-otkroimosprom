@@ -1,11 +1,10 @@
-import { vacancyTypes, workFormatTypes } from "@lunarweb/database/schema";
 import z from "zod";
 
-export const VacancyTypeSchema = z.enum(vacancyTypes.enumValues, {
+export const VacancyTypeSchema = z.enum(["JOB", "INTERNSHIP"], {
 	message: "Выберте тип вакансии",
 });
 
-export const WorkFormatSchema = z.enum(workFormatTypes.enumValues, {
+export const WorkFormatSchema = z.enum(["REMOTE", "OFFICE", "HYBRID"], {
 	message: "Выберте формат работы",
 });
 
