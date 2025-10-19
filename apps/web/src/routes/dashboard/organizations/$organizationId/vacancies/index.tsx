@@ -55,7 +55,9 @@ function RouteComponent() {
 
 	const { data: vacancies } = useQuery(
 		orpc.vacancies.getAll.queryOptions({
-			input: searchParams.type,
+			input: {
+				vacancyType: searchParams?.type ?? "JOB",
+			},
 			initialData,
 		}),
 	);

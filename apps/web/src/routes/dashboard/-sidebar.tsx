@@ -228,7 +228,7 @@ export default function DashboardSidebar() {
 		{
 			icon: <MessageSquareShare />,
 			label: "Отклики",
-			href: "/dashboard/users/$userId/requests",
+			href: "/dashboard/users/requests",
 			params: {
 				userId: session?.user.id,
 			},
