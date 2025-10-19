@@ -32,7 +32,7 @@ export const Route = createFileRoute(
 )({
 	validateSearch: (search: Record<string, unknown>) => {
 		return {
-			type: search.type === "INTERSHIP" ? "INTERSHIP" : "JOB",
+			type: search.type === "INTERNSHIP" ? "INTERSHIP" : "JOB",
 		};
 	},
 	component: RouteComponent,
