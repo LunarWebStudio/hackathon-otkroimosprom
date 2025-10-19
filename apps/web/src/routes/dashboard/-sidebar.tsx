@@ -335,6 +335,15 @@ export default function DashboardSidebar() {
 										</svg>
 									</Link>
 								</SidebarMenuButton>
+								<SidebarMenuButton>
+									<Link
+										to={"/auth/sign-out"}
+										className="w-full justify-between"
+									>
+										<span>Выйти</span>
+										<LogOutIcon />
+									</Link>
+								</SidebarMenuButton>
 							</SidebarGroupContent>
 						</SidebarGroup>
 					</SidebarFooter>
