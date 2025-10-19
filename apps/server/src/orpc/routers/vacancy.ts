@@ -55,18 +55,20 @@ export const vacanciesRouter = {
 		.input(
 			z
 				.object({
-					type: VacancyTypeSchema.nullish().default("JOB"),
+					vacancyType: VacancyTypeSchema.nullish().default("JOB"),
 				})
 				.nullish()
 				.default({
-					type: "JOB",
+					vacancyType: "JOB",
 				}),
 		)
 		.handler(async ({ input, context }) => {
 			return await db.query.vacancies.findMany({
 				where: and(
 					isNull(vacancies.deletedAt),
-					eq(vacancies.type, input?.type ?? "JOB").if(!!input?.type),
+					eq(vacancies.type, input?.vacancyType ?? "JOB").if(
+						!!input?.vacancyType,
+					),
 					eq(
 						vacancies.organizationId,
 						context.session.user.organizationId ?? "INVALID",

@@ -83,7 +83,7 @@ export default function CreateUpdateVacancy({
 	const form = useForm({
 		defaultValues: {
 			...vacancy,
-			type: search.type,
+			type: search.vacancyType,
 			skillIds: vacancy?.skillIds ?? [],
 		} as z.infer<typeof VacancySchema>,
 		onSubmit: async ({ value }) => {

@@ -152,7 +152,7 @@ export default function DashboardSidebar() {
 					label: "Вакансии",
 					href: "/dashboard/admin/vacancies",
 					search: {
-						type: "JOB",
+						vacancyType: "JOB",
 					},
 				},
 				{
@@ -160,7 +160,7 @@ export default function DashboardSidebar() {
 					label: "Стажировки",
 					href: "/dashboard/admin/vacancies",
 					search: {
-						type: "INTERNSHIP",
+						vacancyType: "INTERNSHIP",
 					},
 				},
 				{
@@ -181,7 +181,7 @@ export default function DashboardSidebar() {
 				organizationId: session?.user.organizationId,
 			},
 			search: {
-				type: "INTERNSHIP",
+				vacancyType: "INTERNSHIP",
 			},
 		},
 		{
@@ -192,7 +192,7 @@ export default function DashboardSidebar() {
 				organizationId: session?.user.organizationId,
 			},
 			search: {
-				type: "JOB",
+				vacancyType: "JOB",
 			},
 		},
 	];
@@ -238,7 +238,7 @@ export default function DashboardSidebar() {
 			label: "Вакансии",
 			href: "/dashboard/users/vacancies",
 			search: {
-				type: "job",
+				vacancyType: "job",
 			},
 		},
 		{
@@ -246,7 +246,7 @@ export default function DashboardSidebar() {
 			label: "Стажировки",
 			href: "/dashboard/users/vacancies",
 			search: {
-				type: "internship",
+				vacancyType: "internship",
 			},
 		},
 		{

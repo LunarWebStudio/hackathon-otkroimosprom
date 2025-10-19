@@ -23,9 +23,9 @@ export const Route = createFileRoute("/dashboard/users/vacancies/")({
 		.object({
 			companyId: z.string().nullish(),
 			specialtyId: z.string().nullish(),
-			type: z.string().nullish().default("JOB"),
+			vacancyType: z.string().nullish().default("JOB"),
 		})
-		.default({ type: "JOB" }),
+		.default({ vacancyType: "JOB" }),
 	component: RouteComponent,
 	async loader({ context }) {
 		return {
@@ -83,7 +83,7 @@ function RouteComponent() {
 		<Dashboard>
 			<DashboardHeader>
 				<DashboardTitle hideNavigation>
-					{search.type === "JOB" ? "Вакансии" : "Стажировки"}
+					{search.vacancyType === "JOB" ? "Вакансии" : "Стажировки"}
 				</DashboardTitle>
 				<div className="flex gap-2 items-center">
 					<Select

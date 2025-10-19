@@ -7,12 +7,10 @@ import {
 	DashboardTitle,
 	DashboardTitleText,
 } from "@/components/ui/dashboard";
-import { VacancyTypeSchema } from "@lunarweb/shared/schemas";
 import { workFormatNames } from "@lunarweb/shared/types";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { z } from "zod/v4";
 import CreateUpdateVacancy from "./-create-update";
 import { DataTable } from "@/components/ui/data-table";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -26,22 +24,25 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical, SquareArrowUpLeftIcon } from "lucide-react";
+import { VacancyTypeSchema } from "@lunarweb/shared/schemas";
+import z from "zod/v4";
 
 export const Route = createFileRoute(
 	"/dashboard/organizations/$organizationId/vacancies/",
 )({
-	validateSearch: (search: Record<string, unknown>) => {
-		return {
-			type: search.type === "INTERNSHIP" ? "INTERNSHIP" : "JOB",
-		};
-	},
+	validateSearch: z
+		.object({
+			vacancyType: VacancyTypeSchema.nullish(),
+		})
+		.nullish()
+		.default({
+			vacancyType: "JOB",
+		}),
 	component: RouteComponent,
 	loaderDeps: ({ search }) => ({ search }),
 	async loader({ deps: { search }, context }) {
 		return {
-			vacancies: await context.orpc.vacancies.getAll.call({
-				type: search.type,
-			}),
+			vacancies: await context.orpc.vacancies.getAll.call(search),
 		};
 	},
 });
