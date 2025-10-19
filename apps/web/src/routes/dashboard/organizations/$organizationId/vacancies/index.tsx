@@ -30,14 +30,11 @@ import { EllipsisVertical, SquareArrowUpLeftIcon } from "lucide-react";
 export const Route = createFileRoute(
 	"/dashboard/organizations/$organizationId/vacancies/",
 )({
-	validateSearch: z
-		.object({
-			type: VacancyTypeSchema.nullish().default("JOB"),
-		})
-		.nullish()
-		.default({
-			type: "JOB",
-		}),
+	validateSearch: (search: Record<string, unknown>) => {
+		return {
+			type: search.type === "INTERSHIP" ? "INTERSHIP" : "JOB",
+		};
+	},
 	component: RouteComponent,
 	loaderDeps: ({ search }) => ({ search }),
 	async loader({ deps: { search }, context }) {
