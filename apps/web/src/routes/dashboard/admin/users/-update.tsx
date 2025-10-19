@@ -98,7 +98,9 @@ export default function UpdateUser({ user }: { user: User }) {
 									<SelectValue placeholder="Роль" />
 								</SelectTrigger>
 								<SelectContent>
-									{(["ADMIN", "USER"] as UserRole[]).map((r) => (
+									{(
+										["ADMIN", "USER", "COMPANY_MANAGER", "HR"] as UserRole[]
+									).map((r) => (
 										<SelectItem key={r} value={r}>
 											{userRoleNames[r]}
 										</SelectItem>
