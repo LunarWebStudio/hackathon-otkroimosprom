@@ -10,7 +10,7 @@ export const vacancyStatusBadgeVariants = cva(
 				REJECTED: "bg-red-100 text-red-900",
 				APPROVED: "bg-green-100 text-green-900",
 				PENDING: "bg-yellow-100 text-yellow-900",
-				COMPLETED: "bg-violet-900 text-violet-100",
+				COMPLETED: "bg-violet-100 text-violet-900",
 			},
 		},
 	},
