@@ -30,7 +30,7 @@ import UserorganizationStatusBadge from "@/components/organization-status-badge"
 export const Route = createFileRoute("/dashboard/admin/vacancies/")({
 	validateSearch: z
 		.object({
-			vacancyType: VacancyTypeSchema.nullish(),
+			vacancyType: z.string().default("JOB"),
 		})
 		.nullish()
 		.default({
