@@ -55,7 +55,7 @@ export const vacanciesRouter = {
 		.input(
 			z
 				.object({
-					vacancyType: VacancyTypeSchema.nullish().default("JOB"),
+					vacancyType: z.string().nullish().default("JOB"),
 				})
 				.nullish()
 				.default({
