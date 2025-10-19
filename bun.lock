@@ -134,6 +134,7 @@
         "@lunarweb/database": "workspace:*",
         "@lunarweb/env": "workspace:*",
         "@lunarweb/redis": "workspace:*",
+        "drizzle-orm": "catalog:",
         "mime-types": "^3.0.1",
         "sharp": "^0.34.3",
       },
@@ -184,6 +185,9 @@
       "name": "@lunarweb/typescript-config",
       "version": "0.0.0",
     },
+  },
+  "catalog": {
+    "drizzle-orm": "^0.44.2",
   },
   "packages": {
     "@ampproject/remapping": ["@ampproject/remapping@2.3.0", "", { "dependencies": { "@jridgewell/gen-mapping": "^0.3.5", "@jridgewell/trace-mapping": "^0.3.24" } }, "sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw=="],
