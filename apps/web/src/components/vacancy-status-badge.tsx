@@ -7,7 +7,9 @@ export const vacancyStatusBadgeVariants = cva(
 		variants: {
 			vacancyStatus: {
 				ARCHIVED: "bg-slate-100 text-slate-900",
-				ACTIVE: "bg-green-100 text-green-900",
+				REJECTED: "bg-red-100 text-red-900",
+				APPROVED: "bg-green-100 text-green-900",
+				PENDING: "bg-yellow-100 text-yellow-900",
 			},
 		},
 	},
@@ -16,7 +18,7 @@ export const vacancyStatusBadgeVariants = cva(
 export interface UservacancyStatusBadgeProps
 	extends React.HTMLAttributes<"div">,
 		VariantProps<typeof vacancyStatusBadgeVariants> {
-	vacancyStatus: "ARCHIVED" | "ACTIVE";
+	vacancyStatus: "ARCHIVED" | "APPROVED" | "PENDING" | "REJECTED";
 }
 
 export default function VacancyStatusBadge({
@@ -27,7 +29,13 @@ export default function VacancyStatusBadge({
 		<div
 			className={cn(vacancyStatusBadgeVariants({ vacancyStatus }), className)}
 		>
-			{vacancyStatus === "ARCHIVED" ? "Архив" : "Опубликована"}
+			{vacancyStatus === "ARCHIVED"
+				? "Архив"
+				: vacancyStatus === "REJECTED"
+					? "Отклонена"
+					: vacancyStatus === "APPROVED"
+						? "Опубликована"
+						: "Модерация"}
 		</div>
 	);
 }

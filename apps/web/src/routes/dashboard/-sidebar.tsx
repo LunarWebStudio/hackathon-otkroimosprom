@@ -198,14 +198,14 @@ export default function DashboardSidebar() {
 	];
 
 	const companyManagerBlocks: Item<RoutePath>[] = [
-		{
-			icon: <HotelIcon />,
-			label: "Компания",
-			href: "/dashboard/organizations/$organizationId",
-			params: {
-				organizationId: session?.user.organizationId,
-			},
-		},
+		// {
+		// 	icon: <HotelIcon />,
+		// 	label: "Компания",
+		// 	href: "/dashboard/organizations/$organizationId",
+		// 	params: {
+		// 		organizationId: session?.user.organizationId,
+		// 	},
+		// },
 		{
 			icon: <UsersIcon />,
 			label: "Сотрудники",

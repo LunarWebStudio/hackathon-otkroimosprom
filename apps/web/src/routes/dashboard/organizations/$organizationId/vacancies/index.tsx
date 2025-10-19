@@ -32,14 +32,16 @@ export const Route = createFileRoute(
 )({
 	validateSearch: (search: Record<string, unknown>) => {
 		return {
-			type: search.type === "INTERNSHIP" ? "INTERSHIP" : "JOB",
+			type: search.type === "INTERNSHIP" ? "INTERNSHIP" : "JOB",
 		};
 	},
 	component: RouteComponent,
 	loaderDeps: ({ search }) => ({ search }),
 	async loader({ deps: { search }, context }) {
 		return {
-			vacancies: await context.orpc.vacancies.getAll.call(search),
+			vacancies: await context.orpc.vacancies.getAll.call({
+				type: search.type,
+			}),
 		};
 	},
 });
@@ -52,7 +54,7 @@ function RouteComponent() {
 
 	const { data: vacancies } = useQuery(
 		orpc.vacancies.getAll.queryOptions({
-			input: searchParams,
+			input: searchParams.type,
 			initialData,
 		}),
 	);
@@ -110,7 +112,7 @@ export const columns: ColumnDef<Vacancy>[] = [
 		cell: ({ row: { original: vacancy } }) => (
 			<VacancyStatusBadge
 				vacancyStatus={
-					vacancy.expiresAt.getTime() > Date.now() ? "ACTIVE" : "ARCHIVED"
+					vacancy.expiresAt.getTime() < Date.now() ? "ARCHIVED" : vacancy.status
 				}
 			/>
 		),
