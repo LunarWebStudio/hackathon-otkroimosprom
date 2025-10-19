@@ -8,36 +8,15 @@ import { ResumeSchema } from "@lunarweb/shared/schemas";
 import z from "zod/v4";
 
 export const resumeRouter = {
-	getAll: roleProcedure(["ADMIN", "HR", "USER"]).handler(
-		async ({ context }) => {
-			const role = context.session.user.role;
-
-			if (role === "USER") {
-				return ServeCached(
-					["resumes", "all"],
-					DEFAULT_TTL,
-					async () =>
-						await db.query.resumes.findMany({
-							where: and(
-								isNull(resumes.deletedAt),
-								eq(resumes.userId, context.session.user.id),
-							),
-							orderBy: desc(resumes.createdAt),
-						}),
-				);
-			}
-
-			return ServeCached(
-				["resumes", "all"],
-				DEFAULT_TTL,
-				async () =>
-					await db.query.resumes.findMany({
-						where: isNull(resumes.deletedAt),
-						orderBy: desc(resumes.createdAt),
-					}),
-			);
-		},
-	),
+	getAll: roleProcedure(["USER"]).handler(async ({ context }) => {
+		return await db.query.resumes.findMany({
+			where: and(
+				isNull(resumes.deletedAt),
+				eq(resumes.userId, context.session.user.id),
+			),
+			orderBy: desc(resumes.createdAt),
+		});
+	}),
 	getById: protectedProcedure
 		.input(
 			z.object({
